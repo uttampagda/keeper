@@ -8,11 +8,17 @@
 <body>
 Welcome to Seller dashboard
  <h4>hi, {{ user.email }}. Hope you are having a good day</h4>
+<h4>{{ user.id }}</h4>
 <h4>First_Name : {{ user.first_name }}</h4>
  <h4>Last_Name : {{ user.last_name }}</h4>
  <h4>Phone : {{ seller_data.phone}}</h4>
  <h4>Email : {{ seller_data.email }}</h4>
  <h4>ShopName : {{ seller_data.shopname }}</h4>
+<br><br><br>
+<a href="{% url 'addproduct' %}">Add Product</a>
+<br><br><br>
+
+
 <a href="{% url 'sellerLogout' %}">Logout</a>
 
 </body>

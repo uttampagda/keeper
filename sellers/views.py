@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from .models import Seller
+from .models import Seller,Product
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 
@@ -88,3 +88,16 @@ def sellerLogout(request):
 
 def sellerhome(request):
     return render(request,'seller/home.html')
+
+def addproduct(request):
+    if request.method == 'POST':
+      seller = request.POST['seller']
+      product_name = request.POST['product_name']
+      price = request.POST['price']
+      #product_image = request.POST['username']
+
+      addproduct = Product(seller=seller,product_name=product_name,price=price)
+      addproduct.save()
+      print('saved')
+      return redirect('sellerDashboard')
+    return render(request, 'seller/addproduct.html')
