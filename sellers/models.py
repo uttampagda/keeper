@@ -9,3 +9,9 @@ class Seller(models.Model):
     shopname = models.CharField(max_length=50, unique=True)
     phone = models.CharField(max_length=20,blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Product(models.Model):
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
+    name = models.CharField(max_length=300)
+    price = models.IntegerField(max_length=100)
