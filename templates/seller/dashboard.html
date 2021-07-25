@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop</title>
+</head>
+{% block content %}
+<body>
+Welcome to Seller dashboard
+{% if user.is_authenticated %}
+ <h4>hi, {{ user.email }}. Hope you are having a good day</h4>
+{% endif %}
+<a href="{% url 'sellerLogout' %}">Logout</a>
+
+</body>
+</html>
+{% endblock %}

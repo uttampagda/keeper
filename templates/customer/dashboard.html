@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop</title>
+</head>
+{% block content %}
+<body>
+Welcome to Customer dashboard
+
+ <h4>hi, {{ user.username }}. Hope you are having a good day</h4>
+<a href="{% url 'custLogout' %}">Logout</a>
+</body>
+</html>
+{% endblock %}
