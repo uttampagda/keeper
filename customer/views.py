@@ -69,7 +69,11 @@ def custLogin(request):
         return render(request, 'customer/login.html')
 
 def custDashboard(request):
-    return render(request, 'customer/dashboard.html')
+    if request.user.is_authenticated:
+        customer_data = Customer.objects.get(username=request.user.username)
+        return render(request, 'customer/dashboard.html', {'customer_data':customer_data})
+    else:
+        redirect('custLogin')
 
 def custLogout(request):
     logout(request)

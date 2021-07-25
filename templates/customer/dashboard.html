@@ -9,6 +9,10 @@
 Welcome to Customer dashboard
 
  <h4>hi, {{ user.username }}. Hope you are having a good day</h4>
+ <h4>First_Name : {{ user.first_name }}</h4>
+ <h4>Last_Name : {{ user.last_name }}</h4>
+ <h4>Phone : {{ customer_data.phone}}</h4>
+ <h4>Email : {{ customer_data.email }}</h4>
 <a href="{% url 'custLogout' %}">Logout</a>
 </body>
 </html>

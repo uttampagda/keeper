@@ -8,9 +8,12 @@
 <body>
 Welcome to DeliveryBoy dashboard
 
- <h4>
-        hi, {{ user.username }}. Hope you are having a good day
-      </h4>
+ <h4>hi, {{ user.username }}. Hope you are having a good day</h4>
+
+<h4>First_Name : {{ user.first_name }}</h4>
+ <h4>Last_Name : {{ user.last_name }}</h4>
+ <h4>Phone : {{ deliveryBoy_data.phone}}</h4>
+ <h4>Email : {{ deliveryBoy_data.email }}</h4>
 </body>
 </html>
 {% endblock %}

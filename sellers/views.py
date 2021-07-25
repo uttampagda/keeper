@@ -76,8 +76,11 @@ def sellerLogin(request):
 
 @login_required(login_url='sellerLogin')
 def sellerDashboard(request):
-
-    return render(request, 'seller/dashboard.html')
+    if request.user.is_authenticated:
+        seller_data = Seller.objects.get(username=request.user.username)
+        return render(request, 'seller/dashboard.html', {'seller_data':seller_data})
+    else:
+        redirect('sellerLogin')
 
 def sellerLogout(request):
     logout(request)

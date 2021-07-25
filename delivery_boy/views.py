@@ -69,7 +69,11 @@ def deliboyLogin(request):
         return render(request, 'deliveryBoy/login.html')
 
 def deliboyDashboard(request):
-    return render(request, 'deliveryBoy/dashboard.html')
+    if request.user.is_authenticated:
+        deliveryBoy_data = DeliveryBoy.objects.get(username=request.user.username)
+        return render(request, 'deliveryBoy/dashboard.html', {'deliveryBoy_data':deliveryBoy_data})
+    else:
+        redirect('deliboyLogin')
 
 def deliboyLogout(request):
     logout(request)

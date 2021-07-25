@@ -6,7 +6,6 @@ customer:
     user: ut
     pass: 1234
 
-
 seller:
      user: se
      pass: 1234
