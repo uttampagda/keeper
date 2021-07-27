@@ -16,7 +16,6 @@
     <div class="row">
       <form method="POST" action="{% url 'addproduct' %}" class="col-md-5 offset-1">
         {% csrf_token %}
-        <input type="hidden" name="seller" value="{{user.username}}">
 
         <div class="form-group">
           <input name="product_name" class="form-control" placeholder="Product name">

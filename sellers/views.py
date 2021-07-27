@@ -91,16 +91,14 @@ def sellerhome(request):
 
 @login_required(login_url='sellerLogin')
 def addproduct(request):
+    print(request.user.id)
     if request.method == 'POST':
       product_name = request.POST['product_name']
       price = request.POST['price']
       #product_image = request.POST['username']
-      if User.is_authenticated:
-       seller = Seller(credentials_id=Seller.credentials)
 
-      else:
-       seller=""
-      addproduct = Product(seller=seller,product_name=product_name,price=price)
+      seller_cr = request.user.id
+      addproduct = Product(seller_cr=seller_cr,product_name=product_name,price=price)
 
       addproduct.save()
       print('saved')

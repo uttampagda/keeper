@@ -7,8 +7,8 @@ customer:
     pass: 1234
 
 seller:
-     user: se
+     user: seller1
      pass: 1234
 
-     user: se1
+     user: seller2
      pass: 1234
