@@ -89,6 +89,7 @@ def sellerLogout(request):
 def sellerhome(request):
     return render(request,'seller/home.html')
 
+@login_required(login_url='sellerLogin')
 def addproduct(request):
     if request.method == 'POST':
       seller = request.POST['seller']
@@ -96,6 +97,7 @@ def addproduct(request):
       price = request.POST['price']
       #product_image = request.POST['username']
 
+      seller = Seller.objects.get(username=request.user.username)
       addproduct = Product(seller=seller,product_name=product_name,price=price)
       addproduct.save()
       print('saved')
