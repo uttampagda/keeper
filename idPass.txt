@@ -9,3 +9,6 @@ customer:
 seller:
      user: se
      pass: 1234
+
+     user: se1
+     pass: 1234

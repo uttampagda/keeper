@@ -92,14 +92,26 @@ def sellerhome(request):
 @login_required(login_url='sellerLogin')
 def addproduct(request):
     if request.method == 'POST':
-      seller = request.POST['seller']
       product_name = request.POST['product_name']
       price = request.POST['price']
       #product_image = request.POST['username']
+      if User.is_authenticated:
+       seller = Seller(credentials_id=Seller.credentials)
 
-      seller = Seller.objects.get(username=request.user.username)
+      else:
+       seller=""
       addproduct = Product(seller=seller,product_name=product_name,price=price)
+
       addproduct.save()
       print('saved')
       return redirect('sellerDashboard')
     return render(request, 'seller/addproduct.html')
+
+@login_required(login_url='sellerLogin')
+def products(request):
+    products = Product.objects.all()
+
+    data = {
+        'products' : products
+    }
+    return render(request, 'seller/products.html', data)

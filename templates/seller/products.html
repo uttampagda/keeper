@@ -1,0 +1,20 @@
+{% block content %}
+    <h2>{{ user.id }}</h2>
+<table border="1" style="padding: 3px;text-align: center" >
+{% if user.is_authenticated %}
+    {% for pr in products %}
+
+        {% if pr.seller_id == user.id  %}
+        <tr>
+        <th>Product name </th>
+            <th>Product price</th>
+        </tr>
+        <tr>
+        <td>{{ pr.product_name }}</td>
+        <td>{{ pr.price }}</td>
+        </tr>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+</table>
+{% endblock %}
