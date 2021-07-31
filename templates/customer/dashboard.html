@@ -13,7 +13,16 @@ Welcome to Customer dashboard
  <h4>Last_Name : {{ user.last_name }}</h4>
  <h4>Phone : {{ customer_data.phone}}</h4>
  <h4>Email : {{ customer_data.email }}</h4>
+
+{% for seller in near_by_sellers %}
+ <h4>seller.username</h4>
+ <h4>seller.shopname</h4>
+    <br>
+{% endfor %}
 <a href="{% url 'custLogout' %}">Logout</a>
+
+<br>
+<a href="{% url 'addAddress' %}">Add Address</a>
 </body>
 </html>
 {% endblock %}

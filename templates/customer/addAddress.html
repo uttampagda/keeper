@@ -1,7 +1,7 @@
-
-{% load static %}
-{% block content %}
-    <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <script src="https://maps.googleapis.com/maps/api/js"></script>
         <style>
             html,
@@ -13,49 +13,38 @@
                 padding: 0px
             }
         </style>
-    </head>
-
-     <main class="register container">
+    <title>Add Address</title>
+</head>
+{% block content %}
+<body>
     <h1 class="text-center mt-5 mb-5">
-      Seller Register
+      Welcome to Customer AddAddress
     </h1>
+     <h4>hi, {{ user.username }}</h4>
+
          <div class="row">
              <div class="col-md-4 offset-md-4">
 
              </div>
          </div>
     <div class="row">
-      <form method="post" action="{% url 'sellerRegister' %}" class="col-md-5 offset-md-1">
+      <form method="post" action="{% url 'addAddress' %}" class="col-md-5 offset-md-1">
       {% csrf_token %}
         <div class="form-group">
-          <input name="first_name" class="form-control" placeholder="FirstName">
+          <input name="address" class="form-control" placeholder="address">
         </div>
         <div class="form-group">
-          <input name="last_name" class="form-control" placeholder="LastName">
+          <input name="city" class="form-control" placeholder="city">
         </div>
         <div class="form-group">
-          <input name="username" class="form-control" placeholder="UserName">
-        </div>
-        <div class="form-group">
-          <input name="email" type="email" class="form-control" placeholder="Email Address">
-        </div><div class="form-group">
-          <input name="shopname" class="form-control" placeholder="ShopName">
-        </div>
-          <div class="form-group">
-              <input name="phone" class="form-control" placeholder="Phone">
-          </div>
-        <div class="form-group">
-          <input name="password" type="password" class="form-control" placeholder="Password">
-        </div>
-        <div class="form-group">
-          <input name="confirm_password" type="password" class="form-control" placeholder="Confirm Password">
+          <input name="pincode" class="form-control" placeholder="pincode">
         </div>
           <div id="map_canvas" style="width:750px; height:450px; border: 2px solid #3872ac;"></div>
          <div id="coordinates"></div>
 
           <input type="hidden" name="latiLong" id="latiLong" />
 
-        <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">Signup</button>
+        <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">Add Address</button>
 
       </form>
     </div>
@@ -66,7 +55,7 @@
                  {% endfor %}
              </ul>
          {% endif %}
-         <SCRIPT>
+ <SCRIPT>
              function initialize() {
                  var crosshairShape = {
                      coords: [0, 0, 0, 0],
@@ -94,8 +83,7 @@
              }
 
              google.maps.event.addDomListener(window, 'load', initialize);
-
-         </SCRIPT>
-  </main>
-
-{% endblock%}
+ </script>
+</body>
+</html>
+{% endblock %}

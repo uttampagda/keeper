@@ -16,6 +16,9 @@ def sellerRegister(request):
         shopname = request.POST['shopname']
         email = request.POST['email']
         phone = request.POST['phone']
+        latiLong = request.POST['latiLong'].split(',')
+        lat = latiLong[0]
+        log = latiLong[1]
         password = request.POST['password']
 
         confirm_password = request.POST['confirm_password']
@@ -42,6 +45,8 @@ def sellerRegister(request):
                         username=username,
                         email=email,
                         phone=phone,
+                        lat=lat,
+                        log=log
                     )
                     user.save()
                     messages.success(request, 'Account created successfully')
@@ -72,7 +77,6 @@ def sellerLogin(request):
                 return redirect('sellerLogin')
 
         return render(request, 'seller/login.html')
-
 
 @login_required(login_url='sellerLogin')
 def sellerDashboard(request):
@@ -113,3 +117,4 @@ def products(request):
         'products' : products
     }
     return render(request, 'seller/products.html', data)
+

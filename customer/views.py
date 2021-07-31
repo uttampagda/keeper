@@ -1,8 +1,12 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from .models import Customer
+from .models import Customer, CustAddress
 from django.contrib import messages, auth
+from django.contrib.auth.decorators import login_required
+from django.db.models import F
+from django.db import models
+from sellers.models import Seller
 
 # Create your views here.
 
@@ -11,6 +15,7 @@ def custRegister(request):
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         username = request.POST['username']
+
         email = request.POST['email']
         phone = request.POST['phone']
         password = request.POST['password']
@@ -68,16 +73,58 @@ def custLogin(request):
                 return redirect('custLogin')
         return render(request, 'customer/login.html')
 
+@login_required(login_url='custLogin')
 def custDashboard(request):
-    if request.user.is_authenticated:
-        customer_data = Customer.objects.get(username=request.user.username)
-        return render(request, 'customer/dashboard.html', {'customer_data':customer_data})
-    else:
-        redirect('custLogin')
+    customer_data = Customer.objects.get(username=request.user.username)
+    allAddress = CustAddress.objects.filter(customer=customer_data)
+    latitude = allAddress[0].lat
+    longitude = allAddress[1].log
+
+    radius_km = request.data.get('radius', 10)
+    queryset = Seller.objects.annotate(
+        radius_sqr=pow(models.F('loc__latitude') - latitude, 2) + pow(models.F('loc__longitude') - longitude, 2)
+    ).filter(
+        radius_sqr__lte=pow(radius_km / 9, 2)
+    )
+    NearBySellers = dict(location=queryset)
+
+    print(NearBySellers)
+    for seller in NearBySellers:
+        print(seller.username)
+    return render(request, 'customer/dashboard.html', {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
 
 def custLogout(request):
     logout(request)
     return redirect('custhome')
 
+@login_required(login_url='custLogin')
 def custhome(request):
     return render(request,'customer/home.html')
+
+@login_required(login_url='custLogin')
+def addAddress(request):
+    if request.method == "POST":
+        address = request.POST['address']
+        city = request.POST['city']
+        pincode = request.POST['pincode']
+        latiLong = request.POST['latiLong'].split(',')
+        lat = latiLong[0]
+        log = latiLong[1]
+        customer = Customer.objects.get(username=request.user.username)
+
+        try:
+            CustAddress(
+                customer=customer,
+                address=address,
+                city=city,
+                pincode=pincode,
+                lat=lat,
+                log=log
+            ).save()
+            messages.success(request, 'Address added successfully')
+            return redirect('custDashboard')
+        except Exception as er:
+            messages.error(request, er)
+            return render(request, 'customer/addAddress.html')
+    else:
+        return render(request, 'customer/addAddress.html')
