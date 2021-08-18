@@ -78,11 +78,12 @@ def custDashboard(request):
     customer_data = Customer.objects.get(username=request.user.username)
     allAddress = CustAddress.objects.filter(customer=customer_data)
     latitude = allAddress[0].lat
-    longitude = allAddress[1].log
+    longitude = allAddress[0].lon
 
-    radius_km = request.data.get('radius', 10)
+    # radius_km = request.data.get('radius', 10)
+    radius_km = 100
     queryset = Seller.objects.annotate(
-        radius_sqr=pow(models.F('loc__latitude') - latitude, 2) + pow(models.F('loc__longitude') - longitude, 2)
+        radius_sqr=pow(models.F('lat') - latitude, 2) + pow(models.F('lon') - longitude, 2)
     ).filter(
         radius_sqr__lte=pow(radius_km / 9, 2)
     )

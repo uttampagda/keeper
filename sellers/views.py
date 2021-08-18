@@ -46,7 +46,7 @@ def sellerRegister(request):
                         email=email,
                         phone=phone,
                         lat=lat,
-                        log=log
+                        lon=log
                     )
                     user.save()
                     messages.success(request, 'Account created successfully')
