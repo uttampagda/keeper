@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.db import models
+from django.contrib.gis.db import models
 
 class Customer(models.Model):
     credentials = models.OneToOneField(User, related_name='Customer', on_delete=models.CASCADE)
@@ -11,8 +11,7 @@ class Customer(models.Model):
 
 class CustAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    lat = models.DecimalField(max_digits=19, decimal_places=16)
-    lon = models.DecimalField(max_digits=19, decimal_places=16)
+    location = models.PointField(srid=4326, geography=True, blank=True, null=True)
     address = models.CharField(max_length=300)
     city = models.CharField(max_length=250)
     pincode = models.CharField(max_length=50)

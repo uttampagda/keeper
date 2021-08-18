@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 from .models import Customer, CustAddress
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
-from django.db.models import F
-from django.db import models
 from sellers.models import Seller
+from django.contrib.gis.db.models.functions import GeometryDistance
+from django.contrib.gis.geos import Point
 
 # Create your views here.
 
@@ -76,23 +76,22 @@ def custLogin(request):
 @login_required(login_url='custLogin')
 def custDashboard(request):
     customer_data = Customer.objects.get(username=request.user.username)
-    allAddress = CustAddress.objects.filter(customer=customer_data)
-    latitude = allAddress[0].lat
-    longitude = allAddress[0].lon
+    try:
+        allAddress = CustAddress.objects.filter(customer=customer_data)
+        ref_location = Point(140.0, 40.0, srid=4326)
 
-    # radius_km = request.data.get('radius', 10)
-    radius_km = 100
-    queryset = Seller.objects.annotate(
-        radius_sqr=pow(models.F('lat') - latitude, 2) + pow(models.F('lon') - longitude, 2)
-    ).filter(
-        radius_sqr__lte=pow(radius_km / 9, 2)
-    )
-    NearBySellers = dict(location=queryset)
+        NearBySellers = Seller.objects.order_by(GeometryDistance("location", ref_location))
+        print(NearBySellers)
+        for seller in NearBySellers:
+            print(seller.username)
 
-    print(NearBySellers)
-    for seller in NearBySellers:
-        print(seller.username)
-    return render(request, 'customer/dashboard.html', {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
+        return render(request, 'customer/dashboard.html',
+                      {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
+    except ():
+        NearBySellers = {}
+        messages.error(request, 'Please add Address first!')
+        return render(request, 'customer/dashboard.html', {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
+
 
 def custLogout(request):
     logout(request)
@@ -110,7 +109,7 @@ def addAddress(request):
         pincode = request.POST['pincode']
         latiLong = request.POST['latiLong'].split(',')
         lat = latiLong[0]
-        log = latiLong[1]
+        lon = latiLong[1]
         customer = Customer.objects.get(username=request.user.username)
 
         try:
@@ -119,8 +118,7 @@ def addAddress(request):
                 address=address,
                 city=city,
                 pincode=pincode,
-                lat=lat,
-                log=log
+                location = Point(float(lon), float(lat), srid=4326)
             ).save()
             messages.success(request, 'Address added successfully')
             return redirect('custDashboard')

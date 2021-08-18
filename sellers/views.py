@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from .models import Seller,Product
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
+from django.contrib.gis.geos import Point
 
 
 # Create your views here.
@@ -17,6 +18,7 @@ def sellerRegister(request):
         email = request.POST['email']
         phone = request.POST['phone']
         latiLong = request.POST['latiLong'].split(',')
+        #TODO VALIDATION ON latLong check valid or not
         lat = latiLong[0]
         log = latiLong[1]
         password = request.POST['password']
@@ -45,8 +47,7 @@ def sellerRegister(request):
                         username=username,
                         email=email,
                         phone=phone,
-                        lat=lat,
-                        lon=log
+                        location = Point(float(log), float(lat), srid=4326)
                     )
                     user.save()
                     messages.success(request, 'Account created successfully')
