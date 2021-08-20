@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .models import Customer, CustAddress
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
-from sellers.models import Seller
+from sellers.models import Seller,Product
 from django.contrib.gis.db.models.functions import GeometryDistance
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.measure import D
@@ -134,3 +134,14 @@ def addAddress(request):
             return render(request, 'customer/addAddress.html')
     else:
         return render(request, 'customer/addAddress.html')
+
+def sellerlandingpage(request):
+    if request.method == "GET":
+        print(request.GET["seller_name"])
+        seller_detail = Seller.objects.get(username=request.GET["seller_name"])
+        seller_products = Product.objects.filter(id=seller_detail.id)
+
+        data ={
+          'products': seller_products,
+        }
+    return render(request, 'customer/sellerlandingpage.html',data)

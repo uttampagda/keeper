@@ -3,6 +3,10 @@ admin:
     PASS : 1234
 
 customer:
+
+    user: cus1
+    pass: 1234
+
     user: ut
     pass: 1234
 
