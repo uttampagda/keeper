@@ -6,6 +6,8 @@ from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from sellers.models import Seller
 from django.contrib.gis.db.models.functions import GeometryDistance
+from django.contrib.gis.db.models.functions import Distance
+from django.contrib.gis.measure import D
 from django.contrib.gis.geos import Point
 
 # Create your views here.
@@ -76,18 +78,23 @@ def custLogin(request):
 @login_required(login_url='custLogin')
 def custDashboard(request):
     customer_data = Customer.objects.get(username=request.user.username)
+    km_range = 10
+
     try:
         allAddress = CustAddress.objects.filter(customer=customer_data)
-        ref_location = Point(140.0, 40.0, srid=4326)
+        ref_location = allAddress[0].location
 
-        NearBySellers = Seller.objects.order_by(GeometryDistance("location", ref_location))
+        if request.method == "POST":
+            km_range = request.POST['km_range']
+
+        NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
         print(NearBySellers)
         for seller in NearBySellers:
             print(seller.username)
 
         return render(request, 'customer/dashboard.html',
                       {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
-    except ():
+    except:
         NearBySellers = {}
         messages.error(request, 'Please add Address first!')
         return render(request, 'customer/dashboard.html', {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
