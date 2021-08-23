@@ -5,6 +5,7 @@
     <tr>
             <th>Product name </th>
                 <th>Product price</th>
+
             </tr>
             <tr>
     {% for pr in products %}
@@ -12,6 +13,7 @@
 
             <td>{{ pr.product_name }}</td>
             <td>{{ pr.price }}</td>
+
             </tr>
         {% endif %}
     {% endfor %}

@@ -145,3 +145,5 @@ def sellerlandingpage(request):
           'products': seller_products,
         }
     return render(request, 'customer/sellerlandingpage.html',data)
+
+

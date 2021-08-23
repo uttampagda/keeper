@@ -1,11 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Seller Page</title>
 </head>
-<body>
-
+<body >
+<script src="{% static 'js/cart.js' %}"></script>
 <table border="1" style="padding: 3px;text-align: center" >
 {% for product in products %}
     <div>
@@ -16,7 +17,10 @@
             <tr>
         <td>{{ product.product_name }}</td>
          <td>{{ product.price }}</td>
-</tr>
+                <td><button onclick="addProduct({{product.product_name}},{{ product.price }})">Add to cart</button></td>
+
+
+            </tr>
 
 
     </div>
