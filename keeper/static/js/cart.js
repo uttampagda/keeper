@@ -1,22 +1,20 @@
-function addProduct(){
+function addProduct(pn,pp){
     let products = [];
-    var product_name = document.getElementById("product_name").value;
-    var price = document.getElementById("price").value;
+    var product_name = pn;
+    var price = pp;
     if(localStorage.getItem('products')){
         products = JSON.parse(localStorage.getItem('products'));
     }
     products.push({'product_name' : product_name , 'price' : price});
     localStorage.setItem('products', JSON.stringify(products));
+
 }
 
-function removeProduct(){
-
-    // Your logic for your app.
-
-    // strore products in local storage
-    var product_name = document.getElementById("product_name").value;
-    var price = document.getElementById("price").value;
+function removeProduct(pn){
+    var product_name = pn;
     let storageProducts = JSON.parse(localStorage.getItem('products'));
-    storageProducts.splice(1);
+
+
+
     localStorage.setItem('products', JSON.stringify(storageProducts));
 }

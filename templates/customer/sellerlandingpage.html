@@ -7,8 +7,8 @@
     <title>Seller Page</title>
 </head>
 <body >
-<script src="{% static "js/cart.js" %}"></script>
 
+<script src="{% static "js/cart.js" %}"></script>
 <table border="1" style="padding: 3px;text-align: center" >
 <tr>
     <th>Product name </th>
@@ -17,13 +17,12 @@
 {% for product in products %}
     <div>
 
+
             <tr>
                 <td>{{ product.product_name }}</td>
                 <td>{{ product.price }}</td>
-                <input type="hidden" id="product_name" name="product_name" value="{{ product.product_name }}">
-                <input type="hidden" id="price" name="price" value="{{ product.price }}">
-                <td><button onclick="addProduct()">Add to cart</button></td>
-                <td><button onclick="removeProduct()">Remove</button></td>
+                <td><button onclick="addProduct('{{ product.product_name }}','{{product.price}}')">Add to cart</button></td>
+                <td><button onclick="removeProduct('{{ product.product_name }}')">Remove</button></td>
             </tr>
     </div>
 {% endfor %}
