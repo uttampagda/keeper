@@ -15,8 +15,11 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-GDAL_LIBRARY_PATH = r"C:\Users\Meet\Desktop\ALL_PROJECTS\keeper\sp\Lib\site-packages\osgeo\gdal302.dll"
-GEOS_LIBRARY_PATH = r'C:\Users\Meet\Desktop\ALL_PROJECTS\keeper\sp\Lib\site-packages\osgeo\geos_c.dll'
+GDAL_LIBRARY_PATH = r"C:\Python39\Lib\site-packages\osgeo\gdal303.dll"
+GEOS_LIBRARY_PATH = r'C:\Python39\Lib\site-packages\osgeo\geos_c.dll'
+
+# GDAL_LIBRARY_PATH = r"C:\Users\Meet\Desktop\ALL_PROJECTS\keeper\sp\Lib\site-packages\osgeo\gdal302.dll"
+# GEOS_LIBRARY_PATH = r'C:\Users\Meet\Desktop\ALL_PROJECTS\keeper\sp\Lib\site-packages\osgeo\geos_c.dll'
 
 # GDAL_LIBRARY_PATH = r"/Library/Frameworks/GDAL.framework/Versions/3.2/GDAL"
 # GEOS_LIBRARY_PATH = r'/Library/Frameworks/GEOS.framework/Versions/3D/GEOS'
@@ -84,12 +87,23 @@ WSGI_APPLICATION = 'keeper.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#         'NAME': '3',
+#         'USER': 'postgres',
+#         'PASSWORD': '1234',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': '3',
         'USER': 'postgres',
-        'PASSWORD': '1234',
+        'PASSWORD': 'Knariya@4301',
         'HOST': 'localhost',
         'PORT': '5432',
     }
