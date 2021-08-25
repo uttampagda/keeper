@@ -1,13 +1,21 @@
-function addProduct(pn,pp){
-    let products = [];
-    var product_name = pn;
-    var price = pp;
-    if(localStorage.getItem('products')){
-        products = JSON.parse(localStorage.getItem('products'));
-    }
-    products.push({'product_name' : product_name , 'price' : price});
-    localStorage.setItem('products', JSON.stringify(products));
+function addProduct(){
+    const qnfield = document.getElementById('quantityfield').value;
+    const nextqn = parseFloat(qnfield) + 1;
 
+    document.getElementById('currentquantity').innerHTML = nextqn;
+    document.getElementById('quantityfield').value = nextqn;
+
+    calculateTotal();
+}
+
+function removeone(){
+    const qnfield = document.getElementById('quantityfield').value;
+    const prevqn = qnfield <= 1 ? 0 : parseFloat(qnfield) - 1;
+
+    document.getElementById('currentquantity').innerHTML = prevqn;
+    document.getElementById('quantityfield').value = prevqn;
+
+    calculateTotal();
 }
 
 function removeProduct(pn){
@@ -17,8 +25,20 @@ function removeProduct(pn){
     localStorage.setItem('products', JSON.stringify(products));
 }
 
+function calculateTotal() {
+    var total = 0;
+    $("#quantityfield").each(function () {
+        var quantity = $(this).val(),
+          price = $(this).data("price");
 
+        total += parseFloat(quantity * price);
+      });
+
+    console.log("Rs." + total);
+
+}
+calculateTotal();
 function showcart(){
-          let products =JSON.parse(localStorage.getItem('products'));
-          console.log(products);
+    let products =JSON.parse(localStorage.getItem('products'));
+    console.log(products);
 }
