@@ -146,4 +146,5 @@ def sellerlandingpage(request):
         }
     return render(request, 'customer/sellerlandingpage.html',data)
 
-
+def cart(request):
+    return render(request, 'customer/cart.html')

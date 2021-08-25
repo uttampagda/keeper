@@ -13,8 +13,12 @@ function addProduct(pn,pp){
 function removeProduct(pn){
     var product_name = pn;
     let storageProducts = JSON.parse(localStorage.getItem('products'));
+    let products = storageProducts.filter(product => product.product_name !== product_name );
+    localStorage.setItem('products', JSON.stringify(products));
+}
 
 
-
-    localStorage.setItem('products', JSON.stringify(storageProducts));
+function showcart(){
+          let products =JSON.parse(localStorage.getItem('products'));
+          console.log(products);
 }
