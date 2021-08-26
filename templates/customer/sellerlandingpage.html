@@ -5,12 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Seller Page</title>
-     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
 </head>
 <body >
 
-<script src="{% static "js/cart.js" %}"></script>
+
 <table border="1" style="padding: 3px;text-align: center" >
 <tr>
     <th>Product name </th>
@@ -23,23 +23,21 @@
             <tr class="item">
                 <td>{{ product.product_name }}</td>
                 <td>{{ product.price }}</td>
-                <td><button onclick="addProduct()">Plus</button></td>
-                <td><span id="currentquantity">1</span>&nbsp;  {{ product.price }}</td>
-                <td><button onclick="removeone()">Minus</button></td>
-                <td><button onclick="removeProduct('{{ product.product_name }}')">Remove</button></td>
-
-                <input type="hidden" id="quantityfield" name="quantity" data-price={{ product.price }} value="1" />
+                <td><a href="#" data-name="{{ product.product_name }}" data-price="{{ product.price }}" class="add-to-cart btn btn-primary">Add to cart</a></td>
             </tr>
 
-            <p id="print"></p>
     </div>
 {% endfor %}
 </table>
 <br>
-<a href="{% url 'cart' %}">Cart</a>
 
 
 
+
+<a href="{% url 'cart' %}" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</a>
+
+
+<script src="{% static "js/cart.js" %}"></script>
 </body>
 </html>
 {% endblock %}
