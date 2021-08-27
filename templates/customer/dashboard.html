@@ -23,20 +23,28 @@ Welcome to Customer dashboard
         <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">GET</button>
 </form>
 
-
+<table border="1" style="padding: 3px;text-align: center" >
 {% for seller in near_by_sellers %}
-    <div>
-    <form method="get" action="{% url 'sellerlandingpage' %}" class="col-md-5 offset-md-1">
+    <tr>
+    <th>Username</th>
+    <th>Shopname</th>
+    <th>Shop link</th>
+    </tr>
+
+    <tr>
+    <th>{{ seller.username }}</th>
+    <th>{{ seller.shopname }}</th>
+    <th><form method="get" action="{% url 'sellerlandingpage' %}" class="col-md-5 offset-md-1">
       {% csrf_token %}
         <div class="form-group">
           <input type="hidden" name="seller_name" value={{ seller.username }}>
         </div>
         <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">GET</button>
-</form>
-    </div>
- <h4>User: {{ seller.username }}      Shop:{{ seller.shopname }}</h4>
-{% endfor %}
+</form></th>
+    </tr>
 
+{% endfor %}
+</table>
 <a href="{% url 'custLogout' %}">Logout</a>
 
 <br>
