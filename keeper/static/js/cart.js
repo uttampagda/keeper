@@ -5,10 +5,11 @@
 var shoppingCart = (function() {
   cart = [];
 
-  function Item(name, price, count) {
+  function Item(name, price, count,proid) {
     this.name = name;
     this.price = price;
     this.count = count;
+    this.proid = proid;
   }
 
   // Save cart
@@ -28,7 +29,7 @@ var shoppingCart = (function() {
   var obj = {};
 
   // Add to cart
-  obj.addItemToCart = function(name, price, count) {
+  obj.addItemToCart = function(name, price, count,proid) {
     for(var item in cart) {
       if(cart[item].name === name) {
         cart[item].count ++;
@@ -36,7 +37,7 @@ var shoppingCart = (function() {
         return;
       }
     }
-    var item = new Item(name, price, count);
+    var item = new Item(name, price, count,proid);
     cart.push(item);
     saveCart();
   }
@@ -124,7 +125,8 @@ $('.add-to-cart').click(function(event) {
   event.preventDefault();
   var name = $(this).data('name');
   var price = Number($(this).data('price'));
-  shoppingCart.addItemToCart(name, price, 1);
+  var proid = Number($(this).data('proid'));
+  shoppingCart.addItemToCart(name, price, 1,proid);
   displayCart();
 });
 
@@ -142,7 +144,7 @@ function displayCart() {
     output += "<tr>"
       + "<td>" + cartArray[i].name + "</td>"
       + "<td>(" + cartArray[i].price + ")</td>"
-      + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-name=" + cartArray[i].name + ">-</button>"
+      + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-store-proid="+ cartArray[i].proid +" data-name=" + cartArray[i].name + ">-</button>"
       + "<input type='number' class='item-count form-control' data-name='" + cartArray[i].name + "' value='" + cartArray[i].count + "'>"
       + "<button class='plus-item btn btn-primary input-group-addon' data-name=" + cartArray[i].name + ">+</button></div></td>"
       + "<td><button class='delete-item btn btn-danger' data-name=" + cartArray[i].name + ">X</button></td>"

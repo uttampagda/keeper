@@ -139,10 +139,11 @@ def sellerlandingpage(request):
     if request.method == "GET":
         print(request.GET["seller_name"])
         seller_detail = Seller.objects.get(username=request.GET["seller_name"])
-        seller_products = Product.objects.filter(seller_cr=seller_detail.id)
-
+        seller_products = Product.objects.filter(seller_cr=seller_detail.credentials_id)
+        customer = Customer.objects.get(username=request.user.username)
         data ={
           'products': seller_products,
+          'customer': customer,
         }
     return render(request, 'customer/sellerlandingpage.html',data)
 
