@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from .models import Customer, CustAddress
+from .models import Customer, CustAddress, AllOrders
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from sellers.models import Seller,Product
@@ -9,6 +9,10 @@ from django.contrib.gis.db.models.functions import GeometryDistance
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.measure import D
 from django.contrib.gis.geos import Point
+from django.shortcuts import render
+import razorpay
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -140,12 +144,56 @@ def sellerlandingpage(request):
         print(request.GET["seller_name"])
         seller_detail = Seller.objects.get(username=request.GET["seller_name"])
         seller_products = Product.objects.filter(seller_cr=seller_detail.credentials_id)
+        seller_id = seller_detail.credentials_id
         customer = Customer.objects.get(username=request.user.username)
         data ={
           'products': seller_products,
           'customer': customer,
+          'seller_id': seller_id,
         }
     return render(request, 'customer/sellerlandingpage.html',data)
 
 def cart(request):
     return render(request, 'customer/cart.html')
+
+def confirm(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        list_of_orders = request.POST.get('product_list')
+        total = request.POST.get('total')
+        print(name, list_of_orders, total)
+        amount = int(total)*100
+        return render(request, 'customer/checkout.html', {'list_of_orders':list_of_orders, 'name':name, 'total':total, 'amount':amount})
+    else:
+        return render(request, 'customer/cart.html')
+
+def checkout(request):
+    if request.method == "POST":
+        amount = request.POST.get('total').replace('/', '')
+        list_of_orders = request.POST.get('list_of_orders').replace('/', '')
+        print(amount, list_of_orders)
+        client = razorpay.Client(auth=("rzp_test_bSTKVqtv6GwTso", "YEAj0ll32SLlXhunbTJSJqVH"))
+        payment = client.order.create({'amount': amount, 'currency': 'INR', 'payment_capture': '1'})
+        print("DONE_PAYMENT-------------", payment)
+        customer_data = Customer.objects.get(username=request.user.username)
+        print(json.loads(list_of_orders))
+        seller_id = Product.objects.get(pk=json.loads(list_of_orders)[0]['proid']).seller_cr
+
+        new_order = AllOrders(
+            customer_id=customer_data.credentials_id,
+            seller_id=seller_id,
+            payment_id=payment['id'],
+            ttl_amount=amount,
+            amount_paid=payment['amount_paid'],
+            amount_due=payment['amount_due'],
+            order_details=list_of_orders,
+            payment_created_at=payment['created_at']
+        )
+        new_order.save()
+        return render(request, "success.html")
+    else:
+        return render(request, 'customer/cart.html')
+
+@csrf_exempt
+def success(request):
+    return render(request, "success.html")

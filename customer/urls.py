@@ -9,5 +9,8 @@ urlpatterns = [
     path('dashboard', views.custDashboard, name="custDashboard"),
     path('',views.custhome,name='custhome'),
     path('cart',views.cart,name='cart'),
-    path('sellerlandingpage',views.sellerlandingpage,name='sellerlandingpage')
+    path('sellerlandingpage',views.sellerlandingpage,name='sellerlandingpage'),
+    path('checkout', views.checkout, name = "checkout"),
+    path('confirm', views.confirm, name = "confirm"),
+    path('success', views.success, name="success"),
 ]
