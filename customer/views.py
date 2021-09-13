@@ -94,7 +94,7 @@ def custDashboard(request):
         NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
         print(NearBySellers)
         for seller in NearBySellers:
-            print(seller.username)
+            print(seller.username, seller.id)
 
         return render(request, 'customer/dashboard.html',
                       {'customer_data': customer_data, 'near_by_sellers': NearBySellers})

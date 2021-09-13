@@ -26,3 +26,4 @@ class AllOrders(models.Model):
     order_details = models.CharField(blank=False, null=False, max_length=1000)
     is_accepted = models.BooleanField(default=False)
     is_delivered = models.BooleanField(default=False)
+    created_date = models.DateTimeField(auto_now=True)

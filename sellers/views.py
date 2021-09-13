@@ -5,7 +5,8 @@ from .models import Seller,Product
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.gis.geos import Point
-
+from customer.models import AllOrders
+import datetime
 
 # Create your views here.
 
@@ -82,8 +83,13 @@ def sellerLogin(request):
 @login_required(login_url='sellerLogin')
 def sellerDashboard(request):
     if request.user.is_authenticated:
-        seller_data = Seller.objects.get(username=request.user.username)
-        return render(request, 'seller/dashboard.html', {'seller_data':seller_data})
+        seller_data = Seller.objects.get(credentials_id = request.user.id)
+        now = datetime.datetime.now()
+        earlier = now - datetime.timedelta(hours=5)
+        new_orders = AllOrders.objects.filter(seller_id = request.user.id, created_date__range=(earlier, now)).exclude(is_accepted = True)
+        accepted_orders = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = True)
+        print(new_orders, accepted_orders)
+        return render(request, 'seller/dashboard.html', {'seller_data':seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders})
     else:
         redirect('sellerLogin')
 
@@ -109,6 +115,26 @@ def addproduct(request):
       print('saved')
       return redirect('sellerDashboard')
     return render(request, 'seller/addproduct.html')
+
+@login_required(login_url='sellerLogin')
+def acceptOrder(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            order_id = request.POST['order_id']
+            acceptOrd = AllOrders.objects.get(id = order_id)
+            acceptOrd.is_accepted = True
+            acceptOrd.save()
+
+        seller_data = Seller.objects.get(credentials_id = request.user.id)
+        now = datetime.datetime.now()
+        earlier = now - datetime.timedelta(hours=5)
+        new_orders = AllOrders.objects.filter(seller_id = request.user.id, created_date__range=(earlier, now)).exclude(is_accepted = True)
+        accepted_orders = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = True)
+        print(new_orders, accepted_orders)
+        return render(request, 'seller/dashboard.html', {'seller_data':seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders})
+    else:
+        redirect('sellerLogin')
+
 
 @login_required(login_url='sellerLogin')
 def products(request):

@@ -15,12 +15,56 @@ Welcome to Seller dashboard
  <h4>Email : {{ seller_data.email }}</h4>
  <h4>ShopName : {{ seller_data.shopname }}</h4>
 <br><br><br>
+
 <a href="{% url 'addproduct' %}">Add Product</a>
 <br><br><br>
 
 <a href="{% url 'products' %}">View Products</a>
 <br><br><br>
 
+<h4>NEW ORDERS</h4>
+
+{% for oder in new_orders %}
+    <td>{{ oder.id }}</td>
+    <td>{{ oder.seller_id }}</td>
+    <td>{{ oder.payment_id }}</td>
+    <td>{{ oder.payment_created_at }}</td>
+    <td>{{ oder.amount_paid }}</td>
+    <td>{{ oder.ttl_amount }}</td>
+    <td>{{ oder.amount_due }}</td>
+    <td>{{ oder.order_details }}</td>
+    <td>{{ oder.is_accepted }}</td>
+    <td>{{ oder.is_delivered }}</td>
+    <td>{{ oder.created_date }}</td>
+    <td>{{ oder.created_date }}</td>
+    <form method="POST" action="{% url 'acceptOrder' %}" class="col-md-5 offset-1">
+        {% csrf_token %}
+        <div class="form-group">
+          <input name="order_id" type="hidden" value={{ oder.id }}>
+        </div>
+        <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">Accept Order</button>
+      </form>
+    </tr>
+    <br>
+{% endfor %}
+
+<h4>ACCEPTED ORDERS</h4>
+
+{% for oder in accepted_orders %}
+    <td>{{ oder.id }}</td>
+    <td>{{ oder.seller_id }}</td>
+    <td>{{ oder.payment_id }}</td>
+    <td>{{ oder.payment_created_at }}</td>
+    <td>{{ oder.amount_paid }}</td>
+    <td>{{ oder.ttl_amount }}</td>
+    <td>{{ oder.amount_due }}</td>
+    <td>{{ oder.order_details }}</td>
+    <td>{{ oder.is_accepted }}</td>
+    <td>{{ oder.is_delivered }}</td>
+    <td>{{ oder.created_date }}</td>
+    </tr>
+    <br>
+{% endfor %}
 <a href="{% url 'sellerLogout' %}">Logout</a>
 
 </body>
