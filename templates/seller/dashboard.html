@@ -44,6 +44,13 @@ Welcome to Seller dashboard
         </div>
         <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">Accept Order</button>
       </form>
+    <form method="POST" action="{% url 'rejectOrder' %}" class="col-md-5 offset-1">
+        {% csrf_token %}
+        <div class="form-group">
+          <input name="order_id" type="hidden" value={{ oder.id }}>
+        </div>
+        <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">Reject Order</button>
+      </form>
     </tr>
     <br>
 {% endfor %}
@@ -51,6 +58,24 @@ Welcome to Seller dashboard
 <h4>ACCEPTED ORDERS</h4>
 
 {% for oder in accepted_orders %}
+    <td>{{ oder.id }}</td>
+    <td>{{ oder.seller_id }}</td>
+    <td>{{ oder.payment_id }}</td>
+    <td>{{ oder.payment_created_at }}</td>
+    <td>{{ oder.amount_paid }}</td>
+    <td>{{ oder.ttl_amount }}</td>
+    <td>{{ oder.amount_due }}</td>
+    <td>{{ oder.order_details }}</td>
+    <td>{{ oder.is_accepted }}</td>
+    <td>{{ oder.is_delivered }}</td>
+    <td>{{ oder.created_date }}</td>
+    </tr>
+    <br>
+{% endfor %}
+<br>
+<h4>Rejected ORDERS</h4>
+
+{% for oder in rejected_order %}
     <td>{{ oder.id }}</td>
     <td>{{ oder.seller_id }}</td>
     <td>{{ oder.payment_id }}</td>
