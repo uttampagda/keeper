@@ -187,7 +187,7 @@ def checkout(request):
             amount_paid=payment['amount_paid'],
             amount_due=payment['amount_due'],
             order_details=list_of_orders,
-            payment_created_at=payment['created_at']
+            payment_created_at=payment['created_at'],
         )
         new_order.save()
         return render(request, "success.html")

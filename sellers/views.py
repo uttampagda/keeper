@@ -19,6 +19,7 @@ def sellerRegister(request):
         email = request.POST['email']
         phone = request.POST['phone']
         latiLong = request.POST['latiLong'].split(',')
+        print(request.POST['latiLong'])
         #TODO VALIDATION ON latLong check valid or not
         lat = latiLong[0]
         log = latiLong[1]
@@ -86,10 +87,11 @@ def sellerDashboard(request):
         seller_data = Seller.objects.get(credentials_id = request.user.id)
         now = datetime.datetime.now()
         earlier = now - datetime.timedelta(hours=5)
-        new_orders = AllOrders.objects.filter(seller_id = request.user.id, created_date__range=(earlier, now)).exclude(is_accepted = True)
-        accepted_orders = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = True)
-        print(new_orders, accepted_orders)
-        return render(request, 'seller/dashboard.html', {'seller_data':seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders})
+        new_orders = AllOrders.objects.filter(seller_id = request.user.id, created_date__range=(earlier, now), is_rejected = None).exclude(is_accepted = True)
+        accepted_orders = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = True, is_rejected = False)
+        rejected_order = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = False, is_rejected = True)
+        print(new_orders, accepted_orders, rejected_order)
+        return render(request, 'seller/dashboard.html', {'seller_data':seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders, 'rejected_order': rejected_order})
     else:
         redirect('sellerLogin')
 
@@ -123,15 +125,17 @@ def acceptOrder(request):
             order_id = request.POST['order_id']
             acceptOrd = AllOrders.objects.get(id = order_id)
             acceptOrd.is_accepted = True
+            acceptOrd.is_rejected = False
             acceptOrd.save()
 
         seller_data = Seller.objects.get(credentials_id = request.user.id)
         now = datetime.datetime.now()
         earlier = now - datetime.timedelta(hours=5)
-        new_orders = AllOrders.objects.filter(seller_id = request.user.id, created_date__range=(earlier, now)).exclude(is_accepted = True)
-        accepted_orders = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = True)
-        print(new_orders, accepted_orders)
-        return render(request, 'seller/dashboard.html', {'seller_data':seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders})
+        new_orders = AllOrders.objects.filter(seller_id = request.user.id, created_date__range=(earlier, now), is_rejected = None).exclude(is_accepted = True)
+        accepted_orders = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = True, is_rejected = False)
+        rejected_order = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = False, is_rejected = True)
+        print(new_orders, accepted_orders, rejected_order)
+        return render(request, 'seller/dashboard.html', {'seller_data':seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders, 'rejected_order': rejected_order})
     else:
         redirect('sellerLogin')
 
@@ -140,17 +144,19 @@ def rejectOrder(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             order_id = request.POST['order_id']
-            acceptOrd = AllOrders.objects.get(id = order_id)
-            acceptOrd.is_rejected = True
-            acceptOrd.save()
+            rejectedOdr = AllOrders.objects.get(id = order_id)
+            rejectedOdr.is_rejected = True
+            rejectedOdr.is_accepted = False
+            rejectedOdr.save()
 
         seller_data = Seller.objects.get(credentials_id = request.user.id)
         now = datetime.datetime.now()
         earlier = now - datetime.timedelta(hours=5)
-        new_orders = AllOrders.objects.filter(seller_id = request.user.id, created_date__range=(earlier, now)).exclude(is_rejected = True)
-        rejected_order = AllOrders.objects.filter(seller_id = request.user.id, is_rejected = True)
-        print(new_orders, rejected_order)
-        return render(request, 'seller/dashboard.html', {'seller_data':seller_data, 'new_orders': new_orders, '': rejected_order})
+        new_orders = AllOrders.objects.filter(seller_id = request.user.id, created_date__range=(earlier, now), is_rejected = None).exclude(is_accepted = True)
+        accepted_orders = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = True, is_rejected = False)
+        rejected_order = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = False, is_rejected = True)
+        print(new_orders, accepted_orders, rejected_order)
+        return render(request, 'seller/dashboard.html', {'seller_data':seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders, 'rejected_order': rejected_order})
     else:
         redirect('sellerLogin')
 
