@@ -115,9 +115,15 @@ def searchProductNearBY(request):
         if request.method == "POST":
             km_range = request.POST.get('km_range')
             key_word = request.POST['key_word']
-
-            if km_range is None:
+            print(km_range)
+            if km_range is None or km_range == '':
                 km_range = 10
+
+            if key_word is None or key_word == '':
+                NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=10)))
+                messages.error(request, 'Please search valid keyword')
+                return render(request, 'customer/dashboard.html',
+                              {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
 
         NearByProduct = Product.objects.filter(location__dwithin=(ref_location, D(km=km_range)), product_name__icontains = key_word)
         for product in NearByProduct:

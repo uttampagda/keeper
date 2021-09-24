@@ -199,3 +199,30 @@ def editProducts(request):
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         products = Product.objects.filter(shopname=seller_data.shopname)
         return render(request, 'seller/editProducts.html', {'products' : products})
+@login_required(login_url='sellerLogin')
+def editProducts(request):
+    if request.method == 'GET':
+        product_id = request.GET.get('product_id')
+
+        if product_id is None:
+            seller_data = Seller.objects.get(credentials_id=request.user.id)
+            products = Product.objects.filter(shopname=seller_data.shopname)
+
+            data = {
+                'products': products
+            }
+            return render(request, 'seller/editProducts.html', data)
+        product_to_be_edit = Product.objects.get(id=product_id)
+        return render(request, 'seller/editProduct.html', {'product_to_be_edit': product_to_be_edit})
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        product_to_be_edit = Product.objects.get(id=product_id)
+
+        product_to_be_edit.product_name = request.POST.get('product_name')
+        product_to_be_edit.price = request.POST.get('price')
+        product_to_be_edit.is_featured = request.POST.get('is_featured')
+        product_to_be_edit.save()
+
+        seller_data = Seller.objects.get(credentials_id=request.user.id)
+        products = Product.objects.filter(shopname=seller_data.shopname)
+        return render(request, 'seller/editProducts.html', {'products' : products})
