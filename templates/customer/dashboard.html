@@ -23,6 +23,15 @@ Welcome to Customer dashboard
         <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">GET</button>
 </form>
 
+<form method="post" action="{% url 'searchProductNearBY' %}" class="col-md-5 offset-md-1">
+      {% csrf_token %}
+        <div class="form-group">
+          <input name="key_word" class="form-control" placeholder="Search Here">
+        </div>
+        <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">GET</button>
+</form>
+
+
 <table border="1" style="padding: 3px;text-align: center" >
 <tr>
     <th>Username</th>

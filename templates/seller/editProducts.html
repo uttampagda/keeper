@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Products</title>
+</head>
+{% block content %}
+
+<body>
+
+<table border="1" style="padding: 3px;text-align: center" >
+<tr>
+    <th>Product ID</th>
+    <th>Product Name</th>
+    <th>Price</th>
+    <th>Is_featured</th>
+    </tr>
+{% for product in products %}
+
+    <tr>
+        <th>{{ product.id }}</th>
+        <th>{{ product.product_name }}</th>
+        <th>{{ product.price }}</th>
+        <th>
+            <form method="get" action="{% url 'editProducts' %}" class="col-md-5 offset-md-1">
+                <div class="form-group">
+                    <input type="hidden" name="product_id" value={{ product.id }}>
+                </div>
+                <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">EDIT</button>
+            </form>
+        </th>
+    </tr>
+
+{% endfor %}
+</table>
+
+
+</body>
+
+{% endblock %}
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>edit it</title>
+</head>
+{% block content %}
+
+<body>
+
+<div class="row">
+      <form method="POST" action="{% url 'editProducts' %}" class="col-md-5 offset-1">
+        {% csrf_token %}
+          <div class="form-group">
+              <input type="hidden" name="product_id" value={{ product_to_be_edit.id }}>
+          </div>
+          <div class="form-group">
+              <input name="product_name" class="form-control" placeholder="Product name" value="{{ product_to_be_edit.product_name }}">
+          </div>
+          <div class="form-group">
+              <input name="price" class="form-control" placeholder="Price" value="{{ product_to_be_edit.price }}">
+          </div>
+          <div class="form-group">
+              <input name="is_featured" class="form-control" placeholder="is_featured" value="{{ product_to_be_edit.is_featured }}">
+          </div>
+
+        <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">Save Product</button>
+
+      </form>
+    </div>
+
+</body>
+{% endblock %}
+
+</html>

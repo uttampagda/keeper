@@ -103,6 +103,33 @@ def custDashboard(request):
         messages.error(request, 'Please add Address first!')
         return render(request, 'customer/dashboard.html', {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
 
+@login_required(login_url='custLogin')
+def searchProductNearBY(request):
+    customer_data = Customer.objects.get(username=request.user.username)
+    km_range = 10
+
+    try:
+        allAddress = CustAddress.objects.filter(customer=customer_data)
+        ref_location = allAddress[0].location
+
+        if request.method == "POST":
+            km_range = request.POST.get('km_range')
+            key_word = request.POST['key_word']
+
+            if km_range is None:
+                km_range = 10
+
+        NearByProduct = Product.objects.filter(location__dwithin=(ref_location, D(km=km_range)), product_name__icontains = key_word)
+        for product in NearByProduct:
+            print(product.product_name, product.price)
+
+        return render(request, 'customer/productSearch.html', {'product_data': NearByProduct})
+    except Exception as er:
+        print(er)
+        NearBySellers = {}
+        messages.error(request, 'Please add Address first!')
+        return render(request, 'customer/dashboard.html', {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
+
 
 def custLogout(request):
     logout(request)

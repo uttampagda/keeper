@@ -17,5 +17,7 @@ class Product(models.Model):
     price = models.IntegerField()
     seller_cr = models.IntegerField()
     is_featured = models.BooleanField(default=False)
-    #product_image = models.ImageField(upload_to='media/seller/')
+    shopname = models.CharField(max_length=50)
+    location = models.PointField(srid=4326, geography=True, blank=True, null=True)
+    # product_image = models.ImageField(upload_to='media/seller/')
 
