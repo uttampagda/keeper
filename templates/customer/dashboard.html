@@ -8,6 +8,12 @@
 <body>
 Welcome to Customer dashboard
 
+{% for b in bannerr %}
+    <p>hi</p>
+    <h1>{{ b.banner_title }}</h1>
+    <img src="">
+{% endfor %}
+
  <h4>hi, {{ user.username }}. Hope you are having a good day</h4>
  <h4>First_Name : {{ user.first_name }}</h4>
  <h4>Last_Name : {{ user.last_name }}</h4>
@@ -68,6 +74,9 @@ Welcome to Customer dashboard
                  {% endfor %}
              </ul>
 {% endif %}
+
+
+
 </body>
 </html>
 {% endblock %}

@@ -28,3 +28,13 @@ class AllOrders(models.Model):
     is_delivered = models.BooleanField(default=None, blank=True, null=True)
     created_date = models.DateTimeField(auto_now=True)
     is_rejected = models.BooleanField(default=None, blank=True, null=True)
+
+
+class Banner(models.Model):
+    banner_title=models.CharField(max_length=50)
+    banner_photo = models.ImageField(upload_to="media/banner/")
+    prio = models.IntegerField(blank=False,null=False,unique=True)
+
+
+    def __str__(self):
+        return self.banner_title

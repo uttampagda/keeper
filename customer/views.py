@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from .models import Customer, CustAddress, AllOrders
+from .models import Customer, CustAddress, AllOrders,Banner
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from sellers.models import Seller,Product
@@ -143,6 +143,7 @@ def custLogout(request):
 
 @login_required(login_url='custLogin')
 def custhome(request):
+
     return render(request,'customer/home.html')
 
 @login_required(login_url='custLogin')
@@ -196,7 +197,7 @@ def confirm(request):
         total = request.POST.get('total')
         print(name, list_of_orders, total)
         amount = int(total)*100
-        return render(request, 'customer/checkout.html', {'list_of_orders':list_of_orders, 'name':name, 'total':total, 'amount':amount})
+        return render(request, 'customer/checkout.html', {'list_of_orders':list_of_orders, 'name':name, 'total':int(total), 'amount':amount})
     else:
         return render(request, 'customer/cart.html')
 
@@ -221,6 +222,9 @@ def checkout(request):
             amount_due=payment['amount_due'],
             order_details=list_of_orders,
             payment_created_at=payment['created_at'],
+            is_delivered=False,
+            is_accepted=False,
+            is_rejected=False
         )
         new_order.save()
         return render(request, "success.html")
@@ -230,3 +234,11 @@ def checkout(request):
 @csrf_exempt
 def success(request):
     return render(request, "success.html")
+
+def banner(request):
+    bannerr = Banner.objects.all()
+    print(bannerr)
+    data = {
+        'bannerr': bannerr,
+    }
+    return render(request, "customer/dashboard.html",data)

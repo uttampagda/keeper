@@ -101,19 +101,13 @@
 				<div id="myCarousel" class="carousel slide h-100" data-ride="carousel">
 
 					<!-- Wrapper for slides -->
+                    {% for ban in bannerr %}
 					<div class="carousel-inner h-100">
 					  <div class="item active h-100">
-						<img class="banner-img1 w-100 h-100">
+                          <img src="{{ ban.banner_photo.url }}" alt=" ">
 					  </div>
-
-					  <div class="item h-100">
-						<img class="banner-img2 w-100 h-100">
-					  </div>
-
-					  <div class="item h-100">
-						<img class="banner-img3 w-100 h-100">
-					  </div>
-					</div>
+                    </div>
+                    {% endfor%}
 
 					<!-- Left and right controls -->
 					<a class="left carousel-control bradius-7 border-0" href="#myCarousel" data-slide="prev">
@@ -130,7 +124,7 @@
 		</div>
 	</section>
 	<!-- End Banner -->
-
+             {
 	<!-- Categories -->
 	<section class="section_gap category-height">
 		<div class="container-fluid h-100">
@@ -341,3 +335,4 @@
 
 </body>
 </html>
+

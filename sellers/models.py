@@ -19,5 +19,8 @@ class Product(models.Model):
     is_featured = models.BooleanField(default=False)
     shopname = models.CharField(max_length=50)
     location = models.PointField(srid=4326, geography=True, blank=True, null=True)
-    # product_image = models.ImageField(upload_to='media/seller/')
+    product_image = models.ImageField(upload_to='media/seller/')
+    #product_category=models.CharField(max_length=100)
+
+
 

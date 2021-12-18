@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
@@ -109,10 +110,11 @@ def addproduct(request):
       seller_data = Seller.objects.get(credentials_id=request.user.id)
       product_name = request.POST['product_name']
       price = request.POST['price']
+      product_image = requests.post('product_image')
       #product_image = request.POST['username']
 
       seller_cr = request.user.id
-      addproduct = Product(seller_cr=seller_cr,product_name=product_name,price=price, location=seller_data.location, shopname=seller_data.shopname)
+      addproduct = Product(seller_cr=seller_cr,product_name=product_name,price=price, location=seller_data.location, shopname=seller_data.shopname,product_image=product_image)
 
       addproduct.save()
       print('saved')
