@@ -28,6 +28,8 @@ class AllOrders(models.Model):
     is_delivered = models.BooleanField(default=None, blank=True, null=True)
     created_date = models.DateTimeField(auto_now=True)
     is_rejected = models.BooleanField(default=None, blank=True, null=True)
+    order_type = models.CharField(blank=False, null=False, max_length=50, default="HOME_DELIVERY")
+    pickup_date = models.DateTimeField(blank=True, null=True)
 
 
 class Banner(models.Model):

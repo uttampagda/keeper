@@ -21,7 +21,14 @@
             <input type="hidden" name="total" id="total" />
                      <div id="ol"></div>
                      <div id="tt"></div>
-                    <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">Confirm and Pay Now</button>
+            <select name="order_type" id="order_type" onchange="changeOrderType();">
+                <option value="HOME_DELIVERY" selected>HOME DELIVERY</option>
+                <option value="PICK_UP">SELF PICK UP</option>
+            </select>
+
+            <input type="datetime-local" id="pick_up_time" name="pick_up_time" style= "visibility:hidden;">
+            
+            <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">Confirm and Pay Now</button>
         </form>
     </div>
   </div>
@@ -33,6 +40,17 @@
 // ****************
 // Shopping Cart API
 // ****************
+
+function changeOrderType() {
+    OrderType = document.getElementById('order_type').value;
+    if (OrderType === "PICK_UP"){
+        document.getElementById("pick_up_time").style.visibility = "visible";
+    }else if (OrderType === "HOME_DELIVERY"){
+        document.getElementById("pick_up_time").style.visibility = "hidden";
+        document.getElementById("pick_up_time").value = null;
+    }
+}
+
 
 var shoppingCart = (function() {
   cart = [];

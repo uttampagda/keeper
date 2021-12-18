@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
@@ -194,15 +196,23 @@ def confirm(request):
     if request.method == "POST":
         name = request.POST.get('name')
         list_of_orders = request.POST.get('product_list')
+        order_type = request.POST.get('order_type')
+        pick_up_time = request.POST.get('pick_up_time')
         total = request.POST.get('total')
-        print(name, list_of_orders, total)
+        print(name, list_of_orders, total, order_type, pick_up_time)
         amount = int(total)*100
-        return render(request, 'customer/checkout.html', {'list_of_orders':list_of_orders, 'name':name, 'total':int(total), 'amount':amount})
+        return render(request, 'customer/checkout.html', {'list_of_orders':list_of_orders, 'name':name, 'total':int(total), 'amount':amount, 'order_type':order_type, 'pick_up_time':pick_up_time})
     else:
         return render(request, 'customer/cart.html')
 
 def checkout(request):
     if request.method == "POST":
+        order_type = request.POST.get('order_type')
+        pick_up_time = request.POST.get('pick_up_time')
+
+        if pick_up_time == '':
+            pick_up_time = None
+
         amount = request.POST.get('total').replace('/', '')
         list_of_orders = request.POST.get('list_of_orders').replace('/', '')
         print(amount, list_of_orders)
@@ -224,7 +234,9 @@ def checkout(request):
             payment_created_at=payment['created_at'],
             is_delivered=False,
             is_accepted=False,
-            is_rejected=False
+            is_rejected=False,
+            order_type = order_type,
+            pickup_date= pick_up_time
         )
         new_order.save()
         return render(request, "success.html")

@@ -18,9 +18,22 @@ class Product(models.Model):
     seller_cr = models.IntegerField()
     is_featured = models.BooleanField(default=False)
     shopname = models.CharField(max_length=50)
+    product_image = models.ImageField(upload_to='products/sellers/')
     location = models.PointField(srid=4326, geography=True, blank=True, null=True)
-    product_image = models.ImageField(upload_to='media/seller/')
-    #product_category=models.CharField(max_length=100)
+    product_category = models.CharField(max_length=100, blank=False, null=False)
+
+    def save(self):
+        for field in self._meta.fields:
+            if field.name == 'product_image':
+                field.upload_to = 'AllProducts/sellers/{}/{}/'.format(self.shopname, self.product_name)
+        super(Product, self).save()
+
+    def __str__(self):
+        return self.product_name
 
 
-
+class AllCategories(models.Model):
+    category_name = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.category_name

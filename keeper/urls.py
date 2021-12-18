@@ -25,4 +25,4 @@ urlpatterns = [
     path('deliboy/', include('delivery_boy.urls')),
     path('seller/', include('sellers.urls')),
     path('', include('home.urls')),
-]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -2,7 +2,7 @@ import requests
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from .models import Seller,Product
+from .models import Seller, Product, AllCategories
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.gis.geos import Point
@@ -107,19 +107,28 @@ def sellerhome(request):
 def addproduct(request):
     print(request.user.id)
     if request.method == 'POST':
-      seller_data = Seller.objects.get(credentials_id=request.user.id)
-      product_name = request.POST['product_name']
-      price = request.POST['price']
-      product_image = requests.post('product_image')
-      #product_image = request.POST['username']
+        seller_data = Seller.objects.get(credentials_id=request.user.id)
+        product_name = request.POST['product_name']
+        price = request.POST['price']
+        category = request.POST['category']
+        product_image = request.FILES['productImage']
 
-      seller_cr = request.user.id
-      addproduct = Product(seller_cr=seller_cr,product_name=product_name,price=price, location=seller_data.location, shopname=seller_data.shopname,product_image=product_image)
+        seller_cr = request.user.id
+        addproduct = Product(
+            seller_cr=seller_cr,
+            product_name=product_name,
+            price=price,
+            location=seller_data.location,
+            shopname=seller_data.shopname,
+            product_image=product_image,
+            product_category = category
+        )
+        addproduct.save()
 
-      addproduct.save()
-      print('saved')
-      return redirect('sellerDashboard')
-    return render(request, 'seller/addproduct.html')
+        print('saved')
+        return redirect('sellerDashboard')
+    allCategories = AllCategories.objects.all()
+    return render(request, 'seller/addproduct.html', {"allCategories" : allCategories})
 
 @login_required(login_url='sellerLogin')
 def acceptOrder(request):
