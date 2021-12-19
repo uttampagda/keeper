@@ -181,7 +181,7 @@ def products(request):
     data = {
         'products' : products
     }
-    return render(request, 'seller/products.html', data)
+    return render(request, 'seller/main.html', data)
 
 @login_required(login_url='sellerLogin')
 def editProducts(request):
