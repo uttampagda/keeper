@@ -237,3 +237,4 @@ def editProducts(request):
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         products = Product.objects.filter(shopname=seller_data.shopname)
         return render(request, 'seller/editProducts.html', {'products' : products})
+

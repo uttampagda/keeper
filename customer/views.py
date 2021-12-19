@@ -254,3 +254,12 @@ def banner(request):
         'bannerr': bannerr,
     }
     return render(request, "customer/dashboard.html",data)
+
+def show_cat_product(request):
+    if request.method == 'GET':
+        category = request.GET.get('category')
+    show_pro=Product.objects.filter(product_category=category)
+    data = {
+        'show_pro': show_pro,
+    }
+    return render(request, "customer/categorysearch.html", data)
