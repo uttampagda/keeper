@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Shopkeeper | Retailers</title>
-    <link rel="stylesheet" href="{% static './retailer/style.css'%}">
+    <link rel="stylesheet" href="{% static 'sellers/css/style.css' %}">
 </head>
 
 <body>
@@ -48,7 +48,8 @@
         <div class="account-info-picture">
           <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8YWJzdHJhY3QlMjBwcm9maWxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="Account">
         </div>
-        <div class="account-info-name">Kshitij Nariya</div>
+
+        <div class="account-info-name">{{ seller_data.shopname }}</div>
 
         <div class="list-container">
           <button class="more-button" aria-label="Menu Button">
@@ -77,7 +78,7 @@
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
               </svg>
 
-              <span>Logout</span>
+              <a href="{% url 'sellerLogout' %}">Logout</a>
             </li>
           </ul>
         </div>
@@ -216,6 +217,8 @@
         </div>
       </div>
     </div>
+
+
     <div id="retailerorders" class="app-content">
       <div class="app-content-header">
         <h1 class="app-content-headerText">Orders</h1>
@@ -244,23 +247,26 @@
           <div class="orders-cell">Status</div>
           <div class="orders-cell">Amount</div>
         </div>
+
+          {% for order in new_orders %}
         <div class="list-container-main">
           <div class="products-row order-arrange">
           <div class="orders-cell order-id">#121254</div>
           <div class="orders-cell time"><span class="cell-label">Time:</span>Sep 10, 10:31 PM</div>
-          <div class="orders-cell cusname"><span class="cell-label">Name:</span>Kshitij Nariya</div>
+          <div class="orders-cell cusname"><span class="cell-label">{{ order.customer_id }}</span>Kshitij Nariya</div>
           <div class="orders-cell items"><span class="cell-label">Items:</span>11</div>
           <div class="orders-cell payment-cell">
             <span class="cell-label">Payment:</span>
-            <span class="status active">COD</span>
+            <span class="status active">{{ order.order_type}}</span>
           </div>
           <div class="orders-cell status-cell">
             <span class="cell-label">Status:</span>
             <span class="status active">Delivered</span>
           </div>
-          <div class="orders-cell amount"><span class="cell-label">Price:</span>$560</div>
+          <div class="orders-cell amount"><span class="cell-label">Price:</span>{{ order.ttl_amount }}</div>
         </div>
         </div>
+          {% endfor %}
 
 
       </div>
@@ -310,16 +316,17 @@
           <div class="products-cell">Status</div>
           <div class="products-cell">Edit</div>
         </div>
+
     {% for pro in products %}
 
         <div class="list-container-main">
           <div class="products-row products-arrange">
             <div class="products-cell image">
               <img src="{{ pro.product_image.url }}" width="50" height="50" alt="product">
-              <span>Ocean</span>
+              <span>{{ pro.product_name }}</span>
             </div>
-          <div class="products-cell category"><span class="cell-label">Category:</span>{{ product_category }}</div>
-          <div class="products-cell price"><span class="cell-label">Price:</span>{{ price }}</div>
+          <div class="products-cell category"><span class="cell-label">Category:</span>{{ pro.product_category }}</div>
+          <div class="products-cell price"><span class="cell-label">Price:</span>{{ pro.price }}</div>
           <div class="products-cell status-cell">
             <label class="status-switch">
               <input type=  "checkbox">
@@ -349,6 +356,12 @@
 
       </div>
     </div>
+
+
+
+
+
+
     <div id="addproducts" class="app-content">
       <div class="app-content-header">
         <div class="app-content-name-box">
@@ -360,21 +373,8 @@
           </button>
           <h1 class="app-content-headerText products">Add New Product</h1>
         </div>
-        <button onclick="addproducts()" class="app-content-headerButton">Add product</button>
       </div>
       <div class="addproducts-row two">
-        <div class="addproducts-row-wrapper small">
-          <div class="addproducts-container">
-            <div class="addproducts-container-header">
-              <h4>Navigation</h4>
-            </div>
-            <ul class="addproducts-container-list">
-              <li class="addproducts-list-text"><a href="#productdetails">Product Detail</a></li>
-              <li class="addproducts-list-text"><a href="#productimage">Product Images</a></li>
-              <li class="addproducts-list-text"><a href="#productsize">Sizes</a></li>
-            </ul>
-          </div>
-        </div>
         <div class="addproducts-row-wrapper big">
           <div id="productdetails" class="addproducts-container">
             <div class="addproducts-container-header">
@@ -391,10 +391,6 @@
               </div>
 
               <div class="w-100 d-flex justify-content-between">
-                <div class="w-50">
-                  <h5 class="addproducts-list-text">Product Quantity  <span>*</span></h5>
-                  <input type="text" placeholder="Enter quantity according to price"/>
-                </div>
                 <div class="w-50">
                   <h5 class="addproducts-list-text">Price (₹) <span>*</span></h5>
                   <input type="text" placeholder="Enter Price (₹)"/>
@@ -431,21 +427,6 @@
             <!-- End Upload Area -->
 
           </div>
-          <div id="productsize" class="addproducts-container">
-            <div class="w-100 d-flex justify-content-between addproducts-container-header">
-              <h4 class="align-self-center">Add Sizes</h4>
-              <button class="das-accept-order">Add Size</button>
-            </div>
-            <div class="addproducts-container-list">
-              <div class="w-50">
-                <div class="w-100 d-flex justify-content-between">
-                  <h5 class="addproducts-list-text">Total Available Items</h5>
-                  <h5 class="addproducts-list-text"><span>Remove</span></h5>
-                </div>
-                <input type="text" placeholder="Enter quantity"/>
-              </div>
-            </div>
-          </div>
           <div class="adproduct-ls-button">
             <button onclick="addproducts()" class="app-content-headerButton">Add product</button>
           </div>
@@ -455,10 +436,10 @@
     </div>
   </div>
 
-  <script  src="{% static 'retailer/script.js' %}"></script>
-  <script  src="{% static 'retailer/addimage.js'%}"></script>
+  <script  src="{% static 'sellers/js/script.js' %}"></script>
+  <script  src="{% static 'sellers/js/addimage.js'%}"></script>
   <script src='https://cdn.jsdelivr.net/npm/apexcharts@2.1.2'></script>
-  <script  src="{% static 'retailer/chart.js'%}"></script>
+  <script  src="{% static 'sellers/js/chart.js'%}"></script>
 
 </body>
 </html>
