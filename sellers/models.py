@@ -11,9 +11,6 @@ class Seller(models.Model):
     location = models.PointField(srid=4326, geography=True, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.credentials
-
 
 class Product(models.Model):
     product_name = models.CharField(max_length=300)
@@ -37,6 +34,6 @@ class Product(models.Model):
 
 class AllCategories(models.Model):
     category_name = models.CharField(max_length=100)
-
+    
     def __str__(self):
         return self.category_name

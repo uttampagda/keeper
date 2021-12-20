@@ -98,10 +98,10 @@ def sellerDashboard(request):
 
 def sellerLogout(request):
     logout(request)
-    return redirect('sellerLogin')
+    return redirect('sellerhome')
 
 def sellerhome(request):
-    return render(request,'seller/seller.html')
+    return render(request,'seller/home.html')
 
 @login_required(login_url='sellerLogin')
 def addproduct(request):
@@ -124,10 +124,11 @@ def addproduct(request):
             product_category = category
         )
         addproduct.save()
+
         print('saved')
         return redirect('sellerDashboard')
     allCategories = AllCategories.objects.all()
-    return render(request, 'seller/seller.html', {"allCategories" : allCategories})
+    return render(request, 'seller/addproduct.html', {"allCategories" : allCategories})
 
 @login_required(login_url='sellerLogin')
 def acceptOrder(request):
@@ -146,7 +147,7 @@ def acceptOrder(request):
         accepted_orders = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = True, is_rejected = False)
         rejected_order = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = False, is_rejected = True)
         print(new_orders, accepted_orders, rejected_order)
-        return render(request, 'seller/seller.html', {'seller_data':seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders, 'rejected_order': rejected_order})
+        return render(request, 'seller/dashboard.html', {'seller_data':seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders, 'rejected_order': rejected_order})
     else:
         redirect('sellerLogin')
 
@@ -174,18 +175,13 @@ def rejectOrder(request):
 
 @login_required(login_url='sellerLogin')
 def products(request):
-    if request.user.is_authenticated:
-        seller_data = Seller.objects.get(credentials_id=request.user.id)
-        products = Product.objects.filter(shopname = seller_data.shopname)
+    seller_data = Seller.objects.get(credentials_id=request.user.id)
+    products = Product.objects.filter(shopname = seller_data.shopname)
 
-        data = {
-            'seller_data' : seller_data,
-            'products' : products
-
-        }
-        return render(request, 'seller/seller.html', data)
-    else:
-        redirect('sellerLogin')
+    data = {
+        'products' : products
+    }
+    return render(request, 'seller/products.html', data)
 
 @login_required(login_url='sellerLogin')
 def editProducts(request):
@@ -241,4 +237,3 @@ def editProducts(request):
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         products = Product.objects.filter(shopname=seller_data.shopname)
         return render(request, 'seller/editProducts.html', {'products' : products})
-
