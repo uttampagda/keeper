@@ -14,6 +14,7 @@ class Seller(models.Model):
 
 class Product(models.Model):
     product_name = models.CharField(max_length=300)
+    product_disc = models.CharField(max_length=500)
     price = models.IntegerField()
     seller_cr = models.IntegerField()
     is_featured = models.BooleanField(default=False)
@@ -34,6 +35,6 @@ class Product(models.Model):
 
 class AllCategories(models.Model):
     category_name = models.CharField(max_length=100)
-    
+
     def __str__(self):
         return self.category_name

@@ -127,9 +127,8 @@ def addproduct(request):
         addproduct.save()
         print('saved')
         return redirect('sellerDashboard')
-    allCategories = AllCategories.objects.all()
-    print(allCategories)
-    return render(request, 'seller/seller.html', {"allCategories" : allCategories})
+
+    return render(request, 'seller/seller.html')
 
 @login_required(login_url='sellerLogin')
 def acceptOrder(request):
@@ -180,10 +179,13 @@ def products(request):
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         products = Product.objects.filter(shopname = seller_data.shopname)
 
+        allCategories = AllCategories.objects.all()
+        print(allCategories)
+
         data = {
             'seller_data' : seller_data,
-            'products' : products
-
+            'products' : products,
+            'allCategories' : allCategories
         }
         return render(request, 'seller/seller.html', data)
     else:
