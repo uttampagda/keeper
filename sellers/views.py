@@ -84,11 +84,12 @@ def sellerLogin(request):
 
 @login_required(login_url='sellerLogin')
 def sellerDashboard(request):
+    print(request.user.id)
     if request.user.is_authenticated:
         seller_data = Seller.objects.get(credentials_id = request.user.id)
         now = datetime.datetime.now()
         earlier = now - datetime.timedelta(hours=5)
-        new_orders = AllOrders.objects.filter(seller_id = request.user.id, created_date__range=(earlier, now), is_rejected = None).exclude(is_accepted = True)
+        new_orders = AllOrders.objects.filter(seller_id = request.user.id, created_date__range=(earlier, now), is_rejected = False).exclude(is_accepted = True)
         accepted_orders = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = True, is_rejected = False)
         rejected_order = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = False, is_rejected = True)
         print(new_orders, accepted_orders, rejected_order)
@@ -127,6 +128,7 @@ def addproduct(request):
         print('saved')
         return redirect('sellerDashboard')
     allCategories = AllCategories.objects.all()
+    print(allCategories)
     return render(request, 'seller/seller.html', {"allCategories" : allCategories})
 
 @login_required(login_url='sellerLogin')

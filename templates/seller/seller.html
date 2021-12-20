@@ -271,7 +271,7 @@
 
       </div>
     </div>
-    <div id="retailerproducts" class="app-content">
+  <div id="retailerproducts" class="app-content">
       <div class="app-content-header">
         <h1 class="app-content-headerText">Products</h1>
       </div>
@@ -357,12 +357,9 @@
       </div>
     </div>
 
-
-
-
-
-
     <div id="addproducts" class="app-content">
+      <form method="POST" action="{% url 'addproduct' %}" class="col-md-5 offset-1" enctype="multipart/form-data">
+        {% csrf_token %}
       <div class="app-content-header">
         <div class="app-content-name-box">
           <button onclick="retailerproducts()">
@@ -382,24 +379,29 @@
             </div>
             <div class="addproducts-container-list">
               <h5 class="addproducts-list-text">Product Name <span>*</span></h5>
-              <input type="text" placeholder="Enter product name"/>
+              <input type="text" name="product_name" placeholder="Enter product name"/>
 
 
               <div class="w-50">
                 <h5 class="addproducts-list-text">Product Category <span>*</span></h5>
-                <input type="text" placeholder="Enter product category"/>
+                <input type="text" name="product_category" placeholder="Enter product category"/>
               </div>
 
               <div class="w-100 d-flex justify-content-between">
                 <div class="w-50">
                   <h5 class="addproducts-list-text">Price (₹) <span>*</span></h5>
-                  <input type="text" placeholder="Enter Price (₹)"/>
+                  <input type="text" name="price" placeholder="Enter Price (₹)"/>
                 </div>
               </div>
 
+              <select name="category" id="category">
+                {% for category in allCategories %}
+                  <option value={{category.category_name}}>{{ category.category_name }}</option>
+                {% endfor %}
+              </select>
+
               <h5 class="addproducts-list-text">Product Description</h5>
               <textarea rows="1"></textarea>
-
             </div>
           </div>
           <div id="productimage" class="addproducts-container">
@@ -420,21 +422,20 @@
                 </span>
                 <span id="loadingText" class="prod-imgup__loading-text">Please Wait</span>
                 <img src="" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
-                <input type="file" id="fileInput" class="prod-imgup__file-input" accept="image/*">
+                <input type="file" id="fileInput" name="productImage" class="prod-imgup__file-input" accept="image/*">
               </div>
               <!-- End prodimgup -->
             </div>
             <!-- End Upload Area -->
-
-          </div>
-          <div class="adproduct-ls-button">
-            <button onclick="addproducts()" class="app-content-headerButton">Add product</button>
-          </div>
-
         </div>
+
+          <div class="adproduct-ls-button">
+            <button type="submit" class="app-content-headerButton">Add product</button>
+          </div>
       </div>
     </div>
-  </div>
+    </form>
+    </div>
 
   <script  src="{% static 'sellers/js/script.js' %}"></script>
   <script  src="{% static 'sellers/js/addimage.js'%}"></script>
