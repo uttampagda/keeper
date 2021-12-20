@@ -7,6 +7,8 @@ class Customer(models.Model):
     email = models.CharField(max_length=250,unique=True)
     phone = models.CharField(max_length=20,blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.username
 
 class CustAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

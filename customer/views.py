@@ -255,6 +255,7 @@ def banner(request):
     }
     return render(request, "customer/dashboard.html",data)
 
+
 def show_cat_product(request):
     if request.method == 'GET':
         category = request.GET.get('category')
