@@ -384,7 +384,11 @@
 
               <div class="w-50">
                 <h5 class="addproducts-list-text">Product Category <span>*</span></h5>
-                <input type="text" name="product_category" placeholder="Enter product category"/>
+                <select name="category" id="category">
+                {% for category in allCategories %}
+                  <option value={{category.category_name}}>{{ category.category_name }}</option>
+                {% endfor %}
+              </select>
               </div>
 
               <div class="w-100 d-flex justify-content-between">
@@ -394,16 +398,14 @@
                 </div>
               </div>
 
-              <select name="category" id="category">
-                {% for category in allCategories %}
-                  <option value={{category.category_name}}>{{ category.category_name }}</option>
-                {% endfor %}
-              </select>
+
 
               <h5 class="addproducts-list-text">Product Description</h5>
-              <textarea rows="1"></textarea>
+              <textarea name="product_disc" placeholder="Enter Description" rows="1"></textarea>
             </div>
           </div>
+
+
           <div id="productimage" class="addproducts-container">
             <div class="addproducts-container-header">
               <h4>Product Images</h4>

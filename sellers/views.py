@@ -113,7 +113,7 @@ def addproduct(request):
         price = request.POST['price']
         category = request.POST['category']
         product_image = request.FILES['productImage']
-
+        product_disc = request.POST['product_disc']
         seller_cr = request.user.id
         addproduct = Product(
             seller_cr=seller_cr,
@@ -122,7 +122,8 @@ def addproduct(request):
             location=seller_data.location,
             shopname=seller_data.shopname,
             product_image=product_image,
-            product_category = category
+            product_category = category,
+            product_disc=product_disc,
         )
         addproduct.save()
         print('saved')
