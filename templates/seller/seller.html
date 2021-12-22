@@ -218,7 +218,6 @@
       </div>
     </div>
 
-
     <div id="retailerorders" class="app-content">
       <div class="app-content-header">
         <h1 class="app-content-headerText">Orders</h1>
@@ -271,7 +270,8 @@
 
       </div>
     </div>
-  <div id="retailerproducts" class="app-content">
+
+    <div id="retailerproducts" class="app-content">
       <div class="app-content-header">
         <h1 class="app-content-headerText">Products</h1>
       </div>
@@ -358,87 +358,105 @@
     </div>
 
     <div id="addproducts" class="app-content">
-      <form method="POST" action="{% url 'addproduct' %}" class="col-md-5 offset-1" enctype="multipart/form-data">
-        {% csrf_token %}
+
       <div class="app-content-header">
         <div class="app-content-name-box">
           <button onclick="retailerproducts()">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
-              <line x1="19" y1="12" x2="5" y2="12"/>
-              <polyline points="12 19 5 12 12 5"/>
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
           </button>
           <h1 class="app-content-headerText products">Add New Product</h1>
         </div>
+          <button onclick="addproducts()" class="app-content-headerButton">Add product</button>
       </div>
-      <div class="addproducts-row two">
-        <div class="addproducts-row-wrapper big">
-          <div id="productdetails" class="addproducts-container">
-            <div class="addproducts-container-header">
-              <h4>Product Details</h4>
-            </div>
-            <div class="addproducts-container-list">
-              <h5 class="addproducts-list-text">Product Name <span>*</span></h5>
-              <input type="text" name="product_name" placeholder="Enter product name"/>
 
-
-              <div class="w-50">
-                <h5 class="addproducts-list-text">Product Category <span>*</span></h5>
-                <select name="category" id="category">
-                {% for category in allCategories %}
-                  <option value={{category.category_name}}>{{ category.category_name }}</option>
-                {% endfor %}
-              </select>
-              </div>
-
-              <div class="w-100 d-flex justify-content-between">
-                <div class="w-50">
-                  <h5 class="addproducts-list-text">Price (₹) <span>*</span></h5>
-                  <input type="text" name="price" placeholder="Enter Price (₹)"/>
+        <div class="addproducts-row two">
+            <div class="addproducts-row-wrapper small">
+              <div class="addproducts-container">
+                <div class="addproducts-container-header">
+                  <h4>Navigation</h4>
                 </div>
+                <ul class="addproducts-container-list">
+                  <li class="addproducts-list-text"><a href="#productdetails">Product Detail</a></li>
+                  <li class="addproducts-list-text"><a href="#productimage">Product Images</a></li>
+                  <li class="addproducts-list-text"><a href="#productsize">Sizes</a></li>
+                </ul>
               </div>
-
-
-
-              <h5 class="addproducts-list-text">Product Description</h5>
-              <textarea name="product_disc" placeholder="Enter Description" rows="1"></textarea>
-            </div>
-          </div>
-
-
-          <div id="productimage" class="addproducts-container">
-            <div class="addproducts-container-header">
-              <h4>Product Images</h4>
             </div>
 
-            <!-- Upload Area -->
-            <div id="uploadArea" class="upload-area">
-              <!-- prodimagup -->
-              <div id="dropZoon" class="upload-area__prod-imgup prod-imgup">
-                <span class="prod-imgup__icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                    <polyline points="21 15 16 10 5 21"/>
-                  </svg>
-                </span>
-                <span id="loadingText" class="prod-imgup__loading-text">Please Wait</span>
-                <img src="" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
-                <input type="file" id="fileInput" name="productImage" class="prod-imgup__file-input" accept="image/*">
-              </div>
-              <!-- End prodimgup -->
-            </div>
-            <!-- End Upload Area -->
+                <div class="addproducts-row-wrapper big">
+                <form method="POST" action="{% url 'addproduct' %}" class="col-md-5 offset-1" enctype="multipart/form-data">
+                    {% csrf_token %}
+                  <div id="productdetails" class="addproducts-container">
+                    <div class="addproducts-container-header">
+                      <h4>Product Details</h4>
+                    </div>
+                    <div class="addproducts-container-list">
+                      <h5 class="addproducts-list-text">Product Name <span>*</span></h5>
+                      <input type="text" name="product_name" placeholder="Enter product name"/>
+
+
+                      <div class="w-50">
+                        <h5 class="addproducts-list-text">Product Category <span>*</span></h5>
+                        <select name="category" id="category">
+                            {% for category in allCategories %}
+                              <option value="{{category.category_name}}">{{ category.category_name }}</option>
+                            {% endfor %}
+                        </select>
+                      </div>
+
+                      <div class="w-100 d-flex justify-content-between">
+                        <div class="w-50">
+                          <h5 class="addproducts-list-text">Price (₹) <span>*</span></h5>
+                          <input type="text" name="price" placeholder="Enter Price (₹)"/>
+                        </div>
+                      </div>
+
+
+
+                      <h5 class="addproducts-list-text">Product Description</h5>
+                      <textarea name="product_disc" rows="1"></textarea>
+                    </div>
+                  </div>
+
+                  <div id="productimage" class="addproducts-container">
+                    <div class="addproducts-container-header">
+                      <h4>Product Images</h4>
+                    </div>
+
+                    <!-- Upload Area -->
+                    <div id="uploadArea" class="upload-area">
+                      <!-- prodimagup -->
+                      <div id="dropZoon" class="upload-area__prod-imgup prod-imgup">
+                        <span class="prod-imgup__icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                          </svg>
+                        </span>
+                        <span id="loadingText" class="prod-imgup__loading-text">Please Wait</span>
+                        <img src="" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
+                        <input type="file" id="fileInput" name="productImage" class="prod-imgup__file-input" accept="image/*">
+                      </div>
+                      <!-- End prodimgup -->
+                    </div>
+                    <!-- End Upload Area -->
+                  </div>
+
+                  <div class="adproduct-ls-button">
+                      <button type="submit" class="app-content-headerButton">Add product</button>
+                  </div>
+                 </form>
+                </div>
+
         </div>
 
-          <div class="adproduct-ls-button">
-            <button type="submit" class="app-content-headerButton">Add product</button>
-          </div>
-      </div>
-    </div>
-    </form>
     </div>
 
+  </div>
   <script  src="{% static 'sellers/js/script.js' %}"></script>
   <script  src="{% static 'sellers/js/addimage.js'%}"></script>
   <script src='https://cdn.jsdelivr.net/npm/apexcharts@2.1.2'></script>
