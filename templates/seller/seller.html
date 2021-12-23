@@ -317,10 +317,14 @@
           <div class="products-cell">Edit</div>
         </div>
 
-    {% for pro in products %}
+
 
         <div class="list-container-main">
+            {% for pro in products %}
+                <form method="get" action="{% url 'editProducts' %}">
+              <input type="hidden" name="product_id" value={{ pro.id }}>
           <div class="products-row products-arrange">
+
             <div class="products-cell image">
               <img src="{{ pro.product_image.url }}" width="50" height="50" alt="product">
               <span>{{ pro.product_name }}</span>
@@ -336,10 +340,12 @@
           <div class="edit-button">
             <ul class="product-edit-button">
               <li class="product-edit-button-list">
+                  <button type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                   <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                </svg>
+                </svg></button>
+
               </li>
 
               <li class="product-edit-button-list delete">
@@ -349,10 +355,12 @@
               </li>
             </ul>
           </div>
-        </div>
 
         </div>
-     {% endfor %}
+                </form>
+        {% endfor %}
+        </div>
+
 
       </div>
     </div>
