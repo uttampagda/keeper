@@ -3,41 +3,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Seller Page</title>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, intial-scale=1, shrink-to-fit=no">
+    <title>Shopkeeper</title>
+
+	<!-- Custom CSS -->
+	<link href="{% static 'css/shop-details.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+
+
 </head>
-<body >
+<body>
+	<!-- Header -->
+    <header id="navbar" class="header_area">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light">
+				<div class="container-fluid d-flex justify-content-around">
+					<a class="navbar-brand logo_h" href="{% url 'home' %}"><img src="{% static 'customer/img/logo.svg'%}" alt="Shopkeeper"></a>
 
+					<div onclick="locationbutton()" class="location-container d-flex justify-content-between align-items-center c-pointer">
+						<img class="mr-2" src="{% static 'customer/img/icons/location.svg'%}" alt="">
+						<p class="m-0 ftsz-15 ftfmly-poppins ftweight-400">Select Your Address</p>
+						<i class="fa fa-angle-down ftsz-20 p-2"></i>
 
-<table border="1" style="padding: 3px;text-align: center" >
-<tr>
-    <th>Product name </th>
-    <th>Product price</th>
-</tr>
-{% for product in products %}
-    <div>
+						<div class="location-dropdown-content">
+									<div class="d-flex align-items-center dropdown-profile-padding">
+										<button class="button-padding detect-button c-pointer">Detect location</button>
+										<p class="pl-3 pr-3">- OR -</p>
+										<div class="search-box w-50">
+											<input class="ftsz-12 w-10" autocomplete="off" placeholder="Type your location">
+										</div>
+									</div>
+								</div>
+						</div>
 
+					<div class="d-flex w-45">
+{#						<div class="search-catagories">#}
+{#						  	<select>#}
+{#								<option value="0">All</option>#}
+{#								<option value="1">All</option>#}
+{#								<option value="2">Grocery</option>#}
+{#								<option value="3">Food</option>#}
+{#								<option value="4">Electronics</option>#}
+{#							</select>#}
+{#						</div>#}
+						<div class="search-box w-100"><input class="ftsz-12 w-100" autocomplete="off" placeholder="Search for products"></div>
+						<button class="search-box-icon c-pointer" type="submit"><i class="fa fa-search p-2 F4F6F6"></i></button>
+					</div>
 
-            <tr class="item">
-                <td>{{ product.product_name }}</td>
-                <td>{{ product.price }}</td>
-                <td><a href="#" data-name="{{ product.product_name }}" data-price="{{ product.price }}" data-proid="{{ product.id }}" class="add-to-cart btn btn-primary">Add to cart</a></td>
-            </tr>
+					<div onclick="profilebutton()" class="profile-container d-flex c-pointer">
+						<div class="profile-box mr-2"></div>
+						<div class="">
+							<p class="ftsz-12">Hello, {{ user.first_name }}</p>
+							<div class="d-flex">
+								<p class="ftsz-15 mr-1">Profile</p>
+								<i class="fa fa-caret-down"></i>
+								<div class="profile-dropdown-content">
+									<div class="d-flex align-items-center dropdown-profile-padding">
+										<div class="profile-box-2 mr-3"></div>
+										<div class="d-block">
+											<p class="ftsz-15 padding-tb2-5 black-0-8">Kshitij Nariya</p>
+											<p class="ftsz-12 black-0-8">knariya7422@gmail.com</p>
+										</div>
+									</div>
+									<div class="divider-border"></div>
+									<div class="dropdown-hover dropdown-profile-padding">
+										<p>My Orders</p>
+									</div>
+									<div class="divider-border"></div>
+									<a href="{% url 'custLogout' %}" class="dropdown-hover d-flex align-items-center dropdown-profile-padding">
+										<div class="logout-svg mr-2"></div>
+										<p>Log Out</p>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
 
-    </div>
-{% endfor %}
-</table>
-<br>
+					<a href="{% url 'cart' %}" class="cart-box d-flex c-pointer"><i class="fa fa-shopping-cart ftsz-20 p-2"></i><p class="align-self-center pr-2" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</p></a>
 
+				</div>
+			</nav>
+		</div>
+	</header>
+	<!-- End Header -->
 
+	<div class="main-container">
+		<div id="topcon" class="container top-con">
+			<div>
+				<h1 class="shop-name">McDonald's</h1>
+				<p class="shop-categories">Burger, Fast Food, Beverages</p>
+				<p class="shop-location">Manjalpur, Vadodara</p>
+					<p></p>
+			</div>
+		</div>
 
+		<div class="container">
+			<div class="prod-container">
+				<div class="categories-container">
+					<h4 class="categories-text">Meals</h4>
+				</div>
+				<div class="product-container">
+					<h2 class="product-title">Meals</h2>
+                    {% for product in products %}
+                        <div class="prod-cat-con">
+                            <div class="product-image-box">
+                                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80">
+                            </div>
+                            <div class="prod-details-con">
+                                <h6 class="product-name">{{ product.product_name }}</h6>
+                                <p class="product-price">₹{{ product.price }}</p>
+                                <p class="product-description">{{ product.disc }}</p>
+                            </div>
+                            <div class="addtocartbutton">
+                                <a href="#" class="add-button" data-name="{{ product.product_name }}" data-price="{{ product.price }}" data-proid="{{ product.id }}">ADD <span> +</span></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+				</div>
 
-<a href="{% url 'cart' %}" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</a>
+			</div>
+		</div>
+	</div>
 
-
-<script src="{% static "js/cart.js" %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+	<script src="{% static 'js/dropdown.js' %}"></script>
+	<script src="{% static 'js/JQuary.js' %}"></script>
+	<script src="{% static 'js/_bootstrap.js' %}"></script>
+    <script src="{% static "js/cart.js" %}"></script>
 </body>
 </html>
 {% endblock %}

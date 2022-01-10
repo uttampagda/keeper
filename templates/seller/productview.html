@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div id="retailerproducts" class="app-content">
+          <div class="app-content-header">
+            <h1 class="app-content-headerText">Products</h1>
+          </div>
+          <div class="app-content-actions">
+            <input class="search-bar" placeholder="Search..." type="text">
+            <div class="app-content-actions-wrapper">
+              <div class="filter-button-wrapper">
+                <button class="action-button filter jsFilter"><span>Filter</span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-filter"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
+                <div class="filter-menu">
+                  <label>Category</label>
+                  <select>
+                      <option value="all">All Categories</option>
+                    {% for category in allCategories %}
+                        <option value="{{category.category_name}}">{{ category.category_name }}</option>
+                    {% endfor %}
+                  </select>
+                  <label>Status</label>
+                  <select>
+                    <option>All Status</option>
+                    <option>Active</option>
+                    <option>Disabled</option>
+                  </select>
+                  <div class="filter-menu-buttons">
+                    <button class="filter-button reset">
+                      Reset
+                    </button>
+                    <button class="filter-button apply">
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <a href="{% url 'addproduct' %}" onclick="addproducts()" class="app-content-headerButton">Add new  product</a>
+            </div>
+
+          </div>
+          <div class="products-area-wrapper tableView">
+            <div class="products-header products-arrange">
+              <div class="products-cell">Product</div>
+              <div class="products-cell">Category</div>
+              <div class="products-cell">Price</div>
+              <div class="products-cell">Status</div>
+              <div class="products-cell">Edit</div>
+            </div>
+
+
+
+            <div class="list-container-main">
+                {% for pro in products %}
+                    <form method="get" action="{% url 'editProducts' %}">
+                  <input type="hidden" name="product_id" value={{ pro.id }}>
+              <div class="products-row products-arrange">
+
+                <div class="products-cell image">
+                  <img src="{{ pro.product_image.url }}" width="50" height="50" alt="product">
+                  <span>{{ pro.product_name }}</span>
+                </div>
+              <div class="products-cell category"><span class="cell-label">Category:</span>{{ pro.product_category }}</div>
+              <div class="products-cell price"><span class="cell-label">Price:</span>₹{{ pro.price }}</div>
+              <div class="products-cell status-cell">
+                <label class="status-switch">
+                  <input type=  "checkbox">
+                  <span class="status-slider round"></span>
+                </label>
+              </div>
+              <div class="edit-button">
+                <ul class="product-edit-button">
+                  <li class="product-edit-button-list">
+                      <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg></button>
+
+                  </li>
+
+                  <li class="product-edit-button-list delete">
+                    <svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash">
+                      <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+                    </form>
+            {% endfor %}
+            </div>
+
+          </div>
+        </div>
+
+    <script>
+        document.querySelector(".jsFilter").addEventListener("click", function () {
+          document.querySelector(".filter-menu").classList.toggle("active");
+        });
+    </script>
+{% endblock %}

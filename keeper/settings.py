@@ -15,11 +15,11 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# GDAL_LIBRARY_PATH = r"C:\Users\Meet\Desktop\ALL_PROJECTS\keeper\sp\Lib\site-packages\osgeo\gdal302.dll"
-# GEOS_LIBRARY_PATH = r'C:\Users\Meet\Desktop\ALL_PROJECTS\keeper\sp\Lib\site-packages\osgeo\geos_c.dll'
-
-GDAL_LIBRARY_PATH = r"/Library/Frameworks/GDAL.framework/Versions/3.2/GDAL"
-GEOS_LIBRARY_PATH = r'/Library/Frameworks/GEOS.framework/Versions/3D/GEOS'
+GDAL_LIBRARY_PATH = r"C:\Users\kpnar\PycharmProjects\keeper1\venv\Lib\site-packages\osgeo\gdal303.dll"
+GEOS_LIBRARY_PATH = r'C:\Users\kpnar\PycharmProjects\keeper1\venv\Lib\site-packages\osgeo\geos_c.dll'
+#
+# GDAL_LIBRARY_PATH = r"/Library/Frameworks/GDAL.framework/Versions/3.2/GDAL"
+# GEOS_LIBRARY_PATH = r'/Library/Frameworks/GEOS.framework/Versions/3D/GEOS'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -89,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '1234',
+        'PASSWORD': '12345',
         'HOST': 'localhost',
         'PORT': '5432',
     }

@@ -10,7 +10,8 @@ class Seller(models.Model):
     phone = models.CharField(max_length=20,blank=True,null=True)
     location = models.PointField(srid=4326, geography=True, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-
+    def __str__(self):
+        return self.shopname
 
 class Product(models.Model):
     product_name = models.CharField(max_length=300)

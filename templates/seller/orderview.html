@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div id="retailerorders" class="app-content">
+          <div class="app-content-header">
+            <h1 class="app-content-headerText">Orders</h1>
+          </div>
+          <div class="app-content-actions">
+            <input class="search-bar" placeholder="Search..." type="text">
+            <div class="app-content-actions-wrapper">
+              <div class="">
+                <button class="order-toggle-button">All</button>
+                <button class="order-toggle-button">Pending</button>
+                <button class="order-toggle-button">Accepted</button>
+                <button class="order-toggle-button">Shipped</button>
+                <button class="order-toggle-button">Delivered</button>
+                <button class="order-toggle-button">Rejected</button>
+                <button class="order-toggle-button">Cancelled</button>
+              </div>
+            </div>
+          </div>
+          <div class="orders-area-wrapper tableView">
+            <div class="products-header order-arrange">
+              <div class="orders-cell">Order ID</div>
+              <div class="orders-cell">Time</div>
+              <div class="orders-cell">Customer Name</div>
+              <div class="orders-cell">Items</div>
+              <div class="orders-cell">Payment</div>
+              <div class="orders-cell">Status</div>
+              <div class="orders-cell">Amount</div>
+            </div>
+
+
+            <div class="list-container-main">
+                {% for order in accepted_orders %}
+              <div class="products-row order-arrange">
+                  <div class="orders-cell order-id">{{ oder.id }}</div>
+                  <div class="orders-cell time"><span class="cell-label">Time:</span>Sep 10, 10:31 PM</div>
+                  <div class="orders-cell cusname"><span class="cell-label">{{ order.customer_id }}</span>Kshitij Nariya</div>
+                  <div class="orders-cell items"><span class="cell-label">Items:</span>11</div>
+                  <div class="orders-cell payment-cell">
+                    <span class="cell-label">Payment:</span>
+                    <span class="status active">{{ order.order_type}}</span>
+                  </div>
+                  <div class="orders-cell status-cell">
+                    <span class="cell-label">Status:</span>
+                    <span class="status active">Delivered</span>
+                  </div>
+                  <div class="orders-cell amount"><span class="cell-label">Price:</span>{{ order.ttl_amount }}</div>
+                </div>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+
+{% endblock %}

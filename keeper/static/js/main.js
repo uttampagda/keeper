@@ -14,3 +14,35 @@ function myFunction() {
     navbar.classList.remove("sticky");
   }
 }
+
+function locationbutton() {
+  const a = document.querySelector('.location-dropdown-content');
+  const b = a.style.visibility;
+  if (b === 'visible')
+  {
+    a.style.visibility = "hidden";
+    a.style.opacity = "0";
+    a.style.transform = "translateY(1rem)";
+  }
+  else {
+    a.style.visibility = "visible";
+    a.style.opacity = "1";
+    a.style.transform = "translateY(0)";
+  }
+}
+
+function profilebutton() {
+  const a = document.querySelector('.profile-dropdown-content');
+  const b = a.style.visibility;
+  if (b === 'visible')
+  {
+    a.style.visibility = "hidden";
+    a.style.opacity = "0";
+    a.style.transform = "translateY(1rem)";
+  }
+  else {
+    a.style.visibility = "visible";
+    a.style.opacity = "1";
+    a.style.transform = "translateY(0)";
+  }
+}

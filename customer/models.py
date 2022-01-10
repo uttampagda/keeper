@@ -8,6 +8,9 @@ class Customer(models.Model):
     phone = models.CharField(max_length=20,blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.username
+
 class CustAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     location = models.PointField(srid=4326, geography=True, blank=True, null=True)

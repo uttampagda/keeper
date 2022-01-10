@@ -201,9 +201,10 @@ def confirm(request):
         total = request.POST.get('total')
         print(name, list_of_orders, total, order_type, pick_up_time)
         amount = int(total)*100
-        return render(request, 'customer/checkout.html', {'list_of_orders':list_of_orders, 'name':name, 'total':int(total), 'amount':amount, 'order_type':order_type, 'pick_up_time':pick_up_time})
+        return render(request, 'customer/checkout.html', {'list_of_orders':list_of_orders, 'name':name, 'total':int(total), 'amount':int(amount), 'order_type':order_type, 'pick_up_time':pick_up_time})
     else:
         return render(request, 'customer/cart.html')
+
 
 def checkout(request):
     if request.method == "POST":

@@ -129,7 +129,9 @@ a {
     display: none;
   }
 }
-
+#sellerdash {
+  width: 100%;
+}
 .account-info {
   display: flex;
   align-items: center;
@@ -318,9 +320,6 @@ a {
 /*************************
         Products
 *************************/
-#retailerproducts {
-  display: none;
-}
 .app-content {
   padding: 16px;
   background-color: var(--app-bg);
@@ -351,11 +350,11 @@ a {
   background-color: var(--action-color);
   color: #fff;
   font-size: 16px;
-  line-height: 24px;
-  border: none;
   border-radius: 8px;
-  height: 37px;
-  padding: 0 34px;
+  padding: 6px 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: 0.2s;
   cursor: pointer;
 }
@@ -1452,13 +1451,15 @@ button {
   width: 18px;
   height: 18px;
 }
-.more-button-list-item span {
+.more-button-list-item span  {
   display: inline-block;
   line-height: 20px;
   font-size: 14px;
   margin-left: 8px;
 }
-
+.more-button-list-item a:hover {
+  color: var(--action-color-hover);
+}
 @-webkit-keyframes fadeInItem {
   100% {
     transform: translatex(0px);
@@ -1520,9 +1521,6 @@ button {
 }
 
 /******** Add products **********/
-#addproducts {
-  display: none;
-}
 .addproducts-row {
   display: flex;
   justify-content: space-between;

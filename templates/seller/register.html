@@ -17,15 +17,15 @@
                 {% csrf_token %}
                 <h1 class="reg-title">Create Account</h1>
                 <div class="input-devide">
-                    <input name="shopname" class="form-control" placeholder="Enter shop name">
-                    <input name="username" class="form-control" placeholder="Username">
+                    <input name="shopname" class="form-control" placeholder="Enter shop name" required>
+                    <input name="username" class="form-control" placeholder="Username" required>
                     <input type="hidden" name="first_name" class="form-control" placeholder="FirstName">
                     <input type="hidden" name="last_name" class="form-control" placeholder="LastName">
                 </div>
-                <input name="email" type="email" class="form-control" placeholder="Email Address">
-                <input name="phone" class="form-control" placeholder="Phone no.">
-                <input name="password" type="password" class="form-control" placeholder="Password">
-                <input name="confirm_password" type="password" class="form-control" placeholder="Confirm Password">
+                <input name="email" type="email" class="form-control" placeholder="Email Address" required>
+                <input name="phone" class="form-control" placeholder="Phone no." required>
+                <input name="password" type="password" class="form-control" placeholder="Password" required>
+                <input name="confirm_password" type="password" class="form-control" placeholder="Confirm Password" required>
                 <button type="submit">Sign Up</button>
                 <div>
                     <p>Already have an account? <a href="{% url 'sellerLogin' %}">Sign in</a></p>

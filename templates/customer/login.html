@@ -1,76 +1,51 @@
 
 {% load static %}
-
 {% block content %}
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-	<meta charset="utf-8">
-	<meta name="author" content="Kodinger">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>My Login Page</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="{% static 'sellers/css/seller_login.css' %}">
+    <title>Login as customer</title>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+
 </head>
+<body>
 
-<body class="my-login-page">
-	<section class="h-100">
-		<div class="container h-100">
-			<div class="row justify-content-md-center h-100">
-				<div class="card-wrapper">
-					<div class="brand">
+<div class="container" id="container">
+        <div class="form-container cus-sign-up-container">
+            <form method="POST" action="{% url 'custLogin' %}" class="col-md-5 offset-1">
+                {% csrf_token %}
+                <h1 class="reg-title ">Welcome back!</h1>
+                <input id="username" name="username" value="" placeholder="Username" required>
+                <input id="password" type="password" name="password" placeholder="Password" required data-eye>
+                <div class="input-devide">
+                    <p></p>
+                    <a href="">Forgot password</a>
+                </div>
+                <button type="submit">Sign in</button>
+                <div>
+                    <p>Don't have an account? <a href="{% url 'custRegister' %}">Register</a></p>
+                </div>
+        </div>
+        <div class="cus-overlay-container">
+            <div class="overlay cus-poster"></div>
+        </div>
+    {% if messages %}
+             <ul class="messages">
+                 {% for message in messages %}
+                     <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+                 {% endfor %}
+             </ul>
+         {% endif %}
+    </div>
 
-					</div>
-					<div class="card fat">
-						<div class="card-body">
-							<h4 class="card-title">Login</h4>
-							<form  method="POST" action="{% url 'custLogin' %}" class="my-login-validation" novalidate="">
-								 {% csrf_token %}
-                                <div class="form-group">
-									<label for="email">username</label>
-									<input id="username" type="email" class="form-control" name="username" value="" required autofocus>
-									<div class="invalid-feedback">
-										Email is invalid
-									</div>
-								</div>
 
-								<div class="form-group">
-									<label for="password">Password
-										<a href="forgot.html" class="float-right">
-											Forgot Password?
-										</a>
-									</label>
-									<input id="password" type="password" class="form-control" name="password" required data-eye>
-								    <div class="invalid-feedback">
-								    	Password is required
-							    	</div>
-								</div>
-
-								<div class="form-group">
-									<div class="custom-checkbox custom-control">
-										<input type="checkbox" name="remember" id="remember" class="custom-control-input">
-										<label for="remember" class="custom-control-label">Remember Me</label>
-									</div>
-								</div>
-
-								<div class="form-group m-0">
-									<button type="submit" class="btn btn-primary btn-block">
-										Login
-									</button>
-								</div>
-								<div class="mt-4 text-center">
-									Don't have an account? <a href=" {% url 'custRegister' %}" >Create One</a>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<script src="{% static 'js/cart.js' %}"></script>
 </body>
 </html>
+
+
 {% endblock %}

@@ -25,10 +25,12 @@ p{
 }
 
 a {
+  color: black;
   text-decoration: none;
   transition: all 0.3s ease-in-out; }
 
 a:hover, a:focus {
+  color: #0c5460;
   text-decoration: none;
   outline: none;
 }
@@ -148,7 +150,7 @@ input {
   transition: background 0.4s, all 0.3s linear;
 }
 .sticky {
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
 }
@@ -203,11 +205,6 @@ input {
   background-color: #ddd;
 }
 
-.location-container:hover .location-dropdown-content {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
-}
 
 .detect-button {
   background-color: #048782;
@@ -235,7 +232,7 @@ input {
 .profile-box {
   width: 34px;
   height: 34px;
-  background: #048782 url('../img/profile.jpg') center;
+  background: #048782 url('../customer/img/profile.jpg') center;
   filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.25));
   border-radius: 3px;
 }
@@ -243,7 +240,7 @@ input {
 .profile-box-2 {
   width: 47px;
   height: 47px;
-  background: #048782 url('../img/profile.jpg') center;
+  background: #048782 url('../customer/img/profile.jpg') center;
   filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.25));
   border-radius: 3px;
 }
@@ -282,16 +279,10 @@ input {
   background-color: #ddd;
 }
 
-.profile-container:hover .profile-dropdown-content {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .logout-svg {
   width: 12px;
   height: 12px;
-  background: url("../img/icons/logout-svg.svg");
+  background: url("../customer/img/icons/logout-svg.svg");
 }
 
 .search-catagories {
@@ -377,19 +368,19 @@ input {
 }
 
 .banner-img1 {
-  background: url("../img/homepage-main-baner1.jpg");
+  background: url("../customer/img/homepage-main-baner1.jpg");
   background-size: contain;
   border-radius: 7px;
 }
 
 .banner-img2 {
-  background: url("../img/index.jpg");
+  background: url("../customer/img/index.jpg");
   background-size: contain;
   border-radius: 7px;
 }
 
 .banner-img3 {
-  background: url("../img/homepage-main-baner1.jpg");
+  background: url("../customer/img/homepage-main-baner1.jpg");
   background-size: contain;
   border-radius: 7px;
 }
@@ -403,7 +394,7 @@ input {
   height: 100%;
   background: black;
   border-radius: 7px;
-  background: url("../img/Online Grocery Shopping-Buy grocery online.jpg");
+  background: url("../customer/img/Online Grocery Shopping-Buy grocery online.jpg");
   background-size: cover;
 }
 

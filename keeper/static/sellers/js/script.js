@@ -1,53 +1,10 @@
 //filter button
-document.querySelector(".jsFilter").addEventListener("click", function () {
-  document.querySelector(".filter-menu").classList.toggle("active");
-});
+
 //profile button
 document.querySelector('.more-button').addEventListener('click', function () {
     document.querySelector('.list-container').classList.toggle('active');
 });
 
-
-function retailerdashboard() {
-  document.getElementById("retailerproducts").style.display = "none";
-  document.getElementById("retailerorders").style.display = "none";
-  document.getElementById("addproducts").style.display = "none";
-  document.getElementById("retailerdashboard").style.display = "block";
-
-  document.getElementById("active2").classList.remove("active");
-  document.getElementById("active3").classList.remove("active");
-  document.getElementById("active1").classList.add("active");
-}
-function retailerorders() {
-	document.getElementById("retailerdashboard").style.display = "none";
-  	document.getElementById("retailerproducts").style.display = "none";
-	  document.getElementById("addproducts").style.display = "none";
-  	document.getElementById("retailerorders").style.display = "block";
-
-	document.getElementById("active1").classList.remove("active");
-	document.getElementById("active3").classList.remove("active");
-	document.getElementById("active2").classList.add("active");
-}
-function retailerproducts() {
-	document.getElementById("retailerdashboard").style.display = "none";
-  	document.getElementById("retailerorders").style.display = "none";
-	  document.getElementById("addproducts").style.display = "none";
-  	document.getElementById("retailerproducts").style.display = "block";
-
-	document.getElementById("active1").classList.remove("active");
-	document.getElementById("active2").classList.remove("active");
-	document.getElementById("active3").classList.add("active");
-}
-function addproducts() {
-	document.getElementById("retailerdashboard").style.display = "none";
-  	document.getElementById("retailerorders").style.display = "none";
-  	document.getElementById("retailerproducts").style.display = "none";
-  	document.getElementById("addproducts").style.display = "block";
-
-	document.getElementById("active1").classList.remove("active");
-	document.getElementById("active2").classList.remove("active");
-	document.getElementById("active3").classList.add("active");
-}
 /*********************Dashboard*********************/
 
 var chart    = document.getElementById('chart').getContext('2d'),
