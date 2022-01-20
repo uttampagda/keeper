@@ -1,35 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>edit it</title>
-</head>
+{% extends 'seller/base.html' %}
 {% block content %}
 
-<body>
-
-<div class="row">
-      <form method="POST" action="{% url 'editProducts' %}" class="col-md-5 offset-1">
-        {% csrf_token %}
-          <div class="form-group">
-              <input type="hidden" name="product_id" value={{ product_to_be_edit.id }}>
-          </div>
-          <div class="form-group">
-              <input name="product_name" class="form-control" placeholder="Product name" value="{{ product_to_be_edit.product_name }}">
-          </div>
-          <div class="form-group">
-              <input name="price" class="form-control" placeholder="Price" value="{{ product_to_be_edit.price }}">
-          </div>
-          <div class="form-group">
-              <input name="is_featured" class="form-control" placeholder="is_featured" value="{{ product_to_be_edit.is_featured }}">
+<div id="editproducts" class="app-content">
+          <div class="app-content-header">
+            <div class="app-content-name-box">
+              <a href="{% url 'products' %}" onclick="retailerproducts()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </a>
+              <h1 class="app-content-headerText products">Edit product</h1>
+            </div>
           </div>
 
-        <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">Save Product</button>
+            <div class="addproducts-row two">
+                <div class="addproducts-row-wrapper small">
+                  <div class="addproducts-container">
+                    <div class="addproducts-container-header">
+                      <h4>Navigation</h4>
+                    </div>
+                    <ul class="addproducts-container-list">
+                      <li class="addproducts-list-text"><a href="#productdetails">Product Detail</a></li>
+                      <li class="addproducts-list-text"><a href="#productimage">Product Images</a></li>
+                    </ul>
+                  </div>
+                </div>
 
-      </form>
-    </div>
+                    <div class="addproducts-row-wrapper big">
+                    <form method="POST" action="{% url 'editProducts' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                      <div id="productdetails" class="addproducts-container">
+                        <div class="addproducts-container-header">
+                          <h4>Product Details</h4>
+                        </div>
+                        <div class="addproducts-container-list">
+                          <h5 class="addproducts-list-text">Product Name <span>*</span></h5>
+                          <input type="hidden" name="product_id" value={{ product_to_be_edit.id }}>
+                          <input name="product_name" placeholder="Product name" value="{{ product_to_be_edit.product_name }}">
 
-</body>
+                          <div class="w-50">
+                            <h5 class="addproducts-list-text">Product Category <span>*</span></h5>
+                            <select name="category" id="category">
+                                {% for category in allCategories %}
+                                    <option value="{{category.category_name}}" {% if product_to_be_edit.product_category == category.category_name %} selected {% endif %}>{{ category.category_name }}</option>
+                                {% endfor %}
+                            </select>
+                          </div>
+
+                          <div class="w-100 d-flex justify-content-between">
+                            <div class="w-50">
+                              <h5 class="addproducts-list-text">Price (₹) <span>*</span></h5>
+                              <input type="text" name="price" placeholder="Enter Price (₹)" value="{{ product_to_be_edit.price }}">
+                            </div>
+                          </div>
+
+                          <h5 class="addproducts-list-text">Product Description</h5>
+                          <textarea name="product_disc" rows="1">{{ product_to_be_edit.product_disc }}</textarea>
+                        </div>
+                      </div>
+
+                      <div id="productimage" class="addproducts-container">
+                        <div class="addproducts-container-header">
+                          <h4>Product Images</h4>
+                        </div>
+
+                        <!-- Upload Area -->
+                        <div id="uploadArea" class="upload-area">
+                          <!-- prodimagup -->
+                          <div id="dropZoon" class="upload-area__prod-imgup prod-imgup">
+                            <span class="prod-imgup__icon">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                              </svg>
+                            </span>
+                            <span id="loadingText" class="prod-imgup__loading-text">Please Wait</span>
+                            <img src="" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
+                            <input type="file" id="fileInput" name="productImage" class="prod-imgup__file-input" accept="image/*" >
+                          </div>
+                          <!-- End prodimgup -->
+                        </div>
+                        <!-- End Upload Area -->
+                      </div>
+                        <button type="submit" class="app-content-headerButton">Save edit</button>
+                     </form>
+                    </div>
+
+            </div>
+
+        </div>
+
 {% endblock %}
 
-</html>
+

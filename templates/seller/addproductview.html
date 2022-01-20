@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "seller/base.html" %}
 {% block content %}
 
 <div id="addproducts" class="app-content">
@@ -12,7 +12,6 @@
               </a>
               <h1 class="app-content-headerText products">Add New Product</h1>
             </div>
-              <button onclick="addproducts()" class="app-content-headerButton">Add product</button>
           </div>
 
             <div class="addproducts-row two">
@@ -29,7 +28,7 @@
                 </div>
 
                     <div class="addproducts-row-wrapper big">
-                    <form method="POST" action="{% url 'addproduct' %}" class="col-md-5 offset-1" enctype="multipart/form-data">
+                    <form method="POST" action="{% url 'addproduct' %}" enctype="multipart/form-data">
                         {% csrf_token %}
                       <div id="productdetails" class="addproducts-container">
                         <div class="addproducts-container-header">
@@ -37,7 +36,7 @@
                         </div>
                         <div class="addproducts-container-list">
                           <h5 class="addproducts-list-text">Product Name <span>*</span></h5>
-                          <input type="text" name="product_name" placeholder="Enter product name"/>
+                          <input name="product_name" placeholder="Enter product name"/>
 
                           <div class="w-50">
                             <h5 class="addproducts-list-text">Product Category <span>*</span></h5>
@@ -51,7 +50,7 @@
                           <div class="w-100 d-flex justify-content-between">
                             <div class="w-50">
                               <h5 class="addproducts-list-text">Price (₹) <span>*</span></h5>
-                              <input type="text" name="price" placeholder="Enter Price (₹)"/>
+                              <input name="price" placeholder="Enter Price (₹)"/>
                             </div>
                           </div>
 
@@ -84,7 +83,7 @@
                         </div>
                         <!-- End Upload Area -->
                       </div>
-
+                        <button type="submit" class="app-content-headerButton">Add product</button>
                      </form>
                     </div>
 

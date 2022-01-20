@@ -112,7 +112,7 @@ def sellerLogout(request):
     logout(request)
     return redirect('sellerLogin')
 
-
+@login_required(login_url='sellerLogin')
 def sellerhome(request):
     return render(request, 'seller/seller.html')
 
@@ -142,10 +142,9 @@ def addproduct(request):
 
         addproduct.save()
         print('saved')
-        return redirect('sellerDashboard')
+        return redirect('products')
 
     allCategories = AllCategories.objects.all()
-    print(allCategories)
 
     data = {
         'allCategories': allCategories
@@ -171,7 +170,7 @@ def acceptOrder(request):
         accepted_orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
         rejected_order = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
         print(new_orders, accepted_orders, rejected_order)
-        return render(request, 'seller/seller.html',
+        return render(request, 'seller/orderview.html',
                       {'seller_data': seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders,
                        'rejected_order': rejected_order})
     else:
@@ -196,7 +195,7 @@ def rejectOrder(request):
         accepted_orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
         rejected_order = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
         print(new_orders, accepted_orders, rejected_order)
-        return render(request, 'seller/dashboard.html',
+        return render(request, 'seller/orderview.html',
                       {'seller_data': seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders,
                        'rejected_order': rejected_order})
     else:
@@ -234,47 +233,22 @@ def editProducts(request):
             data = {
                 'products': products
             }
-            return render(request, 'seller/editProducts.html', data)
+            return render(request, 'seller/productview.html', data)
+
         product_to_be_edit = Product.objects.get(id=product_id)
-        return render(request, 'seller/editProduct.html', {'product_to_be_edit': product_to_be_edit})
+        allCategories = AllCategories.objects.all()
+        return render(request, 'seller/editProduct.html', {'product_to_be_edit': product_to_be_edit, 'allCategories': allCategories})
+
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
         product_to_be_edit = Product.objects.get(id=product_id)
 
         product_to_be_edit.product_name = request.POST.get('product_name')
         product_to_be_edit.price = request.POST.get('price')
-        product_to_be_edit.is_featured = request.POST.get('is_featured')
+        product_to_be_edit.product_category = request.POST.get('category')
+        product_to_be_edit.product_disc = request.POST.get('product_disc')
         product_to_be_edit.save()
 
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         products = Product.objects.filter(shopname=seller_data.shopname)
-        return render(request, 'seller/editProducts.html', {'products': products})
-
-
-@login_required(login_url='sellerLogin')
-def editProducts(request):
-    if request.method == 'GET':
-        product_id = request.GET.get('product_id')
-
-        if product_id is None:
-            seller_data = Seller.objects.get(credentials_id=request.user.id)
-            products = Product.objects.filter(shopname=seller_data.shopname)
-
-            data = {
-                'products': products
-            }
-            return render(request, 'seller/editProducts.html', data)
-        product_to_be_edit = Product.objects.get(id=product_id)
-        return render(request, 'seller/editProduct.html', {'product_to_be_edit': product_to_be_edit})
-    if request.method == 'POST':
-        product_id = request.POST.get('product_id')
-        product_to_be_edit = Product.objects.get(id=product_id)
-
-        product_to_be_edit.product_name = request.POST.get('product_name')
-        product_to_be_edit.price = request.POST.get('price')
-        product_to_be_edit.is_featured = request.POST.get('is_featured')
-        product_to_be_edit.save()
-
-        seller_data = Seller.objects.get(credentials_id=request.user.id)
-        products = Product.objects.filter(shopname=seller_data.shopname)
-        return render(request, 'seller/editProducts.html', {'products': products})
+        return render(request, 'seller/productview.html', {'products': products})
