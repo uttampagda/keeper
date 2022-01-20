@@ -51,6 +51,7 @@ def custRegister(request):
                         username=username,
                         email=email,
                         phone=phone,
+
                     )
                     user.save()
                     messages.success(request, 'Account created successfully')
@@ -139,7 +140,6 @@ def searchProductNearBY(request):
         return render(request, 'customer/dashboard.html', {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
 
 
-
 def custLogout(request):
     logout(request)
     return redirect('custhome')
@@ -210,10 +210,10 @@ def confirm(request):
 def checkout(request):
     if request.method == "POST":
         order_type = request.POST.get('order_type')
-        pick_up_time = request.POST.get('pick_up_time')
+        pick_up_date = request.POST.get('pick_up_date')
 
-        if pick_up_time == '':
-            pick_up_time = None
+        if pick_up_date == '':
+            pick_up_date = None
 
         amount = request.POST.get('total').replace('/', '')
         list_of_orders = request.POST.get('list_of_orders').replace('/', '')
@@ -238,7 +238,8 @@ def checkout(request):
             is_accepted=False,
             is_rejected=False,
             order_type = order_type,
-            pickup_date= pick_up_time
+            pickup_date = pick_up_date
+
         )
         new_order.save()
         return render(request, "success.html")

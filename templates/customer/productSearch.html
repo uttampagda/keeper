@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Product Search</title>
-</head>
+{% extends "customer/base.html" %}
 {% block content %}
-<body>
 
 <form method="post" action="{% url 'searchProductNearBY' %}" class="col-md-5 offset-md-1">
       {% csrf_token %}
@@ -39,7 +33,4 @@
 {% endfor %}
 
 
-
-</body>
 {% endblock %}
-</html>

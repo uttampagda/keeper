@@ -1,13 +1,6 @@
-{% load static %}
+{% extends "customer/base.html" %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>CONFIRM PAYMENT</title>
-</head>
-<body>
-<form method="post" action="{% url 'checkout' %}" class="col-md-5 offset-md-1">
+<form method="post" action="{% url 'checkout' %}" style="margin: 5rem">
             {% csrf_token %}
     {{ total }}
             <input type="hidden" name="total" value="{{ amount }}"/>
@@ -21,6 +14,4 @@
             data-theme.color="#F37254"></script>
         </form>
 
-</body>
-</html>
 {% endblock %}

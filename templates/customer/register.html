@@ -1,6 +1,4 @@
-
 {% load static %}
-{% block content %}
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -18,9 +16,8 @@
                 {% csrf_token %}
                 <h1 class="reg-title">Create Account</h1>
                 <div class="input-devide">
-                    <input name="shopname" placeholder="Name" required>
+                    <input name="first_name" placeholder="Name" required>
                     <input id="username" placeholder="Username" type="text" name="username" required>
-                    <input type="hidden" name="first_name" placeholder="FirstName">
                     <input type="hidden" name="last_name" placeholder="LastName">
                 </div>
                 <input id="email" placeholder="Email address" type="email" name="email" required>
@@ -48,6 +45,3 @@
 
 </body>
 </html>
-
-
-{% endblock %}
