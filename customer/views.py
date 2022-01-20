@@ -139,6 +139,7 @@ def searchProductNearBY(request):
         return render(request, 'customer/dashboard.html', {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
 
 
+
 def custLogout(request):
     logout(request)
     return redirect('custhome')
@@ -255,3 +256,12 @@ def banner(request):
         'bannerr': bannerr,
     }
     return render(request, "customer/dashboard.html",data)
+
+def orders(request):
+    order_data = AllOrders.objects.all().filter(customer_id=request.user.id)
+    print(request.user.id)
+    data = {
+        'order_data': order_data,
+    }
+
+    return render(request,"customer/orders.html",data)

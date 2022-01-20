@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+</head>
+<body>
+
+{% for ord in order_data %}
+    {{ ord.customer_id }}
+    {{ ord.order_details }}
+    Accepted :{{ ord.is_accepted }}
+    Rejected :{{ ord.is_rejected }}
+    <br>
+{% endfor %}
+</body>
+</html>

@@ -15,4 +15,6 @@ urlpatterns = [
     path('confirm', views.confirm, name = "confirm"),
     path('success', views.success, name="success"),
     path('banner', views.banner, name="banner"),
+    path('orders', views.orders, name="orders"),
+
 ]
