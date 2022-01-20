@@ -9,7 +9,6 @@ from django.contrib.gis.geos import Point
 from customer.models import AllOrders
 import datetime
 
-
 # Create your views here.
 
 def sellerRegister(request):
@@ -22,10 +21,11 @@ def sellerRegister(request):
         phone = request.POST['phone']
         latiLong = request.POST['latiLong'].split(',')
         print(request.POST['latiLong'])
-        # TODO VALIDATION ON latLong check valid or not
+        #TODO VALIDATION ON latLong check valid or not
         lat = latiLong[0]
         log = latiLong[1]
         password = request.POST['password']
+
         confirm_password = request.POST['confirm_password']
 
         if password == confirm_password:
@@ -50,7 +50,7 @@ def sellerRegister(request):
                         username=username,
                         email=email,
                         phone=phone,
-                        location=Point(float(log), float(lat), srid=4326)
+                        location = Point(float(log), float(lat), srid=4326)
                     )
                     user.save()
                     messages.success(request, 'Account created successfully')
@@ -61,66 +61,52 @@ def sellerRegister(request):
 
     return render(request, 'seller/register.html')
 
-
 def sellerLogin(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
 
-        user = auth.authenticate(username=username, password=password)
+            user = auth.authenticate(username=username, password=password)
 
-        if user is not None:
-            if Seller.objects.filter(username=username).exists():
-                auth.login(request, user)
-                messages.warning(request, 'you are logged in')
-                return redirect('sellerDashboard')
+            if user is not None:
+                if Seller.objects.filter(username=username).exists():
+                    auth.login(request, user)
+                    messages.warning(request, 'you are logged in')
+                    return redirect('sellerDashboard')
+                else:
+                    messages.warning(request, 'You are not seller')
+                    return redirect('sellerLogin')
             else:
-                messages.warning(request, 'You are not seller')
+                messages.warning(request, 'invalid credentials')
                 return redirect('sellerLogin')
-        else:
-            messages.warning(request, 'invalid credentials')
-            return redirect('sellerLogin')
 
-    return render(request, 'seller/login.html')
-
+        return render(request, 'seller/login.html')
 
 @login_required(login_url='sellerLogin')
 def sellerDashboard(request):
     print(request.user.id)
     if request.user.is_authenticated:
-        seller_data = Seller.objects.get(credentials_id=request.user.id)
+        seller_data = Seller.objects.get(credentials_id = request.user.id)
         now = datetime.datetime.now()
         earlier = now - datetime.timedelta(hours=5)
-        new_orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now),
-                                              is_rejected=False).exclude(is_accepted=True)
-        accepted_orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
-        rejected_order = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
+        new_orders = AllOrders.objects.filter(seller_id = request.user.id, created_date__range=(earlier, now), is_rejected = False).exclude(is_accepted = True)
+        accepted_orders = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = True, is_rejected = False)
+        rejected_order = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = False, is_rejected = True)
         print(new_orders, accepted_orders, rejected_order)
-
-        data = {
-            'seller_data': seller_data,
-            'new_orders': new_orders,
-            'accepted_orders': accepted_orders,
-            'rejected_order': rejected_order
-        }
-        return render(request, 'seller/seller.html', data)
+        return render(request, 'seller/dashboard.html', {'seller_data':seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders, 'rejected_order': rejected_order})
     else:
         redirect('sellerLogin')
-
 
 def sellerLogout(request):
     logout(request)
     return redirect('sellerLogin')
 
-
 def sellerhome(request):
-    return render(request, 'seller/seller.html')
-
+    return render(request,'seller/seller.html')
 
 @login_required(login_url='sellerLogin')
 def addproduct(request):
     print(request.user.id)
-
     if request.method == 'POST':
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         product_name = request.POST['product_name']
@@ -136,69 +122,54 @@ def addproduct(request):
             location=seller_data.location,
             shopname=seller_data.shopname,
             product_image=product_image,
-            product_category=category,
+            product_category = category,
             product_disc=product_disc,
         )
-
         addproduct.save()
         print('saved')
         return redirect('sellerDashboard')
 
-    allCategories = AllCategories.objects.all()
-    print(allCategories)
-
-    data = {
-        'allCategories': allCategories
-    }
-    return render(request, 'seller/addproductview.html', data)
-
+    return render(request, 'seller/seller.html')
 
 @login_required(login_url='sellerLogin')
 def acceptOrder(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             order_id = request.POST['order_id']
-            acceptOrd = AllOrders.objects.get(id=order_id)
+            acceptOrd = AllOrders.objects.get(id = order_id)
             acceptOrd.is_accepted = True
             acceptOrd.is_rejected = False
             acceptOrd.save()
 
-        seller_data = Seller.objects.get(credentials_id=request.user.id)
+        seller_data = Seller.objects.get(credentials_id = request.user.id)
         now = datetime.datetime.now()
         earlier = now - datetime.timedelta(hours=5)
-        new_orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now),
-                                              is_rejected=None).exclude(is_accepted=True)
-        accepted_orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
-        rejected_order = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
+        new_orders = AllOrders.objects.filter(seller_id = request.user.id, created_date__range=(earlier, now), is_rejected = None).exclude(is_accepted = True)
+        accepted_orders = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = True, is_rejected = False)
+        rejected_order = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = False, is_rejected = True)
         print(new_orders, accepted_orders, rejected_order)
-        return render(request, 'seller/seller.html',
-                      {'seller_data': seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders,
-                       'rejected_order': rejected_order})
+        return render(request, 'seller/seller.html', {'seller_data':seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders, 'rejected_order': rejected_order})
     else:
         redirect('sellerLogin')
-
 
 @login_required(login_url='sellerLogin')
 def rejectOrder(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             order_id = request.POST['order_id']
-            rejectedOdr = AllOrders.objects.get(id=order_id)
+            rejectedOdr = AllOrders.objects.get(id = order_id)
             rejectedOdr.is_rejected = True
             rejectedOdr.is_accepted = False
             rejectedOdr.save()
 
-        seller_data = Seller.objects.get(credentials_id=request.user.id)
+        seller_data = Seller.objects.get(credentials_id = request.user.id)
         now = datetime.datetime.now()
         earlier = now - datetime.timedelta(hours=5)
-        new_orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now),
-                                              is_rejected=None).exclude(is_accepted=True)
-        accepted_orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
-        rejected_order = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
+        new_orders = AllOrders.objects.filter(seller_id = request.user.id, created_date__range=(earlier, now), is_rejected = None).exclude(is_accepted = True)
+        accepted_orders = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = True, is_rejected = False)
+        rejected_order = AllOrders.objects.filter(seller_id = request.user.id, is_accepted = False, is_rejected = True)
         print(new_orders, accepted_orders, rejected_order)
-        return render(request, 'seller/dashboard.html',
-                      {'seller_data': seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders,
-                       'rejected_order': rejected_order})
+        return render(request, 'seller/dashboard.html', {'seller_data':seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders, 'rejected_order': rejected_order})
     else:
         redirect('sellerLogin')
 
@@ -207,21 +178,21 @@ def rejectOrder(request):
 def products(request):
     if request.user.is_authenticated:
         seller_data = Seller.objects.get(credentials_id=request.user.id)
-        products = Product.objects.filter(shopname=seller_data.shopname)
+        products = Product.objects.filter(shopname = seller_data.shopname)
 
         allCategories = AllCategories.objects.all()
-        print(allCategories)
+        accepted_orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
 
         data = {
-            'seller_data': seller_data,
-            'products': products,
-            'allCategories': allCategories
+            'seller_data' : seller_data,
+            'products' : products,
+            'allCategories' : allCategories,
+            'accepted_orders' : accepted_orders
         }
-        return render(request, 'seller/productview.html', data)
+        return render(request, 'seller/seller.html', data)
     else:
         redirect('sellerLogin')
 
-
 @login_required(login_url='sellerLogin')
 def editProducts(request):
     if request.method == 'GET':
@@ -248,9 +219,7 @@ def editProducts(request):
 
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         products = Product.objects.filter(shopname=seller_data.shopname)
-        return render(request, 'seller/editProducts.html', {'products': products})
-
-
+        return render(request, 'seller/editProducts.html', {'products' : products})
 @login_required(login_url='sellerLogin')
 def editProducts(request):
     if request.method == 'GET':
@@ -277,4 +246,5 @@ def editProducts(request):
 
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         products = Product.objects.filter(shopname=seller_data.shopname)
-        return render(request, 'seller/editProducts.html', {'products': products})
+        return render(request, 'seller/editProducts.html', {'products' : products})
+
