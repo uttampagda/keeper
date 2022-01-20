@@ -1402,7 +1402,7 @@ button {
   border-radius: 8px;
   list-style-type: none;
   width: 195px;
-  height: 170px;
+  height: 100px;
   box-shadow: 0 0 4px 4px var(--sidebar-hover-link);
   padding: 6px;
   position: absolute;
@@ -1784,8 +1784,5 @@ button {
 
 .uploaded-file__info::after {
   width: 100%;
-  background-color: var(--action-color);
+  background-color: var(--action-color)
 }
-
-
-
