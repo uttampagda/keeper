@@ -171,7 +171,7 @@ def acceptOrder(request):
         accepted_orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
         rejected_order = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
         print(new_orders, accepted_orders, rejected_order)
-        return render(request, 'seller/seller.html',
+        return render(request, 'seller/orderview.html',
                       {'seller_data': seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders,
                        'rejected_order': rejected_order})
     else:
