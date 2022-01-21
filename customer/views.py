@@ -3,10 +3,10 @@ from datetime import datetime
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from .models import Customer, CustAddress, AllOrders,Banner
+from .models import Customer, CustAddress, AllOrders, Banner
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
-from sellers.models import Seller,Product
+from sellers.models import Seller, Product
 from django.contrib.gis.db.models.functions import GeometryDistance
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.measure import D
@@ -15,6 +15,7 @@ from django.shortcuts import render
 import razorpay
 import json
 from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 
@@ -62,25 +63,27 @@ def custRegister(request):
 
     return render(request, 'customer/register.html')
 
+
 def custLogin(request):
-        if request.method == 'POST':
-            username = request.POST['username']
-            password = request.POST['password']
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
 
-            user = auth.authenticate(username=username, password=password)
+        user = auth.authenticate(username=username, password=password)
 
-            if user is not None:
-                if Customer.objects.filter(username=username).exists():
-                    auth.login(request, user)
-                    messages.warning(request, 'you are logged in')
-                    return redirect('custDashboard')
-                else:
-                    messages.warning(request, 'you are not customer')
-                    return redirect('custLogin')
+        if user is not None:
+            if Customer.objects.filter(username=username).exists():
+                auth.login(request, user)
+                messages.warning(request, 'you are logged in')
+                return redirect('custDashboard')
             else:
-                messages.warning(request, 'invalid credentials')
+                messages.warning(request, 'you are not customer')
                 return redirect('custLogin')
-        return render(request, 'customer/login.html')
+        else:
+            messages.warning(request, 'invalid credentials')
+            return redirect('custLogin')
+    return render(request, 'customer/login.html')
+
 
 @login_required(login_url='custLogin')
 def custDashboard(request):
@@ -104,7 +107,9 @@ def custDashboard(request):
     except:
         NearBySellers = {}
         messages.error(request, 'Please add Address first!')
-        return render(request, 'customer/dashboard.html', {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
+        return render(request, 'customer/dashboard.html',
+                      {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
+
 
 @login_required(login_url='custLogin')
 def searchProductNearBY(request):
@@ -128,7 +133,8 @@ def searchProductNearBY(request):
                 return render(request, 'customer/dashboard.html',
                               {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
 
-        NearByProduct = Product.objects.filter(location__dwithin=(ref_location, D(km=km_range)), product_name__icontains = key_word)
+        NearByProduct = Product.objects.filter(location__dwithin=(ref_location, D(km=km_range)),
+                                               product_name__icontains=key_word)
         for product in NearByProduct:
             print(product.product_name, product.price)
 
@@ -137,17 +143,19 @@ def searchProductNearBY(request):
         print(er)
         NearBySellers = {}
         messages.error(request, 'Please add Address first!')
-        return render(request, 'customer/dashboard.html', {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
+        return render(request, 'customer/dashboard.html',
+                      {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
 
 
 def custLogout(request):
     logout(request)
     return redirect('custhome')
 
+
 @login_required(login_url='custLogin')
 def custhome(request):
+    return redirect('custDashboard')
 
-    return render(request,'customer/home.html')
 
 @login_required(login_url='custLogin')
 def addAddress(request):
@@ -166,7 +174,7 @@ def addAddress(request):
                 address=address,
                 city=city,
                 pincode=pincode,
-                location = Point(float(lon), float(lat), srid=4326)
+                location=Point(float(lon), float(lat), srid=4326)
             ).save()
             messages.success(request, 'Address added successfully')
             return redirect('custDashboard')
@@ -176,6 +184,7 @@ def addAddress(request):
     else:
         return render(request, 'customer/addAddress.html')
 
+
 def sellerlandingpage(request):
     if request.method == "GET":
         print(request.GET["seller_name"])
@@ -183,15 +192,18 @@ def sellerlandingpage(request):
         seller_products = Product.objects.filter(seller_cr=seller_detail.credentials_id)
         seller_id = seller_detail.credentials_id
         customer = Customer.objects.get(username=request.user.username)
-        data ={
-          'products': seller_products,
-          'customer': customer,
-          'seller_id': seller_id,
+        data = {
+            'products': seller_products,
+            'customer': customer,
+            'seller_id': seller_id,
+            'seller_detail': seller_detail
         }
-    return render(request, 'customer/sellerlandingpage.html',data)
+    return render(request, 'customer/sellerlandingpage.html', data)
+
 
 def cart(request):
     return render(request, 'customer/cart.html')
+
 
 def confirm(request):
     if request.method == "POST":
@@ -201,8 +213,10 @@ def confirm(request):
         pick_up_time = request.POST.get('pick_up_time')
         total = request.POST.get('total')
         print(name, list_of_orders, total, order_type, pick_up_time)
-        amount = int(total)*100
-        return render(request, 'customer/checkout.html', {'list_of_orders':list_of_orders, 'name':name, 'total':int(total), 'amount':int(amount), 'order_type':order_type, 'pick_up_time':pick_up_time})
+        amount = int(total) * 100
+        return render(request, 'customer/checkout.html',
+                      {'list_of_orders': list_of_orders, 'name': name, 'total': int(total), 'amount': int(amount),
+                       'order_type': order_type, 'pick_up_time': pick_up_time})
     else:
         return render(request, 'customer/cart.html')
 
@@ -237,18 +251,19 @@ def checkout(request):
             is_delivered=False,
             is_accepted=False,
             is_rejected=False,
-            order_type = order_type,
-            pickup_date = pick_up_date
-
+            order_type=order_type,
+            pickup_date=pick_up_date
         )
         new_order.save()
-        return render(request, "success.html")
+        return render(request, "customer/success.html")
     else:
         return render(request, 'customer/cart.html')
 
+
 @csrf_exempt
 def success(request):
-    return render(request, "success.html")
+    return render(request, "customer/success.html")
+
 
 def banner(request):
     bannerr = Banner.objects.all()
@@ -256,7 +271,8 @@ def banner(request):
     data = {
         'bannerr': bannerr,
     }
-    return render(request, "customer/dashboard.html",data)
+    return render(request, "customer/dashboard.html", data)
+
 
 def orders(request):
     order_data = AllOrders.objects.all().filter(customer_id=request.user.id)
@@ -265,4 +281,4 @@ def orders(request):
         'order_data': order_data,
     }
 
-    return render(request,"customer/orders.html",data)
+    return render(request, "customer/orders.html", data)

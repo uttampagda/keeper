@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
 	<link rel="stylesheet" href="{% static 'css/footer.css'%}">
 	<link rel="stylesheet" href="{% static 'css/cart.css'%}">
+	<link rel="stylesheet" href="{% static 'css/shop-details.css'%}">
 
 </head>
 <body>
@@ -27,7 +28,7 @@
 		<div class="main_menu">
 			<nav class="navbar navbar-expand-lg navbar-light">
 				<div class="container-fluid d-flex justify-content-around">
-					<a class="navbar-brand logo_h" href="{% url 'home' %}"><img src="{% static 'customer/img/logo.svg'%}" alt="Shopkeeper"></a>
+					<a class="navbar-brand logo_h" href="{% url 'custDashboard' %}"><img src="{% static 'customer/img/logo.svg'%}" alt="Shopkeeper"></a>
 
 					<div onclick="locationbutton()" class="location-container d-flex justify-content-between align-items-center c-pointer">
 						<img class="mr-2" src="{% static 'customer/img/icons/location.svg'%}" alt="">

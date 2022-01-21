@@ -6,7 +6,7 @@
             <h1 class="app-content-headerText">Orders</h1>
           </div>
           <div class="app-content-actions">
-            <input class="search-bar" placeholder="Search..." type="text">
+            <input id="ordersearch" onkeyup="filterFunction()" class="search-bar" placeholder="Search..." type="text">
             <div class="app-content-actions-wrapper">
               <div class="">
                 <button class="order-toggle-button">All</button>
@@ -31,12 +31,13 @@
             </div>
 
 
-            <div class="list-container-main">
+            <div id="ordershow" class="list-container-main">
                 {% for order in accepted_orders %}
-              <div class="products-row order-arrange">
-                  <div class="orders-cell order-id">{{ order.id }}</div>
+                    <a>
+                        <div class="products-row order-arrange">
+                  <p class="orders-cell order-id">#{{ order.id }}</p>
                   <div class="orders-cell time"><span class="cell-label">Time:</span>{{ order.created_date }}</div>
-                  <div class="orders-cell cusname"><span class="cell-label">{{ order.customer_id }}</span>{{ order.customer_id }}</div>
+                  <p class="orders-cell cusname"><span class="cell-label">{{ order.customer_id }}</span>{{ order.customer_id }}</p>
                   <div class="orders-cell items"><span class="cell-label">Items:</span>11</div>
                   <div class="orders-cell payment-cell">
                     <span class="cell-label">Payment:</span>
@@ -48,9 +49,30 @@
                   </div>
                   <div class="orders-cell amount"><span class="cell-label">Price:</span>{{ order.ttl_amount }}</div>
                 </div>
+                    </a>
                 {% endfor %}
             </div>
           </div>
         </div>
 
+
+     <script>
+        function filterFunction() {
+          var input, filter, p,a, i;
+          input = document.getElementById("ordersearch");
+          filter = input.value.toUpperCase();
+          div = document.getElementById("ordershow");
+          p = div.getElementsByTagName("p");
+          a = div.getElementsByTagName("a");
+
+          for (i = 0; i < p.length; i++) {
+            txtValue = p[i].textContent || p[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              a[i].style.display = "";
+            } else {
+              a[i].style.display = "none";
+            }
+          }
+        }
+    </script>
 {% endblock %}

@@ -119,7 +119,7 @@ h1, h2, h3, h4, h5, h6, p, a, button {
 	padding: 0.2rem 1rem;
 	align-items: center;
 	justify-content: space-between;
-	width: 100%;
+	width: 77%;
 }
 .product-name {
 	font-size: 17px;
@@ -140,6 +140,10 @@ h1, h2, h3, h4, h5, h6, p, a, button {
 	font-size: 14px;
 	color: #4f4f4f;
 	width: 70%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	cursor: pointer;
 }
 .addtocartbutton {
 	position: relative;
