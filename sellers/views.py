@@ -14,8 +14,6 @@ import datetime
 
 def sellerRegister(request):
     if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
         username = request.POST['username']
         shopname = request.POST['shopname']
         email = request.POST['email']
@@ -39,9 +37,7 @@ def sellerRegister(request):
                 else:
                     credentials = User.objects.create_user(
                         username=username,
-                        password=password,
-                        first_name=first_name,
-                        last_name=last_name
+                        password=password
                     )
 
                     user = Seller(
@@ -251,3 +247,21 @@ def editProducts(request):
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         products = Product.objects.filter(shopname=seller_data.shopname)
         return render(request, 'seller/productview.html', {'products': products})
+
+
+@login_required(login_url='sellerLogin')
+def editProfile(request):
+    if request.method == 'GET':
+        profile_to_be_edit = Seller.objects.get(credentials_id=request.user.id)
+        return render(request, 'seller/Profileview.html', {'profile_to_be_edit': profile_to_be_edit})
+
+    if request.method == 'POST':
+        profile_to_be_edit = Seller.objects.get(credentials_id=request.user.id)
+
+        profile_to_be_edit.shopname = request.POST.get('shopname')
+        profile_to_be_edit.phone = request.POST.get('phone')
+        profile_to_be_edit.email = request.POST.get('email')
+
+
+        profile_to_be_edit.save()
+        return render(request, 'seller/seller.html')

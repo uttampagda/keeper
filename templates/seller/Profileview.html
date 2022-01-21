@@ -1,0 +1,130 @@
+{% extends "seller/base.html" %}
+{% block content %}
+
+    <div id="editprofile" class="app-content">
+          <div class="app-content-header">
+            <div class="app-content-name-box">
+              <a href="" onclick="retailerproducts()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </a>
+              <h1 class="app-content-headerText products">My account</h1>
+            </div>
+          </div>
+
+            <div class="addproducts-row two">
+                <div class="addproducts-row-wrapper small">
+                  <div class="addproducts-container">
+                    <div class="addproducts-container-header">
+                      <h4>Navigation</h4>
+                    </div>
+                    <ul class="addproducts-container-list">
+                        <li class="addproducts-list-text"><a href="#profileimage">Profile Image</a></li>
+                      <li class="addproducts-list-text"><a href="#accountinfo">Account Information</a></li>
+                      <li class="addproducts-list-text"><a href="#accountinfo">Change Password</a></li>
+                    </ul>
+                  </div>
+                </div>
+
+                    <div class="addproducts-row-wrapper big">
+                    <form method="POST" action="{% url 'editProfile' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div id="profileimage" class="addproducts-container">
+                        <div class="addproducts-container-header">
+                          <h4>Profile Images</h4>
+                        </div>
+
+                        <!-- Upload Area -->
+                        <div id="uploadArea" class="upload-area">
+                          <!-- prodimagup -->
+                          <div id="dropZoon" class="upload-area__prod-imgup prod-imgup">
+                            <span class="prod-imgup__icon">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                              </svg>
+                            </span>
+                            <span id="loadingText" class="prod-imgup__loading-text">Please Wait</span>
+                            <img src="" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
+                            <input type="file" id="fileInput" name="productImage" class="prod-imgup__file-input" accept="image/*" >
+                          </div>
+                          <!-- End prodimgup -->
+                        </div>
+                        <!-- End Upload Area -->
+                      </div>
+                        <div id="accountinfo" class="addproducts-container">
+                        <div class="addproducts-container-header">
+                          <h4>Account Information</h4>
+                        </div>
+                        <div class="addproducts-container-list">
+                          <div class="w-100 d-flex justify-content-between">
+                              <div class="w-50">
+                                <h5 class="addproducts-list-text">Shop Name <span>*</span></h5>
+                                  <input type="hidden" name="seller_id" value={{ profile_to_be_edit.id }}>
+                                  <input name="shopname" placeholder="Shop name" value="{{ profile_to_be_edit.shopname }}" required>
+                              </div>
+
+                            <div class="w-50">
+                              <h5 class="addproducts-list-text">Username <span>(Not to be edited)</span></h5>
+                              <input name="username" placeholder="Username" value="{{ profile_to_be_edit.username }}" disabled>
+                            </div>
+
+                          </div>
+
+                          <div class="w-100 d-flex justify-content-between">
+                            <div class="w-50">
+                              <h5 class="addproducts-list-text">Email address <span>(Not to be edited)</span></h5>
+                              <input name="email" placeholder="Email address" value="{{ profile_to_be_edit.email }}" >
+                            </div>
+                          </div>
+                          <div class="w-100 d-flex justify-content-between">
+                            <div class="w-50">
+                              <h5 class="addproducts-list-text">Phone no. <span>*</span></h5>
+                              <input name="phone" placeholder="Phone no." value="{{ profile_to_be_edit.phone }}" required>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                        <div id="changepassword" class="addproducts-container">
+                        <div class="addproducts-container-header">
+                          <h4>Change Password</h4>
+                        </div>
+                        <div class="addproducts-container-list">
+                            <div class="w-100 d-flex justify-content-between">
+                            <div class="w-50">
+                              <h5 class="addproducts-list-text">Current Password <span>*</span></h5>
+                              <input id="password" name="password" placeholder="Current password">
+                            </div>
+                          </div>
+                          <div class="w-100 d-flex justify-content-between">
+                              <div class="w-50">
+                                <h5 class="addproducts-list-text">New Password <span>*</span></h5>
+                                  <input type="hidden" name="seller_id" value={{ profile_to_be_edit.id }}>
+                                  <input name="newpassword" placeholder="New password">
+                              </div>
+
+                            <div class="w-50">
+                              <h5 class="addproducts-list-text">Confirm Password <span>*</span></h5>
+                              <input name="newconfirmpassword" placeholder="Confirm password">
+                            </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+
+
+                        <button type="submit" class="app-content-headerButton">Save edit</button>
+                     </form>
+                    </div>
+
+            </div>
+
+        </div>
+
+
+
+{% endblock %}
