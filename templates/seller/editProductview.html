@@ -43,7 +43,7 @@
                             <h5 class="addproducts-list-text">Product Category <span>*</span></h5>
                             <select name="category" id="category">
                                 {% for category in allCategories %}
-                                    <option value="{{category.category_name}}" {% if product_to_be_edit.product_category == category.category_name %} selected {% endif %}>{{ category.category_name }}</option>
+                                    <option value="{{ category.category_name }}" {% if product_to_be_edit.product_category == category.category_name %} selected {% endif %}>{{ category.category_name }}</option>
                                 {% endfor %}
                             </select>
                           </div>

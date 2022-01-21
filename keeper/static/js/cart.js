@@ -185,8 +185,7 @@ function displayCart() {
         '						</select>' +
         '					</div>' +
         '					<div id="datetime" class="datetime">' +
-        '						<input type="date" id="pick_up_date" name="pick_up_time">' +
-        '						<input type="time" id="pick_up_time" name="pick_up_time">' +
+        '						<input type="datetime-local" id="pick_up_date" name="pick_up_date">' +
         '					</div>' +
         '<!--					<div class="coupencode-con">-->' +
         '<!--						<input type="text" />-->' +

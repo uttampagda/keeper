@@ -1,0 +1,114 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadata -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Favicon -->
+	<link rel="icon" href="{% static '' %}" type="image/png">
+
+    <title>Shopkeeper</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+	<link rel="stylesheet" href="{% static 'css/footer.css'%}">
+	<link rel="stylesheet" href="{% static 'css/cart.css'%}">
+
+</head>
+<body>
+	<!-- Header -->
+    <header id="navbar" class="header_area">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light">
+				<div class="container-fluid d-flex justify-content-around">
+					<a class="navbar-brand logo_h" href="{% url 'home' %}"><img src="{% static 'customer/img/logo.svg'%}" alt="Shopkeeper"></a>
+
+					<div onclick="locationbutton()" class="location-container d-flex justify-content-between align-items-center c-pointer">
+						<img class="mr-2" src="{% static 'customer/img/icons/location.svg'%}" alt="">
+						<p class="m-0 ftsz-15 ftfmly-poppins ftweight-400">Select Your Address</p>
+						<i class="fa fa-angle-down ftsz-20 p-2"></i>
+
+						<div class="location-dropdown-content">
+									<div class="d-flex align-items-center dropdown-profile-padding">
+										<button class="button-padding detect-button c-pointer">Detect location</button>
+										<p class="pl-3 pr-3">- OR -</p>
+										<div class="search-box w-50">
+											<input class="ftsz-12 w-10" autocomplete="off" placeholder="Type your location">
+										</div>
+									</div>
+								</div>
+						</div>
+
+					<div class="d-flex w-45">
+{#						<div class="search-catagories">#}
+{#						  	<select>#}
+{#								<option value="0">All</option>#}
+{#								<option value="1">All</option>#}
+{#								<option value="2">Grocery</option>#}
+{#								<option value="3">Food</option>#}
+{#								<option value="4">Electronics</option>#}
+{#							</select>#}
+{#						</div>#}
+						<div class="search-box w-100"><input class="ftsz-12 w-100" autocomplete="off" placeholder="Search for products"></div>
+						<button class="search-box-icon c-pointer" type="submit"><i class="fa fa-search p-2 F4F6F6"></i></button>
+					</div>
+
+					<div onclick="profilebutton()" class="profile-container d-flex c-pointer">
+						<div class="profile-box mr-2"></div>
+						<div class="">
+							<p class="ftsz-12">Hello, {{ user.first_name }}</p>
+							<div class="d-flex">
+								<p class="ftsz-15 mr-1">Profile</p>
+								<i class="fa fa-caret-down"></i>
+								<div class="profile-dropdown-content">
+									<div class="d-flex align-items-center dropdown-profile-padding">
+										<div class="profile-box-2 mr-3"></div>
+										<div class="d-block">
+											<p class="ftsz-15 padding-tb2-5 black-0-8">{{ user.first_name }} {{ user.last_name }}</p>
+											<p class="ftsz-12 black-0-8">{{ customer_data.email }}</p>
+										</div>
+									</div>
+									<div class="divider-border"></div>
+									<div class="dropdown-hover dropdown-profile-padding">
+										<a href="{% url 'orders' %}">My Orders</a>
+									</div>
+									<div class="divider-border"></div>
+									<a href="{% url 'custLogout' %}" class="dropdown-hover d-flex align-items-center dropdown-profile-padding">
+										<div class="logout-svg mr-2"></div>
+										<p>Log Out</p>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<a href="{% url 'cart' %}" class="cart-box d-flex c-pointer"><i class="fa fa-shopping-cart ftsz-20 p-2"></i><p class="align-self-center pr-2">Cart</p></a>
+
+				</div>
+			</nav>
+		</div>
+	</header>
+	<!-- End Header -->
+
+
+    {% block content %}
+
+    {% endblock %}
+
+
+
+	<script src="{% static 'js/main.js' %}"></script>
+	<script src="{% static 'js/dropdown.js' %}"></script>
+	<script src="{% static 'js/JQuary.js' %}"></script>
+	<script src="{% static 'js/_bootstrap.js' %}"></script>
+    <script src="{% static 'js/cart.js' %}"></script>
+
+</body>
+</html>
+
