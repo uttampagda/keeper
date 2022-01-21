@@ -115,7 +115,7 @@ def sellerhome(request):
 
 @login_required(login_url='sellerLogin')
 def addproduct(request):
-    print(request.user.id)
+    seller_data = Seller.objects.get(credentials_id=request.user.id)
 
     if request.method == 'POST':
         seller_data = Seller.objects.get(credentials_id=request.user.id)
@@ -137,13 +137,13 @@ def addproduct(request):
         )
 
         addproduct.save()
-        print('saved')
         return redirect('products')
 
     allCategories = AllCategories.objects.all()
 
     data = {
-        'allCategories': allCategories
+        'allCategories': allCategories,
+        'seller_data': seller_data
     }
     return render(request, 'seller/addproductview.html', data)
 
@@ -230,9 +230,15 @@ def editProducts(request):
             }
             return render(request, 'seller/productview.html', data)
 
+        seller_data = Seller.objects.get(credentials_id=request.user.id)
         product_to_be_edit = Product.objects.get(id=product_id)
         allCategories = AllCategories.objects.all()
-        return render(request, 'seller/editProductview.html', {'product_to_be_edit': product_to_be_edit, 'allCategories': allCategories})
+        data = {
+            'seller_data': seller_data,
+            'product_to_be_edit': product_to_be_edit,
+            'allCategories': allCategories
+        }
+        return render(request, 'seller/editProductview.html', data)
 
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
@@ -245,23 +251,23 @@ def editProducts(request):
         product_to_be_edit.save()
 
         seller_data = Seller.objects.get(credentials_id=request.user.id)
-        products = Product.objects.filter(shopname=seller_data.shopname)
-        return render(request, 'seller/productview.html', {'products': products})
+
+        return redirect('products')
 
 
 @login_required(login_url='sellerLogin')
 def editProfile(request):
     if request.method == 'GET':
+        seller_data = Seller.objects.get(credentials_id=request.user.id)
         profile_to_be_edit = Seller.objects.get(credentials_id=request.user.id)
-        return render(request, 'seller/Profileview.html', {'profile_to_be_edit': profile_to_be_edit})
+        return render(request, 'seller/Profileview.html', {'profile_to_be_edit': profile_to_be_edit, 'seller_data': seller_data})
 
     if request.method == 'POST':
         profile_to_be_edit = Seller.objects.get(credentials_id=request.user.id)
 
         profile_to_be_edit.shopname = request.POST.get('shopname')
         profile_to_be_edit.phone = request.POST.get('phone')
-        profile_to_be_edit.email = request.POST.get('email')
 
 
         profile_to_be_edit.save()
-        return render(request, 'seller/seller.html')
+        return redirect('sellerDashboard')
