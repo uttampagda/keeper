@@ -30,35 +30,37 @@
 				<div class="container-fluid d-flex justify-content-around">
 					<a class="navbar-brand logo_h" href="{% url 'custDashboard' %}"><img src="{% static 'customer/img/logo.svg'%}" alt="Shopkeeper"></a>
 
-					<div onclick="locationbutton()" class="location-container d-flex justify-content-between align-items-center c-pointer">
-						<img class="mr-2" src="{% static 'customer/img/icons/location.svg'%}" alt="">
-						<p class="m-0 ftsz-15 ftfmly-poppins ftweight-400">Select Your Address</p>
-						<i class="fa fa-angle-down ftsz-20 p-2"></i>
 
-						<div class="location-dropdown-content">
-									<div class="d-flex align-items-center dropdown-profile-padding">
-										<button class="button-padding detect-button c-pointer">Detect location</button>
-										<p class="pl-3 pr-3">- OR -</p>
-										<div class="search-box w-50">
-											<input class="ftsz-12 w-10" autocomplete="off" placeholder="Type your location">
-										</div>
-									</div>
-								</div>
-						</div>
+                        <div onclick="locationbutton()" class="location-container d-flex justify-content-between align-items-center c-pointer">
+                            <img class="mr-2" src="{% static 'customer/img/icons/location.svg'%}" alt="">
+                            <p class="m-0 ftsz-15 ftfmly-poppins ftweight-400">Select Your Address</p>
+                            <i class="fa fa-angle-down ftsz-20 p-2"></i>
 
-					<div class="d-flex w-45">
-{#						<div class="search-catagories">#}
-{#						  	<select>#}
-{#								<option value="0">All</option>#}
-{#								<option value="1">All</option>#}
-{#								<option value="2">Grocery</option>#}
-{#								<option value="3">Food</option>#}
-{#								<option value="4">Electronics</option>#}
-{#							</select>#}
-{#						</div>#}
-						<div class="search-box w-100"><input class="ftsz-12 w-100" autocomplete="off" placeholder="Search for products"></div>
-						<button class="search-box-icon c-pointer" type="submit"><i class="fa fa-search p-2 F4F6F6"></i></button>
-					</div>
+                            <div class="location-dropdown-content">
+                                        <div class="d-flex align-items-center dropdown-profile-padding">
+                                            <button class="button-padding detect-button c-pointer">Detect location</button>
+                                            <p class="pl-3 pr-3">- OR -</p>
+                                            <div class="search-box w-50">
+                                                <input class="ftsz-12 w-10" autocomplete="off" name="km_range" placeholder="Type km range">
+                                            </div>
+                                        </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex w-45">
+                            <div class="search-box w-100">
+                                <form method="POST" action="{% url 'custDashboard' %}">
+                                    {% csrf_token %}
+                                    <input class="ftsz-12 w-100" autocomplete="off" name="product_name" placeholder="Search for products">
+
+                                    <button class="search-box-icon c-pointer" type="submit"></button>
+                                </form>
+                                </div>
+
+                                <i class="fa fa-search p-2 F4F6F6"></i></button>
+                        </div>
+
+
 
 					<div onclick="profilebutton()" class="profile-container d-flex c-pointer">
 						<div class="profile-box mr-2"></div>

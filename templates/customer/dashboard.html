@@ -38,18 +38,25 @@
 		<div class="container-fluid h-100">
 			<div class="banner-box m-auto">
 				<div class="d-flex justify-content-center w-100 h-100">
-					<div class="category-box mr-3"></div>
-					<div class="category-box mr-3"></div>
-					<div class="category-box mr-3"></div>
-					<div class="category-box mr-3"></div>
-					<div class="category-box mr-3"></div>
-					<div class="category-box mr-3"></div>
-					<div class="category-box mr-3"></div>
-					<div class="category-box mr-3"></div>
-					<div class="category-box mr-3"></div>
-					<div class="category-box mr-3"></div>
-					<div class="category-box mr-3"></div>
-					<div class="category-box"></div>
+{#					<div class="category-box mr-3"></div>#}
+{#					<div class="category-box mr-3"></div>#}
+{#					<div class="category-box mr-3"></div>#}
+{#					<div class="category-box mr-3"></div>#}
+{#					<div class="category-box mr-3"></div>#}
+{#					<div class="category-box mr-3"></div>#}
+{#					<div class="category-box mr-3"></div>#}
+{#					<div class="category-box mr-3"></div>#}
+{#					<div class="category-box mr-3"></div>#}
+{#					<div class="category-box mr-3"></div>#}
+{#					<div class="category-box mr-3"></div>#}
+{#					<div class="category-box"></div>#}
+                    {% for category in  allcategories %}
+                        <form method="POST" action="{% url 'custDashboard' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="category_name" value={{ category.category_name }}>
+                            <button type="submit"> {{ category.category_name }}</button>
+                        </form>
+                    {% endfor %}
 				</div>
 			</div>
 		</div>

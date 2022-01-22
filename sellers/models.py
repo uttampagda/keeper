@@ -9,6 +9,7 @@ class Seller(models.Model):
     shopname = models.CharField(max_length=50, unique=True)
     phone = models.CharField(max_length=20,blank=True,null=True)
     location = models.PointField(srid=4326, geography=True, blank=True, null=True)
+    categories_list = models.TextField(max_length=200, default="[]")
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.shopname

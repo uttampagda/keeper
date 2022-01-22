@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from .models import Customer, CustAddress, AllOrders, Banner
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
-from sellers.models import Seller, Product
+from sellers.models import Seller, Product, AllCategories
 from django.contrib.gis.db.models.functions import GeometryDistance
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.measure import D
@@ -90,20 +90,40 @@ def custDashboard(request):
     customer_data = Customer.objects.get(username=request.user.username)
     km_range = 10000
 
+    allcategories = AllCategories.objects.all()
+    print("AllCategories", allcategories)
+
     try:
         allAddress = CustAddress.objects.filter(customer=customer_data)
         ref_location = allAddress[0].location
 
         if request.method == "POST":
-            km_range = request.POST['km_range']
+            km_range = request.POST.get('km_range')
+            category_name = request.POST.get('category_name')
+            product_name = request.POST.get('product_name')
+
+            print(km_range, "--",category_name, "--",product_name)
+
+            if km_range is None or km_range == '':
+                km_range = 10000
+
+            if category_name is not None:
+                NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)), categories_list__contains=category_name)
+            if product_name is not None:
+                NearBySellers = Product.objects.filter(
+                    location__dwithin=(ref_location, D(km=km_range)),
+                    product_name__startswith=product_name)
+
+            print('NearBySellers', NearBySellers)
+            return render(request, 'customer/dashboard.html',
+                          {'customer_data': customer_data, 'near_by_sellers': NearBySellers,
+                           'allcategories': allcategories})
 
         NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
-        print("NearBySellers",  NearBySellers)
-        for seller in NearBySellers:
-            print(seller.username, seller.id)
+        print('NearBySellers', NearBySellers)
 
         return render(request, 'customer/dashboard.html',
-                      {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
+                      {'customer_data': customer_data, 'near_by_sellers': NearBySellers, 'allcategories':allcategories})
     except:
         NearBySellers = {}
         messages.error(request, 'Please add Address first!')

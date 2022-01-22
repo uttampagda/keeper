@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.gis.geos import Point
 from customer.models import AllOrders
 import datetime
-
+import ast
 
 # Create your views here.
 
@@ -156,6 +156,18 @@ def addproduct(request):
         )
 
         addproduct.save()
+
+        print(seller_data.categories_list)
+
+        categories_list = ast.literal_eval(seller_data.categories_list)
+        print(categories_list)
+        if category not in categories_list:
+            categories_list.append(category)
+
+        print(str(categories_list))
+        seller_data.categories_list = str(categories_list)
+        seller_data.save()
+
         return redirect('products')
 
     allCategories = AllCategories.objects.all()
@@ -187,7 +199,7 @@ def acceptOrder(request):
         earlier = now - datetime.timedelta(hours=5)
 
         if order_status == "ALL":
-            orders = AllOrders.objects.all()
+            orders = AllOrders.objects.filter(seller_id=request.user.id)
         elif order_status == "PENDING":
             orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now), is_rejected=False).exclude(is_accepted=True)
         elif order_status == "ACCEPTED":
