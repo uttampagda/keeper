@@ -282,3 +282,26 @@ def orders(request):
     }
 
     return render(request, "customer/orders.html", data)
+
+@login_required(login_url='cusLogin')
+def profile(request):
+    if request.method == 'GET':
+
+        return render(request, 'customer/profileview.html')
+
+    if request.method == 'POST':
+        profile_to_be_edit = Seller.objects.get(credentials_id=request.user.id)
+
+        newpassword = request.POST.get('newpassword')
+        newconfirmpassword = request.POST.get('newconfirmpassword')
+        if newpassword != "" and newconfirmpassword != "" and newpassword == newconfirmpassword:
+            u = User.objects.get(id=request.user.id)
+            u.set_password(newpassword)
+            u.save()
+            print("password updated")
+
+        profile_to_be_edit.shopname = request.POST.get('shopname')
+        profile_to_be_edit.phone = request.POST.get('phone')
+
+        profile_to_be_edit.save()
+        return redirect('sellerDashboard')

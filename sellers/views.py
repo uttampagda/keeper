@@ -109,7 +109,7 @@ def sellerLogout(request):
 
 @login_required(login_url='sellerLogin')
 def sellerhome(request):
-    return render(request, 'seller/seller.html')
+    return redirect('sellerDashboard')
 
 
 @login_required(login_url='sellerLogin')
