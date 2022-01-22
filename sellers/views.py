@@ -156,14 +156,19 @@ def acceptOrder(request):
             acceptOrd.is_rejected = False
             acceptOrd.save()
 
+        if request.method == "GET" and len(request.GET)>0:
+            order_status = request.GET['order_status']
+            print(order_status)
+
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         now = datetime.datetime.now()
         earlier = now - datetime.timedelta(hours=5)
         new_orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now),
-                                              is_rejected=None).exclude(is_accepted=True)
+                                              is_rejected=False).exclude(is_accepted=True)
         accepted_orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
         rejected_order = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
-        print(new_orders, accepted_orders, rejected_order)
+        # print(new_orders, accepted_orders, rejected_order)
+
         return render(request, 'seller/orderview.html',
                       {'seller_data': seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders,
                        'rejected_order': rejected_order})

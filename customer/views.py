@@ -88,7 +88,7 @@ def custLogin(request):
 @login_required(login_url='custLogin')
 def custDashboard(request):
     customer_data = Customer.objects.get(username=request.user.username)
-    km_range = 10
+    km_range = 10000
 
     try:
         allAddress = CustAddress.objects.filter(customer=customer_data)
@@ -98,7 +98,7 @@ def custDashboard(request):
             km_range = request.POST['km_range']
 
         NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
-        print(NearBySellers)
+        print("NearBySellers",  NearBySellers)
         for seller in NearBySellers:
             print(seller.username, seller.id)
 
