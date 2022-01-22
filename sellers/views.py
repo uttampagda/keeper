@@ -91,7 +91,6 @@ def sellerDashboard(request):
                                               is_rejected=False).exclude(is_accepted=True)
         accepted_orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
         rejected_order = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
-        print(new_orders, accepted_orders, rejected_order)
 
         data = {
             'seller_data': seller_data,

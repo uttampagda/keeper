@@ -6,7 +6,7 @@
             <h1 class="app-content-headerText">Products</h1>
           </div>
           <div class="app-content-actions">
-            <input class="search-bar" placeholder="Search..." type="text">
+            <input id="productsearch" class="search-bar" onkeyup="filterFunction()" placeholder="Search..." type="text">
             <div class="app-content-actions-wrapper">
               <div class="filter-button-wrapper">
                 <button class="action-button filter jsFilter"><span>Filter</span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-filter"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
@@ -47,17 +47,16 @@
               <div class="products-cell">Edit</div>
             </div>
 
-
-
-            <div class="list-container-main">
+            <div id="productshow" class="list-container-main">
                 {% for pro in products %}
                     <form method="get" action="{% url 'editProducts' %}">
-                  <input type="hidden" name="product_id" value={{ pro.id }}>
-              <div class="products-row products-arrange">
+                    <input type="hidden" name="product_id" value={{ pro.id }}>
+                    <a>
+                        <div class="products-row products-arrange">
 
                 <div class="products-cell image">
                   <img src="{{ pro.product_image.url }}" width="50" height="50" alt="product">
-                  <span>{{ pro.product_name }}</span>
+                  <p>{{ pro.product_name }}</p>
                 </div>
               <div class="products-cell category"><span class="cell-label">Category:</span>{{ pro.product_category }}</div>
               <div class="products-cell price"><span class="cell-label">Price:</span>₹{{ pro.price }}</div>
@@ -87,10 +86,10 @@
               </div>
 
             </div>
+                    </a>
                     </form>
             {% endfor %}
             </div>
-
           </div>
         </div>
 
@@ -98,5 +97,24 @@
         document.querySelector(".jsFilter").addEventListener("click", function () {
           document.querySelector(".filter-menu").classList.toggle("active");
         });
+    </script>
+    <script>
+        function filterFunction() {
+          var input, filter, p,a, i;
+          input = document.getElementById("productsearch");
+          filter = input.value.toUpperCase();
+          div = document.getElementById("productshow");
+          p = div.getElementsByTagName("p");
+          a = div.getElementsByTagName("a");
+
+          for (i = 0; i < p.length; i++) {
+            txtValue = p[i].textContent || p[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              a[i].style.display = "";
+            } else {
+              a[i].style.display = "none";
+            }
+          }
+        }
     </script>
 {% endblock %}
