@@ -20,6 +20,7 @@ class CustAddress(models.Model):
 
 class AllOrders(models.Model):
     customer_id = models.IntegerField(blank=False, null=False)
+    customer_name = models.CharField(null=False, blank=False, default="NA", max_length=100)
     seller_id = models.IntegerField(blank=False, null=False)
     payment_id = models.CharField(blank=False, null=False, max_length=120)
     payment_created_at = models.CharField(blank=True, null=True, max_length=120)

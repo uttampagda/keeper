@@ -241,6 +241,7 @@ def checkout(request):
 
         new_order = AllOrders(
             customer_id=customer_data.credentials_id,
+            customer_name=request.user.username,
             seller_id=seller_id,
             payment_id=payment['id'],
             ttl_amount=amount,

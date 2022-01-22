@@ -86,7 +86,27 @@ def sellerDashboard(request):
     if request.user.is_authenticated:
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         now = datetime.datetime.now()
-        earlier = now - datetime.timedelta(hours=5)
+        earlier = now - datetime.timedelta(hours=24)
+
+        order_status_dic = {
+            "PENDING":0,
+            "ACCEPTED":0,
+            "REJECTED":0,
+            "COMPLETE":0
+        }
+        for order_status in order_status_dic.keys():
+            order_status_dic[order_status] = AllOrders.objects.filter(seller_id=request.user.id,created_date__year=now.year,created_date__month=now.month,created_date__day=now.day, order_status=order_status).count()
+
+        print(order_status_dic)
+
+        last_7_days_array = []
+        for day in range(0, 29):
+            earlier = now - datetime.timedelta(days=day)
+            last_7_days_array.append(AllOrders.objects.filter(seller_id=request.user.id, created_date__year=earlier.year,
+                                     created_date__month=earlier.month, created_date__day=earlier.day).count())
+
+        print(last_7_days_array)
+
         new_orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now),
                                               is_rejected=False).exclude(is_accepted=True)
         accepted_orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
@@ -153,9 +173,11 @@ def acceptOrder(request):
             order_id = request.POST['order_id']
             acceptOrd = AllOrders.objects.get(id=order_id)
             acceptOrd.is_accepted = True
+            acceptOrd.order_status = "ACCEPTED"
             acceptOrd.is_rejected = False
             acceptOrd.save()
 
+        order_status = 'ALL'
         if request.method == "GET" and len(request.GET)>0:
             order_status = request.GET['order_status']
             print(order_status)
@@ -163,15 +185,16 @@ def acceptOrder(request):
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         now = datetime.datetime.now()
         earlier = now - datetime.timedelta(hours=5)
-        new_orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now),
-                                              is_rejected=False).exclude(is_accepted=True)
-        accepted_orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
-        rejected_order = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
-        # print(new_orders, accepted_orders, rejected_order)
 
-        return render(request, 'seller/orderview.html',
-                      {'seller_data': seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders,
-                       'rejected_order': rejected_order})
+        if order_status == "ALL":
+            orders = AllOrders.objects.all()
+        elif order_status == "PENDING":
+            orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now), is_rejected=False).exclude(is_accepted=True)
+        elif order_status == "ACCEPTED":
+            orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
+        elif order_status == "REJECTED":
+            orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
+        return render(request, 'seller/orderview.html', {'seller_data': seller_data, 'orders':orders})
     else:
         redirect('sellerLogin')
 
@@ -183,6 +206,7 @@ def rejectOrder(request):
             order_id = request.POST['order_id']
             rejectedOdr = AllOrders.objects.get(id=order_id)
             rejectedOdr.is_rejected = True
+            rejectedOdr.order_status = "REJECTED"
             rejectedOdr.is_accepted = False
             rejectedOdr.save()
 
@@ -246,15 +270,28 @@ def editProducts(request):
 
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
+        delete_product = request.POST.get('delete_product')
+
+        if delete_product == "True":
+            Product.objects.get(id=product_id).delete()
+            print("PRODUCT DELETED")
+            return redirect('products')
+
         product_to_be_edit = Product.objects.get(id=product_id)
 
         product_to_be_edit.product_name = request.POST.get('product_name')
         product_to_be_edit.price = request.POST.get('price')
         product_to_be_edit.product_category = request.POST.get('category')
         product_to_be_edit.product_disc = request.POST.get('product_disc')
-        product_to_be_edit.save()
 
-        seller_data = Seller.objects.get(credentials_id=request.user.id)
+        if request.POST.get('is_featured') == "on" and request.POST.get('not_featured') == None:
+            is_featured = True
+            print("is_featured", True)
+        elif request.POST.get('is_featured') == None and request.POST.get('not_featured') == "on":
+            is_featured = False
+            print("is_featured", False)
+        product_to_be_edit.is_featured = is_featured
+        product_to_be_edit.save()
 
         return redirect('products')
 

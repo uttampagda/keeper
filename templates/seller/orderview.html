@@ -16,12 +16,16 @@
                   <input type="hidden" name="order_status" value="PENDING">
                   <button class="order-toggle-button">Pending</button>
                 </form>
-                <button class="order-toggle-button">Accepted</button>
+                <form method="get" action="{% url 'acceptOrder' %}">
+                  <input type="hidden" name="order_status" value="ACCEPTED">
+                  <button class="order-toggle-button">Accepted</button>
+                </form>
+                <form method="get" action="{% url 'acceptOrder' %}">
+                  <input type="hidden" name="order_status" value="REJECTED">
+                  <button class="order-toggle-button">Rejected</button>
+                </form>
                 <button class="order-toggle-button">Shipped</button>
                 <button class="order-toggle-button">Delivered</button>
-                <button class="order-toggle-button">Rejected</button>
-                <button class="order-toggle-button">Cancelled</button>
-
             </div>
           </div>
           <div class="orders-area-wrapper tableView">
@@ -37,11 +41,11 @@
 
 
             <div class="list-container-main">
-                {% for order in new_orders %}
+                {% for order in orders %}
               <div class="products-row order-arrange">
                   <div class="orders-cell order-id">{{ order.id }}</div>
                   <div class="orders-cell time"><span class="cell-label">Time:</span>{{ order.created_date }}</div>
-                  <div class="orders-cell cusname"><span class="cell-label">{{ order.customer_id }}</span>{{ order.customer_id }}</div>
+                  <div class="orders-cell cusname"><span class="cell-label">{{ order.customer_name }}</span>{{ order.customer_name }}</div>
                   <div class="orders-cell items"><span class="cell-label">Items:</span>11</div>
                   <div class="orders-cell payment-cell">
                     <span class="cell-label">Payment:</span>

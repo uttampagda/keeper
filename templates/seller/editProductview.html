@@ -57,6 +57,21 @@
 
                           <h5 class="addproducts-list-text">Product Description</h5>
                           <textarea name="product_disc" rows="1">{{ product_to_be_edit.product_disc }}</textarea>
+                          <label for="is_featured">Make Live</label><br>
+                          <div class="products-cell status-cell">
+                            <label class="status-switch">
+                              <input type="checkbox" name="is_featured">
+                              <span class="status-slider round"></span>
+                            </label>
+                          </div>
+                          <label for="not_featured">Make not Live</label><br>
+                          <div class="products-cell status-cell">
+                            <label class="status-switch">
+                              <input type="checkbox" name="not_featured">
+                              <span class="status-slider round"></span>
+                            </label>
+                          </div>
+
                         </div>
                       </div>
 
@@ -85,6 +100,12 @@
                         <!-- End Upload Area -->
                       </div>
                         <button type="submit" class="app-content-headerButton">Save edit</button>
+                     </form>
+                     <form method="POST" action="{% url 'editProducts' %}" >
+                         {% csrf_token %}
+                       <input type="hidden" name="product_id" value={{ product_to_be_edit.id }}>
+                       <input type="hidden" name="delete_product" value="True">
+                       <button type="submit" class="app-content-headerButton">Delete Product</button>
                      </form>
                     </div>
 
