@@ -21,7 +21,7 @@
                     {% for product in products %}
                         <div class="prod-cat-con">
                             <div class="product-image-box">
-                                <img src="{{ product.product_image.url }}">
+                                <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
                             </div>
                             <div class="prod-details-con">
                                 <h6 class="product-name">{{ product.product_name }}</h6>
@@ -29,7 +29,7 @@
                                 <p onclick="discri()" class="product-description">{{ product.product_disc }}</p>
                             </div>
                             <div class="addtocartbutton">
-                                <a href="#" class="add-button" data-name="{{ product.product_name }}" data-price="{{ product.price }}" data-proid="{{ product.id }}">ADD <span> +</span></a>
+                                <a href="#" class="add-button" data-name="{{ product.product_name }}" data-price="{{ product.price }}" data-proimage="{{ product.product_image.url }}" data-proid="{{ product.id }}" data-shopname="{{ seller_detail }}">ADD <span> +</span></a>
                             </div>
                         </div>
                     {% endfor %}
