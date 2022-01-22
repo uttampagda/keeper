@@ -2,11 +2,13 @@
 var shoppingCart = (function() {
   cart = [];
 
-  function Item(name, price, count, proid) {
+  function Item(name, price, count, proid, shopname,proimage) {
     this.name = name;
     this.price = price;
     this.count = count;
     this.proid = proid;
+    this.shopname = shopname;
+    this.proimage = proimage;
   }
 
   // Save cart
@@ -26,7 +28,7 @@ var shoppingCart = (function() {
   var obj = {};
 
   // Add to cart
-  obj.addItemToCart = function(name, price, count, proid) {
+  obj.addItemToCart = function(name, price, count, proid, shopname,proimage) {
     for(var item in cart) {
       if(cart[item].name === name) {
         cart[item].count ++;
@@ -34,7 +36,7 @@ var shoppingCart = (function() {
         return;
       }
     }
-    var item = new Item(name, price, count,proid);
+    var item = new Item(name, price, count,proid, shopname, proimage);
     cart.push(item);
     saveCart();
   }
@@ -123,7 +125,9 @@ $('.add-button').click(function(event) {
   var name = $(this).data('name');
   var price = Number($(this).data('price'));
   var proid = Number($(this).data('proid'));
-  shoppingCart.addItemToCart(name, price, 1, proid);
+  var shopname = $(this).data('shopname');
+  var proimage = $(this).data('proimage');
+  shoppingCart.addItemToCart(name, price, 1, proid, shopname, proimage);
   displayCart();
 });
 
@@ -143,10 +147,10 @@ function displayCart() {
       output += '<div class="cart-container">' +
           '                <div class="inner-cart">' +
           '					<div class="in-c">' +
-          '						<img class="cart-product-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="product">' +
+          '						<img class="cart-product-img" src="'+ cartArray[i].proimage +  '" alt="product">' +
           '						<div class="cart-product-info">' +
           '							<span>' + cartArray[i].name + '</span>' +
-          '							<p>{{ seller_detail }}</p>' +
+          '							<p>' + cartArray[i].shopname + '</p>' +
           '						</div>' +
           '					</div>' +
           '					<div class="product-count">' +
