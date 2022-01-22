@@ -32,6 +32,7 @@ class AllOrders(models.Model):
     created_date = models.DateTimeField(auto_now=True)
     is_rejected = models.BooleanField(default=None, blank=True, null=True)
     order_type = models.CharField(blank=False, null=False, max_length=50, default="HOME_DELIVERY")
+    order_status = models.CharField(blank=False, null=False, max_length=50, default="PENDING")
     pickup_date = models.DateTimeField(blank=True, null=True)
 
 
