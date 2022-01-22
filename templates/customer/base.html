@@ -75,6 +75,10 @@
 											<p class="ftsz-12 black-0-8">{{ customer_data.email }}</p>
 										</div>
 									</div>
+                                    <div class="divider-border"></div>
+									<div class="dropdown-hover dropdown-profile-padding">
+										<a href="{% url 'profile' %}">My Profile</a>
+									</div>
 									<div class="divider-border"></div>
 									<div class="dropdown-hover dropdown-profile-padding">
 										<a href="{% url 'orders' %}">My Orders</a>
@@ -109,6 +113,7 @@
 	<script src="{% static 'js/JQuary.js' %}"></script>
 	<script src="{% static 'js/_bootstrap.js' %}"></script>
     <script src="{% static 'js/cart.js' %}"></script>
+    <script src="{% static 'js/addimage.js' %}"></script>
 
 </body>
 </html>
