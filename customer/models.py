@@ -39,7 +39,7 @@ class AllOrders(models.Model):
 
 class Banner(models.Model):
     banner_title=models.CharField(max_length=50)
-    banner_photo = models.ImageField(upload_to="media/banner/")
+    banner_photo = models.ImageField(upload_to="banner/")
     prio = models.IntegerField(blank=False,null=False,unique=True)
 
 

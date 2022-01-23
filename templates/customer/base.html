@@ -35,7 +35,6 @@
                             <img class="mr-2" src="{% static 'customer/img/icons/location.svg'%}" alt="">
                             <p class="m-0 ftsz-15 ftfmly-poppins ftweight-400">Select Your Address</p>
                             <i class="fa fa-angle-down ftsz-20 p-2"></i>
-
                             <div class="location-dropdown-content">
                                         <div class="d-flex align-items-center dropdown-profile-padding">
                                             <button class="button-padding detect-button c-pointer"><a href={% url 'addAddress' %}>Detect location</a></button>
@@ -46,9 +45,10 @@
                                         </div>
                             </div>
                         </div>
-
+                <form method="POST" action="{% url 'custDashboard' %}" class="col-md-5 offset-1">
+                    {% csrf_token %}
                     <div class="search-catagory" style="width: 3rem">
-        						<select name="order_type" id="order_type" onchange="changeOrderType();" style="border: none">
+        						<select name="order_type" id="order_type" onChange="form.submit();" style="border: none">
         							<option value="5" selected>5</option>
                                     <option value="10">10</option>
                                     <option value="20">20</option>
@@ -57,7 +57,7 @@
                                     <option value="100">100</option>
         						</select>
         					</div>
-
+                </form>
                         <div class="d-flex w-45">
                                 <form class="search-box w-100" method="POST" action="{% url 'custDashboard' %}">
                                     {% csrf_token %}
