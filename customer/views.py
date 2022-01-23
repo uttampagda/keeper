@@ -84,39 +84,59 @@ def custLogin(request):
             return redirect('custLogin')
     return render(request, 'customer/login.html')
 
-
-@login_required(login_url='custLogin')
-def custDashboard(request):
+def kmrange(request):
     customer_data = Customer.objects.get(username=request.user.username)
-    km_range = 10000
-
+    global km_range
+    km_range = 5
     allcategories = AllCategories.objects.all()
     print("AllCategories", allcategories)
-    if request.method=="POST":
+    if request.method == "POST":
         km_range = request.POST.get('km_range')
-        print('goes here')
         allAddress = CustAddress.objects.filter(customer=customer_data)
         ref_location = allAddress[0].location
         NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
         print('NearBySellers', NearBySellers)
-        print('end')
-        return render(request, 'customer/dashboard.html',{'customer_data': customer_data, 'near_by_sellers': NearBySellers,
-                           'allcategories': allcategories})
+        return render(request, 'customer/dashboard.html',
+                      {'customer_data': customer_data, 'near_by_sellers': NearBySellers,
+                       'allcategories': allcategories})
 
 
+@login_required(login_url='custLogin')
+def custDashboard(request):
+    customer_data = Customer.objects.get(username=request.user.username)
+    global km_range
+    km_range = 5
+    allcategories = AllCategories.objects.all()
+    print("AllCategories", allcategories)
+    if request.method == "POST":
+        km_range = request.POST.get('km_range')
+    allAddress = CustAddress.objects.filter(customer=customer_data)
+    ref_location = allAddress[0].location
+    NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
+    print('NearBySellers', NearBySellers)
+    return render(request, 'customer/dashboard.html',
+                      {'customer_data': customer_data, 'near_by_sellers': NearBySellers,
+                       'allcategories': allcategories})
+
+@login_required(login_url='custLogin')
+def searchProductNearBY(request):
+    customer_data = Customer.objects.get(username=request.user.username)
+    global km_range
+    allcategories = AllCategories.objects.all()
 
     try:
         allAddress = CustAddress.objects.filter(customer=customer_data)
         ref_location = allAddress[0].location
 
         if request.method == "POST":
+
             category_name = request.POST.get('category_name')
             product_name = request.POST.get('product_name')
 
             print(km_range, "--", category_name, "--", product_name)
 
             if km_range is None or km_range == '':
-                km_range = 10000
+                km_range = 5
 
             if category_name is not None:
                 NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)),
@@ -137,52 +157,17 @@ def custDashboard(request):
                     NearBySellers.append(Seller.objects.get(credentials_id=seller_cr))
 
             print('NearBySellers', NearBySellers)
-            return render(request, 'customer/dashboard.html',
+            return render(request, 'customer/searchresult.html',
                           {'customer_data': customer_data, 'near_by_sellers': NearBySellers,
                            'allcategories': allcategories})
 
         NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
         print('NearBySellers', NearBySellers)
 
-        return render(request, 'customer/dashboard.html',
+        return render(request, 'customer/searchresult.html',
                       {'customer_data': customer_data, 'near_by_sellers': NearBySellers,
                        'allcategories': allcategories})
     except:
-        NearBySellers = {}
-        messages.error(request, 'Please add Address first!')
-        return render(request, 'customer/dashboard.html',
-                      {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
-
-
-@login_required(login_url='custLogin')
-def searchProductNearBY(request):
-    customer_data = Customer.objects.get(username=request.user.username)
-    km_range = 10
-
-    try:
-        allAddress = CustAddress.objects.filter(customer=customer_data)
-        ref_location = allAddress[0].location
-
-        if request.method == "POST":
-            km_range = request.POST.get('km_range')
-            key_word = request.POST['key_word']
-
-            if km_range is None or km_range == '':
-                km_range = 10
-
-            if key_word is None or key_word == '':
-                NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=10)))
-                messages.error(request, 'Please search valid keyword')
-                return render(request, 'customer/dashboard.html',
-                              {'customer_data': customer_data, 'near_by_sellers': NearBySellers})
-
-        NearByProduct = Product.objects.filter(location__dwithin=(ref_location, D(km=km_range)),
-                                               product_name__icontains=key_word)
-
-
-
-        return render(request, 'customer/productSearch.html', {'product_data': NearByProduct})
-    except Exception as er:
         NearBySellers = {}
         messages.error(request, 'Please add Address first!')
         return render(request, 'customer/dashboard.html',

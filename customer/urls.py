@@ -17,5 +17,5 @@ urlpatterns = [
     path('banner', views.banner, name="banner"),
     path('orders', views.orders, name="orders"),
     path('profile', views.profile, name="profile"),
-
+    path('dashboard', views.kmrange, name="kmrange"),
 ]

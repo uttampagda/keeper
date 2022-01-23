@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+</head>
+<body>
+{% for seller in near_by_sellers %}
+    <tr>
+        <th>{{ seller.username }}</th>
+        <th>{{ seller.shopname }}</th>
+        <th>
+            <form method="get" action="{% url 'sellerlandingpage' %}" class="col-md-5 offset-md-1">
+            <div class="form-group">
+              <input type="hidden" name="seller_name" value={{ seller.username }}>
+            </div>
+            <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">GET</button>
+            </form>
+        </th>
+    </tr>
+
+{% endfor %}
+</body>
+</html>
