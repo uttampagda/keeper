@@ -102,24 +102,15 @@ def sellerDashboard(request):
                                                                       created_date__month=now.month,
                                                                       created_date__day=now.day,
                                                                       order_status=order_status).count()
-        #for Chart part
+
         total_orders_30 = []
-        chartdate = []
         for day in range(0, 29):
             earlier = now - datetime.timedelta(days=day)
             total_orders_30.append(
                 AllOrders.objects.filter(seller_id=request.user.id, created_date__year=earlier.year,
                                          created_date__month=earlier.month, created_date__day=earlier.day).count())
-            date = str(earlier.day) + ' ' + str(earlier.strftime('%B'))+ ' ' + str(earlier.year)
-            chartdate.append(date)
-        if total_orders_30[0]==total_orders_30[1]:
-            today_orderper = 0
-        elif total_orders_30[1]==0:
-            today_orderper = 0
-        elif total_orders_30[0]//total_orders_30[1]>0:
-            today_orderper = (total_orders_30[0]//total_orders_30[1]) * 50
-        elif total_orders_30[0]//total_orders_30[1]<0:
-            today_orderper = ((total_orders_30[1]-total_orders_30[0])//total_orders_30[1]) * 100
+
+
 
         new_orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now),
                                               is_rejected=False).exclude(is_accepted=True)
@@ -132,9 +123,7 @@ def sellerDashboard(request):
             'accepted_orders': accepted_orders,
             'rejected_order': rejected_order,
             'order_status_dic': order_status_dic,
-            'total_orders_30': total_orders_30,
-            'chartdate': chartdate,
-            'today_orderper': today_orderper
+            'total_orders_30' : total_orders_30
         }
         return render(request, 'seller/seller.html', data)
     else:
@@ -208,6 +197,7 @@ def acceptOrder(request):
         order_status = 'ALL'
         if request.method == "GET" and len(request.GET) > 0:
             order_status = request.GET['order_status']
+            print(order_status)
 
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         now = datetime.datetime.now()
@@ -245,7 +235,7 @@ def rejectOrder(request):
                                               is_rejected=None).exclude(is_accepted=True)
         accepted_orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
         rejected_order = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
-
+        print(new_orders, accepted_orders, rejected_order)
         return render(request, 'seller/orderview.html',
                       {'seller_data': seller_data, 'new_orders': new_orders, 'accepted_orders': accepted_orders,
                        'rejected_order': rejected_order})
@@ -260,6 +250,7 @@ def products(request):
         products = Product.objects.filter(shopname=seller_data.shopname)
 
         allCategories = AllCategories.objects.all()
+        print(allCategories)
 
         data = {
             'seller_data': seller_data,
@@ -301,7 +292,7 @@ def editProducts(request):
 
         if delete_product == "True":
             Product.objects.get(id=product_id).delete()
-
+            print("PRODUCT DELETED")
             return redirect('products')
 
         product_to_be_edit = Product.objects.get(id=product_id)

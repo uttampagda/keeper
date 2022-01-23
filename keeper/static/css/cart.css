@@ -145,7 +145,7 @@ input[type=number] {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 7px;
 }
 .item-font {
     font-size: 13px;
@@ -198,7 +198,7 @@ input[type=number] {
     border-radius: 8px;
     border: 2px solid rgba(4, 135, 130, 0.2);
     background: rgba(4, 135, 130, 0.05);
-    transform: translateY(5px);
+    transform: translateY(1rem);
     transition: all 0.35s;
     margin-bottom: 10px;
     color: #040505;
