@@ -48,7 +48,7 @@
                         <form method="POST" action="{% url 'custDashboard' %}" class="col-md-5 offset-1">
                             {% csrf_token %}
                             <div class="search-catagory" style="width: 3rem">
-                                        <select name="order_type" id="order_type" onChange="form.submit();" style="border: none">
+                                        <select name="km_range" id="order_type" onChange="form.submit();" style="border: none">
                                             <option value="5" selected>5</option>
                                             <option value="10">10</option>
                                             <option value="20">20</option>
@@ -59,7 +59,7 @@
                                     </div>
                         </form>
                         <div class="d-flex w-45">
-                                <form class="search-box w-100" method="POST" action="{% url 'custDashboard' %}">
+                                <form class="search-box w-100" method="POST" action="{% url 'searchProductNearBY' %}">
                                     {% csrf_token %}
                                     <input class="ftsz-12 w-100" autocomplete="off" name="product_name" placeholder="Search for products">
                                     <button class="search-box-icon c-pointer" type="submit"><i class="fa fa-search p-2 F4F6F6"></i></button>
