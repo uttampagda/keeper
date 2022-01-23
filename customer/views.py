@@ -140,11 +140,11 @@ def searchProductNearBY(request):
 
             if category_name is not None:
                 NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)),
-                                                      categories_list__contains=category_name)
+                                                      categories_list__icontains=category_name)
             if product_name is not None:
                 NearByProducts = Product.objects.filter(
                     location__dwithin=(ref_location, D(km=km_range)),
-                    product_name__startswith=product_name)
+                    product_name__icontains=product_name)
 
                 list_seller_cr = []
                 for product in NearByProducts:
