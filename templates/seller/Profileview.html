@@ -48,8 +48,8 @@
                               </svg>
                             </span>
                             <span id="loadingText" class="prod-imgup__loading-text">Please Wait</span>
-                            <img src="" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
-                            <input type="file" id="fileInput" name="productImage" class="prod-imgup__file-input" accept="image/*" >
+                            <img src="{{ profile_to_be_edit.product_image.url }}" style="display: block" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
+                            <input type="file" id="fileInput" name="profileImage" class="prod-imgup__file-input" accept="image/*" >
                           </div>
                           <!-- End prodimgup -->
                         </div>
@@ -77,7 +77,7 @@
                           <div class="w-100 d-flex justify-content-between">
                             <div class="w-50">
                               <h5 class="addproducts-list-text">Email address <span>(Not to be edited)</span></h5>
-                              <input name="email" placeholder="Email address" value="{{ profile_to_be_edit.email }}" >
+                              <input name="email" placeholder="Email address" value="{{ profile_to_be_edit.email }}" disabled>
                             </div>
                           </div>
 

@@ -29,8 +29,7 @@ const uploadedFile = document.querySelector('#uploadedFile');
 const imagesTypes = [
   "jpeg",
   "png",
-  "svg",
-  "gif"
+  "svg"
 ];
 
 

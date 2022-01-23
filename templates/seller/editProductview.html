@@ -94,22 +94,28 @@
                                 <polyline points="21 15 16 10 5 21"/>
                               </svg>
                             </span>
+
                             <span id="loadingText" class="prod-imgup__loading-text">Please Wait</span>
-                            <img src="" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
-                            <input type="file" id="fileInput" name="productImage" class="prod-imgup__file-input" accept="image/*" >
+                            <img src="{{ product_to_be_edit.product_image.url }}" style="display: block" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
+                            <input type="file" id="fileInput" name="productImage" class="prod-imgup__file-input" accept="image/*" required>
                           </div>
                           <!-- End prodimgup -->
                         </div>
                         <!-- End Upload Area -->
                       </div>
-                        <button type="submit" class="app-content-headerButton">Save edit</button>
+                        <button onclick="save()" type="submit" class="app-content-headerButton">Save edit</button>
                      </form>
-                     <form method="POST" action="{% url 'editProducts' %}" >
-                         {% csrf_token %}
-                       <input type="hidden" name="product_id" value={{ product_to_be_edit.id }}>
-                       <input type="hidden" name="delete_product" value="True">
-                       <button type="submit" class="app-content-headerButton">Delete Product</button>
-                     </form>
+
+                    <script>
+                        function save() {
+                            const img = document.getElementById('previewImage');
+                            const fileInput = document.getElementById('fileInput');
+                            if (fileInput.files.length === 0 && img.getAttribute('src') === "") {
+                                alert('Upload File');
+                            }
+                        }
+                    </script>
+
                     </div>
 
             </div>
