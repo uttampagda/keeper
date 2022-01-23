@@ -102,7 +102,7 @@ def sellerDashboard(request):
                                                                       created_date__month=now.month,
                                                                       created_date__day=now.day,
                                                                       order_status=order_status).count()
-
+        #for Chart part
         total_orders_30 = []
         chartdate = []
         for day in range(0, 29):
@@ -112,7 +112,15 @@ def sellerDashboard(request):
                                          created_date__month=earlier.month, created_date__day=earlier.day).count())
             date = str(earlier.day) + ' ' + str(earlier.strftime('%B'))+ ' ' + str(earlier.year)
             chartdate.append(date)
-        print(chartdate)
+        if total_orders_30[0]==total_orders_30[1]:
+            today_orderper = 0
+        elif total_orders_30[1]==0:
+            today_orderper = 0
+        elif total_orders_30[0]//total_orders_30[1]>0:
+            today_orderper = (total_orders_30[0]//total_orders_30[1]) * 50
+        elif total_orders_30[0]//total_orders_30[1]<0:
+            today_orderper = ((total_orders_30[1]-total_orders_30[0])//total_orders_30[1]) * 100
+
         new_orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now),
                                               is_rejected=False).exclude(is_accepted=True)
         accepted_orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
@@ -125,7 +133,8 @@ def sellerDashboard(request):
             'rejected_order': rejected_order,
             'order_status_dic': order_status_dic,
             'total_orders_30': total_orders_30,
-            'chartdate': chartdate
+            'chartdate': chartdate,
+            'today_orderper': today_orderper
         }
         return render(request, 'seller/seller.html', data)
     else:
