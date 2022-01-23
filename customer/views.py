@@ -88,7 +88,7 @@ def custLogin(request):
 @login_required(login_url='custLogin')
 def custDashboard(request):
     customer_data = Customer.objects.get(username=request.user.username)
-    km_range = 5
+    km_range = 10000
 
     allcategories = AllCategories.objects.all()
     print("AllCategories", allcategories)
@@ -105,15 +105,25 @@ def custDashboard(request):
             print(km_range, "--", category_name, "--", product_name)
 
             if km_range is None or km_range == '':
-                km_range = 5
+                km_range = 10000
 
             if category_name is not None:
                 NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)),
                                                       categories_list__contains=category_name)
             if product_name is not None:
-                NearBySellers = Product.objects.filter(
+                NearByProducts = Product.objects.filter(
                     location__dwithin=(ref_location, D(km=km_range)),
                     product_name__startswith=product_name)
+
+                list_seller_cr = []
+                for product in NearByProducts:
+                    if product.seller_cr not in list_seller_cr:
+                        list_seller_cr.append(product.seller_cr)
+
+                NearBySellers = []
+
+                for seller_cr in list_seller_cr:
+                    NearBySellers.append(Seller.objects.get(credentials_id=seller_cr))
 
             print('NearBySellers', NearBySellers)
             return render(request, 'customer/dashboard.html',

@@ -37,26 +37,17 @@
 	<section class="section_gap category-height">
 		<div class="container-fluid h-100">
 			<div class="banner-box m-auto">
+            <h3 class="cate-header">Top Shops by categories</h3>
 				<div class="d-flex justify-content-center w-100 h-100">
-{#					<div class="category-box mr-3"></div>#}
-{#					<div class="category-box mr-3"></div>#}
-{#					<div class="category-box mr-3"></div>#}
-{#					<div class="category-box mr-3"></div>#}
-{#					<div class="category-box mr-3"></div>#}
-{#					<div class="category-box mr-3"></div>#}
-{#					<div class="category-box mr-3"></div>#}
-{#					<div class="category-box mr-3"></div>#}
-{#					<div class="category-box mr-3"></div>#}
-{#					<div class="category-box mr-3"></div>#}
-{#					<div class="category-box mr-3"></div>#}
-{#					<div class="category-box"></div>#}
-                    {% for category in  allcategories %}
+                {% for category in  allcategories %}
                         <form method="POST" action="{% url 'custDashboard' %}">
                             {% csrf_token %}
                             <input type="hidden" name="category_name" value={{ category.category_name }}>
-                            <button type="submit"> {{ category.category_name }}</button>
+					        <div class="category-box mr-3">
+                                <button type="submit" class="categories-button"> {{ category.category_name }}</button>
+                            </div>
                         </form>
-                    {% endfor %}
+                {% endfor %}
 				</div>
 			</div>
 		</div>
