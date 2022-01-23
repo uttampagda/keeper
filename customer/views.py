@@ -134,7 +134,7 @@ def custDashboard(request):
 @login_required(login_url='custLogin')
 def searchProductNearBY(request):
     customer_data = Customer.objects.get(username=request.user.username)
-    km_range = 10
+    km_range = 10000
 
     try:
         allAddress = CustAddress.objects.filter(customer=customer_data)

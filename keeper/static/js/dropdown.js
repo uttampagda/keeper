@@ -76,3 +76,5 @@ var x, i, j, l, ll, selElmnt, a, b, c;
 		/*if the user clicks anywhere outside the select box,
 		then close all select boxes:*/
 		document.addEventListener("click", closeAllSelect);
+		
+		
