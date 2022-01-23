@@ -97,6 +97,7 @@ def custDashboard(request):
         allAddress = CustAddress.objects.filter(customer=customer_data)
         ref_location = allAddress[0].location
 
+
         if request.method == "POST":
             km_range = request.POST.get('km_range')
             category_name = request.POST.get('category_name')
