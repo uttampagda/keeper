@@ -159,9 +159,7 @@ input {
   top: 0;
   width: 100%;
 }
-.sticky + .abc {
-  margin-top: 72px;
-}
+
 .header_area .navbar {
   background: #F4F6F6;
   padding: 7px 15px;
@@ -383,6 +381,12 @@ overflow: hidden;
 }
 .banner-box .cate-header {
   font-size: 22px;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.banner-box .cate-header::after {
+  width: 50px;
+  border-bottom: 1px solid black;
 }
 
 .banner-img1 {
@@ -404,13 +408,12 @@ overflow: hidden;
 }
 /**** Categories ****/
 .category-height {
-  height: 7.5rem;
+  height: auto;
 }
 
 .category-box {
   width: 95px;
-  height: 100%;
-  background: black;
+  height: 7.5rem;
   border-radius: 7px;
   background-size: cover;
   background-color: #0c5460;
@@ -418,14 +421,50 @@ overflow: hidden;
 
 /**** Shops ****/
 .shop-box {
-  width: 32%;
-  height: 97%;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  height: 85px;
   background: #FFFFFF;
-  box-shadow: 0 3px 20px -1px rgba(4, 135, 130, 0.3);
+  box-shadow: 0 3px 10px -1px rgba(4, 135, 130, 0.3);
   border-radius: 7px;
+  padding: 10px 12px;
+  margin: 0.5rem;
 }
-
-
+.shop-image {
+  border-radius: 5px;
+  height: 65px;
+  width: 65px;
+  background: rgba(4, 135, 130, 0.3);
+}
+.shopname-box {
+  display: flex;
+  height: 100%;
+  width: 50%;
+  flex-direction: column;
+  margin-left: 10px;
+  justify-content: center;
+}
+.shopname {
+  font-size: 17px;
+  line-height: 1.1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+  font-weight: 500;
+  text-align: left;
+  color: #040505;
+  white-space: nowrap;
+}
+.shopcategory {
+  font-size: 13px;
+  line-height: 1.1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: slategrey;
+  max-width: 100%;
+  white-space: nowrap;
+}
 .app-content {
   padding: 16px;
   background-color: var(--app-bg);
@@ -962,5 +1001,8 @@ overflow: hidden;
   cursor: pointer;
 }
 
+.shops-height {
+  height: auto;
+}
 
 
