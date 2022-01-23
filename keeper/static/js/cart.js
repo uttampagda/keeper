@@ -159,7 +159,7 @@ function displayCart() {
           '						<button type="button" class="plus-item" data-name="' + cartArray[i].name + '">+</button>' +
           '					</div>' +
           '					<div class="price-remove">' +
-          '						<p class="cart-price">₹' + cartArray[i].total + '</p>' +
+          '						<p class="cart-price">' + cartArray[i].total + '</p>' +
           '						<p class="cart-remove" data-name="' + cartArray[i].name + '">Remove</p>' +
           '					</div>' +
           '                </div>' +
@@ -170,16 +170,16 @@ function displayCart() {
         '					<div class="bill-brief-con">' +
         '						<div class="bill-brief">' +
         '							<p class="item-font">Item Total</p>' +
-        '							<p class="item-price">₹' + totalCart + '</p>' +
+        '							<p class="item-price">' + totalCart + '</p>' +
         '						</div>' +
         '						<div class="bill-brief">' +
         '							<p class="item-font">Ddelivery Fee</p>' +
-        '							<p class="item-price">₹50</p>' +
+        '							<p class="item-price">50</p>' +
         '						</div>' +
         '						<div class="total-border"></div>' +
         '						<div class="bill-brief">' +
         '							<p class="item-font-bold">Total(inc. GST)</p>' +
-        '							<p class="item-font-bold b">₹' + totalCart + '</p>' +
+        '							<p class="item-font-bold b">8000</p>' +
         '						</div>' +
         '					</div>' +
         '					<div class="search-catagory">' +
