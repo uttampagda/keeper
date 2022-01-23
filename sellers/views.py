@@ -9,6 +9,7 @@ from django.contrib.gis.geos import Point
 from customer.models import AllOrders
 import datetime
 import ast
+from django.utils.datastructures import MultiValueDictKeyError
 
 # Create your views here.
 
@@ -157,14 +158,11 @@ def addproduct(request):
 
         addproduct.save()
 
-        print(seller_data.categories_list)
 
         categories_list = ast.literal_eval(seller_data.categories_list)
-        print(categories_list)
         if category not in categories_list:
             categories_list.append(category)
 
-        print(str(categories_list))
         seller_data.categories_list = str(categories_list)
         seller_data.save()
 
@@ -296,12 +294,19 @@ def editProducts(request):
         product_to_be_edit.product_category = request.POST.get('category')
         product_to_be_edit.product_disc = request.POST.get('product_disc')
 
+        try:
+            product_to_be_edit.product_image = request.FILES['productImage']
+        except MultiValueDictKeyError:
+            print("error")
+
+
         if request.POST.get('is_featured') == "on" and request.POST.get('not_featured') == None:
             is_featured = True
-            print("is_featured", True)
         elif request.POST.get('is_featured') == None and request.POST.get('not_featured') == "on":
             is_featured = False
-            print("is_featured", False)
+        else:
+            is_featured = True
+
         product_to_be_edit.is_featured = is_featured
         product_to_be_edit.save()
 
@@ -328,6 +333,7 @@ def editProfile(request):
 
         profile_to_be_edit.shopname = request.POST.get('shopname')
         profile_to_be_edit.phone = request.POST.get('phone')
+        profile_to_be_edit.product_image = request.FILES['profileImage']
 
         profile_to_be_edit.save()
         return redirect('sellerDashboard')

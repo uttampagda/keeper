@@ -48,16 +48,11 @@
                         </div>
 
                         <div class="d-flex w-45">
-                            <div class="search-box w-100">
-                                <form method="POST" action="{% url 'custDashboard' %}">
+                                <form class="search-box w-100" method="POST" action="{% url 'custDashboard' %}">
                                     {% csrf_token %}
                                     <input class="ftsz-12 w-100" autocomplete="off" name="product_name" placeholder="Search for products">
-
-                                    <button class="search-box-icon c-pointer" type="submit"></button>
+                                    <button class="search-box-icon c-pointer" type="submit"><i class="fa fa-search p-2 F4F6F6"></i></button>
                                 </form>
-                                </div>
-
-                                <i class="fa fa-search p-2 F4F6F6"></i></button>
                         </div>
 
 
@@ -65,7 +60,7 @@
 					<div onclick="profilebutton()" class="profile-container d-flex c-pointer">
 						<div class="profile-box mr-2"></div>
 						<div class="">
-							<p class="ftsz-12">Hello, {{ user.first_name }}</p>
+							<p class="customer_name ftsz-12">Hello, {{ user.first_name }}</p>
 							<div class="d-flex">
 								<p class="ftsz-15 mr-1">Profile</p>
 								<i class="fa fa-caret-down"></i>
@@ -73,7 +68,7 @@
 									<div class="d-flex align-items-center dropdown-profile-padding">
 										<div class="profile-box-2 mr-3"></div>
 										<div class="d-block">
-											<p class="ftsz-15 padding-tb2-5 black-0-8">{{ user.first_name }} {{ user.last_name }}</p>
+											<p class="ftsz-15 padding-tb2-5 black-0-8 customer_name">{{ user.first_name }} {{ user.last_name }}</p>
 											<p class="ftsz-12 black-0-8">{{ customer_data.email }}</p>
 										</div>
 									</div>

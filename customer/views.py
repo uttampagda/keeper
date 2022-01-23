@@ -91,7 +91,6 @@ def custDashboard(request):
     km_range = 10000
 
     allcategories = AllCategories.objects.all()
-    print("AllCategories", allcategories)
 
     try:
         allAddress = CustAddress.objects.filter(customer=customer_data)
@@ -103,7 +102,7 @@ def custDashboard(request):
             category_name = request.POST.get('category_name')
             product_name = request.POST.get('product_name')
 
-            print(km_range, "--",category_name, "--",product_name)
+
 
             if km_range is None or km_range == '':
                 km_range = 10000
@@ -115,13 +114,13 @@ def custDashboard(request):
                     location__dwithin=(ref_location, D(km=km_range)),
                     product_name__startswith=product_name)
 
-            print('NearBySellers', NearBySellers)
+
             return render(request, 'customer/dashboard.html',
                           {'customer_data': customer_data, 'near_by_sellers': NearBySellers,
                            'allcategories': allcategories})
 
         NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
-        print('NearBySellers', NearBySellers)
+
 
         return render(request, 'customer/dashboard.html',
                       {'customer_data': customer_data, 'near_by_sellers': NearBySellers, 'allcategories':allcategories})
@@ -144,7 +143,7 @@ def searchProductNearBY(request):
         if request.method == "POST":
             km_range = request.POST.get('km_range')
             key_word = request.POST['key_word']
-            print(km_range)
+
             if km_range is None or km_range == '':
                 km_range = 10
 
@@ -156,12 +155,11 @@ def searchProductNearBY(request):
 
         NearByProduct = Product.objects.filter(location__dwithin=(ref_location, D(km=km_range)),
                                                product_name__icontains=key_word)
-        for product in NearByProduct:
-            print(product.product_name, product.price)
+
+
 
         return render(request, 'customer/productSearch.html', {'product_data': NearByProduct})
     except Exception as er:
-        print(er)
         NearBySellers = {}
         messages.error(request, 'Please add Address first!')
         return render(request, 'customer/dashboard.html',
@@ -208,7 +206,6 @@ def addAddress(request):
 
 def sellerlandingpage(request):
     if request.method == "GET":
-        print(request.GET["seller_name"])
         seller_detail = Seller.objects.get(username=request.GET["seller_name"])
         seller_products = Product.objects.filter(seller_cr=seller_detail.credentials_id,is_featured=True)
         loc=seller_detail.location
@@ -235,8 +232,7 @@ def confirm(request):
         order_type = request.POST.get('order_type')
         pick_up_time = request.POST.get('pick_up_time')
         total = request.POST.get('total')
-        print(name, list_of_orders, total, order_type, pick_up_time)
-        amount = int(total) * 100
+        amount = int(total)
         return render(request, 'customer/checkout.html',
                       {'list_of_orders': list_of_orders, 'name': name, 'total': int(total), 'amount': int(amount),
                        'order_type': order_type, 'pick_up_time': pick_up_time})
@@ -254,12 +250,12 @@ def checkout(request):
 
         amount = request.POST.get('total').replace('/', '')
         list_of_orders = request.POST.get('list_of_orders').replace('/', '')
-        print(amount, list_of_orders)
+
         client = razorpay.Client(auth=("rzp_test_bSTKVqtv6GwTso", "YEAj0ll32SLlXhunbTJSJqVH"))
         payment = client.order.create({'amount': amount, 'currency': 'INR', 'payment_capture': '1'})
-        print("DONE_PAYMENT-------------", payment)
+
         customer_data = Customer.objects.get(username=request.user.username)
-        print(json.loads(list_of_orders))
+
         seller_id = Product.objects.get(pk=json.loads(list_of_orders)[0]['proid']).seller_cr
 
         new_order = AllOrders(
@@ -291,7 +287,6 @@ def success(request):
 
 def banner(request):
     bannerr = Banner.objects.all()
-    print(bannerr)
     data = {
         'bannerr': bannerr,
     }
@@ -300,21 +295,22 @@ def banner(request):
 
 def orders(request):
     order_data = AllOrders.objects.all().filter(customer_id=request.user.id)
-    print(request.user.id)
     data = {
         'order_data': order_data,
     }
 
-    return render(request, "customer/orders.html", data)
+    return render(request, "customer/myorderview.html", data)
 
 @login_required(login_url='cusLogin')
 def profile(request):
     if request.method == 'GET':
-
-        return render(request, 'customer/profileview.html')
+        customer_data = Customer.objects.get(credentials_id=request.user.id)
+        profile_to_be_edit = Customer.objects.get(credentials_id=request.user.id)
+        return render(request, 'customer/profileview.html', {'profile_to_be_edit': profile_to_be_edit, 'customer_data': customer_data})
 
     if request.method == 'POST':
-        profile_to_be_edit = Seller.objects.get(credentials_id=request.user.id)
+        profile_to_be_edit = Customer.objects.get(credentials_id=request.user.id)
+        user_to_be_edit = User.objects.get(id=request.user.id)
 
         newpassword = request.POST.get('newpassword')
         newconfirmpassword = request.POST.get('newconfirmpassword')
@@ -324,8 +320,9 @@ def profile(request):
             u.save()
             print("password updated")
 
-        profile_to_be_edit.shopname = request.POST.get('shopname')
+        user_to_be_edit.first_name = request.POST.get('first_name')
         profile_to_be_edit.phone = request.POST.get('phone')
 
         profile_to_be_edit.save()
-        return redirect('sellerDashboard')
+        user_to_be_edit.save()
+        return redirect('custDashboard')

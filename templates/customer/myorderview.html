@@ -1,0 +1,38 @@
+{% extends "customer/base.html" %}
+{% block content %}
+
+    <div class="orders-area-wrapper tableView">
+            <div class="products-header order-arrange">
+              <div class="orders-cell">Order ID</div>
+              <div class="orders-cell">Time</div>
+              <div class="orders-cell">Shop Name</div>
+              <div class="orders-cell">Items</div>
+              <div class="orders-cell">Payment</div>
+              <div class="orders-cell">Status</div>
+              <div class="orders-cell">Amount</div>
+            </div>
+
+
+            <div class="list-container-main">
+                {% for order in order_data %}
+              <div class="products-row order-arrange">
+                  <div class="orders-cell order-id">{{ order.id }}</div>
+                  <div class="orders-cell time">{{ order.created_date }}</div>
+                  <div class="orders-cell cusname">{{ order.shopname }}</div>
+                  <div class="orders-cell items">11</div>
+                  <div class="orders-cell payment-cell">
+                    <span class="status active">{{ order.order_type}}</span>
+                  </div>
+
+                  <div class="orders-cell status-cell">
+                    <span class="status active">{{ order.order_status }}</span>
+                  </div>
+
+
+                  <div class="orders-cell amount">{{ order.ttl_amount }}</div>
+                </div>
+                {% endfor %}
+            </div>
+          </div>
+
+{% endblock %}

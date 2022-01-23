@@ -601,6 +601,12 @@ a {
 .products-cell.image {
   display: flex;
   align-items: center;
+  width: 30%;
+}
+.product-name {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
 }
 .products-header .products-cell {
   color: #708090;
@@ -1787,4 +1793,8 @@ button {
 .uploaded-file__info::after {
   width: 100%;
   background-color: var(--action-color)
+}
+
+input:disabled {
+  background-color: rgba(4, 135, 130, 0.1);
 }

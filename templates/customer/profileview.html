@@ -10,14 +10,14 @@
                     </div>
                     <ul class="addproducts-container-list">
                         <li class="addproducts-list-text"><a href="#profileimage">Profile Image</a></li>
-                      <li class="addproducts-list-text"><a href="#accountinfo">Account Information</a></li>
-                      <li class="addproducts-list-text"><a href="#accountinfo">Change Password</a></li>
+                      <li class="addproducts-list-text"><a href="#profileinfo">Profile Information</a></li>
+                      <li class="addproducts-list-text"><a href="#password">Change Password</a></li>
                     </ul>
                   </div>
                 </div>
 
                     <div class="addproducts-row-wrapper big">
-                    <form method="POST" action="{% url 'editProfile' %}" enctype="multipart/form-data">
+                    <form method="POST" action="{% url 'profile' %}" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div id="profileimage" class="addproducts-container">
                         <div class="addproducts-container-header">
@@ -43,16 +43,16 @@
                         </div>
                         <!-- End Upload Area -->
                       </div>
-                        <div id="accountinfo" class="addproducts-container">
+                        <div id="profileinfo" class="addproducts-container">
                         <div class="addproducts-container-header">
                           <h4>Account Information</h4>
                         </div>
                         <div class="addproducts-container-list">
                           <div class="w-100 d-flex justify-content-between">
                               <div class="wid-50">
-                                <h5 class="addproducts-list-text">Shop Name <span>*</span></h5>
-                                  <input type="hidden" name="seller_id" value={{ profile_to_be_edit.id }}>
-                                  <input name="shopname" placeholder="Shop name" value="{{ profile_to_be_edit.shopname }}" required>
+                                <h5 class="addproducts-list-text">Profile Name <span>*</span></h5>
+                                  <input type="hidden" name="customer_id" value={{ profile_to_be_edit.id }}>
+                                  <input name="first_name" placeholder="Your name" value="{{ user.first_name }}" required>
                               </div>
 
                             <div class="wid-50">
@@ -65,7 +65,7 @@
                           <div class="w-100 d-flex justify-content-between">
                             <div class="wid-50">
                               <h5 class="addproducts-list-text">Email address <span>(Not to be edited)</span></h5>
-                              <input name="email" placeholder="Email address" value="{{ profile_to_be_edit.email }}" >
+                              <input name="email" placeholder="Email address" value="{{ profile_to_be_edit.email }}" disabled>
                             </div>
                           </div>
 
@@ -78,7 +78,7 @@
 
                         </div>
                       </div>
-                        <div id="changepassword" class="addproducts-container">
+                        <div id="password" class="addproducts-container">
                         <div class="addproducts-container-header">
                           <h4>Change Password</h4>
                         </div>
@@ -92,7 +92,7 @@
                           <div class="w-100 d-flex justify-content-between">
                               <div class="wid-50">
                                 <h5 class="addproducts-list-text">New Password <span>*</span></h5>
-                                  <input type="hidden" name="seller_id" value={{ profile_to_be_edit.id }}>
+                                  <input type="hidden" name="customer_id" value={{ profile_to_be_edit.id }}>
                                   <input name="newpassword" placeholder="New password" >
                               </div>
 
