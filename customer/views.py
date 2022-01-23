@@ -92,13 +92,24 @@ def custDashboard(request):
 
     allcategories = AllCategories.objects.all()
     print("AllCategories", allcategories)
+    if request.method=="POST":
+        km_range = request.POST.get('km_range')
+        print('goes here')
+        allAddress = CustAddress.objects.filter(customer=customer_data)
+        ref_location = allAddress[0].location
+        NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
+        print('NearBySellers', NearBySellers)
+        print('end')
+        return render(request, 'customer/dashboard.html',{'customer_data': customer_data, 'near_by_sellers': NearBySellers,
+                           'allcategories': allcategories})
+
+
 
     try:
         allAddress = CustAddress.objects.filter(customer=customer_data)
         ref_location = allAddress[0].location
 
         if request.method == "POST":
-            km_range = request.POST.get('km_range')
             category_name = request.POST.get('category_name')
             product_name = request.POST.get('product_name')
 
