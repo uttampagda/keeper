@@ -11,6 +11,7 @@ import datetime
 import ast
 from django.utils.datastructures import MultiValueDictKeyError
 
+
 # Create your views here.
 
 def sellerRegister(request):
@@ -90,23 +91,26 @@ def sellerDashboard(request):
         earlier = now - datetime.timedelta(hours=24)
 
         order_status_dic = {
-            "PENDING":0,
-            "ACCEPTED":0,
-            "REJECTED":0,
-            "COMPLETE":0
+            "PENDING": 0,
+            "ACCEPTED": 0,
+            "REJECTED": 0,
+            "COMPLETE": 0
         }
         for order_status in order_status_dic.keys():
-            order_status_dic[order_status] = AllOrders.objects.filter(seller_id=request.user.id,created_date__year=now.year,created_date__month=now.month,created_date__day=now.day, order_status=order_status).count()
+            order_status_dic[order_status] = AllOrders.objects.filter(seller_id=request.user.id,
+                                                                      created_date__year=now.year,
+                                                                      created_date__month=now.month,
+                                                                      created_date__day=now.day,
+                                                                      order_status=order_status).count()
 
-        print(order_status_dic)
-
-        last_7_days_array = []
+        total_orders_30 = []
         for day in range(0, 29):
             earlier = now - datetime.timedelta(days=day)
-            last_7_days_array.append(AllOrders.objects.filter(seller_id=request.user.id, created_date__year=earlier.year,
-                                     created_date__month=earlier.month, created_date__day=earlier.day).count())
+            total_orders_30.append(
+                AllOrders.objects.filter(seller_id=request.user.id, created_date__year=earlier.year,
+                                         created_date__month=earlier.month, created_date__day=earlier.day).count())
 
-        print(last_7_days_array)
+
 
         new_orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now),
                                               is_rejected=False).exclude(is_accepted=True)
@@ -117,7 +121,9 @@ def sellerDashboard(request):
             'seller_data': seller_data,
             'new_orders': new_orders,
             'accepted_orders': accepted_orders,
-            'rejected_order': rejected_order
+            'rejected_order': rejected_order,
+            'order_status_dic': order_status_dic,
+            'total_orders_30' : total_orders_30
         }
         return render(request, 'seller/seller.html', data)
     else:
@@ -127,6 +133,7 @@ def sellerDashboard(request):
 def sellerLogout(request):
     logout(request)
     return redirect('sellerLogin')
+
 
 @login_required(login_url='sellerLogin')
 def sellerhome(request):
@@ -158,7 +165,6 @@ def addproduct(request):
 
         addproduct.save()
 
-
         categories_list = ast.literal_eval(seller_data.categories_list)
         if category not in categories_list:
             categories_list.append(category)
@@ -176,6 +182,7 @@ def addproduct(request):
     }
     return render(request, 'seller/addproductview.html', data)
 
+
 @login_required(login_url='sellerLogin')
 def acceptOrder(request):
     if request.user.is_authenticated:
@@ -188,7 +195,7 @@ def acceptOrder(request):
             acceptOrd.save()
 
         order_status = 'ALL'
-        if request.method == "GET" and len(request.GET)>0:
+        if request.method == "GET" and len(request.GET) > 0:
             order_status = request.GET['order_status']
             print(order_status)
 
@@ -199,12 +206,13 @@ def acceptOrder(request):
         if order_status == "ALL":
             orders = AllOrders.objects.filter(seller_id=request.user.id)
         elif order_status == "PENDING":
-            orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now), is_rejected=False).exclude(is_accepted=True)
+            orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now),
+                                              is_rejected=False).exclude(is_accepted=True)
         elif order_status == "ACCEPTED":
             orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
         elif order_status == "REJECTED":
             orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
-        return render(request, 'seller/orderview.html', {'seller_data': seller_data, 'orders':orders})
+        return render(request, 'seller/orderview.html', {'seller_data': seller_data, 'orders': orders})
     else:
         redirect('sellerLogin')
 
@@ -299,7 +307,6 @@ def editProducts(request):
         except MultiValueDictKeyError:
             print("error")
 
-
         if request.POST.get('is_featured') == "on" and request.POST.get('not_featured') == None:
             is_featured = True
         elif request.POST.get('is_featured') == None and request.POST.get('not_featured') == "on":
@@ -318,7 +325,8 @@ def editProfile(request):
     if request.method == 'GET':
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         profile_to_be_edit = Seller.objects.get(credentials_id=request.user.id)
-        return render(request, 'seller/Profileview.html', {'profile_to_be_edit': profile_to_be_edit, 'seller_data': seller_data})
+        return render(request, 'seller/Profileview.html',
+                      {'profile_to_be_edit': profile_to_be_edit, 'seller_data': seller_data})
 
     if request.method == 'POST':
         profile_to_be_edit = Seller.objects.get(credentials_id=request.user.id)

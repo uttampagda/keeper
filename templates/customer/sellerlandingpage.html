@@ -5,7 +5,7 @@
 		<div id="topcon" class="container top-con">
 			<div>
 				<h1 class="shop-name">{{ seller_detail }}</h1>
-				<p class="shop-categories">{{ seller_detail.categories_list }}</p>
+				<p class="shop-categories">{% for i in seller_detail.categories_list %}{{ i }}{% endfor %}</p>
 				<p class="shop-location">
                     {% for ll in loc %}
                         {{ ll }}
