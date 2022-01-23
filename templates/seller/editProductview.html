@@ -57,6 +57,7 @@
 
                           <h5 class="addproducts-list-text">Product Description</h5>
                           <textarea name="product_disc" rows="1">{{ product_to_be_edit.product_disc }}</textarea>
+                         {% if product_to_be_edit.is_featured == False %}
                           <label for="is_featured">Make Live</label><br>
                           <div class="products-cell status-cell">
                             <label class="status-switch">
@@ -64,6 +65,8 @@
                               <span class="status-slider round"></span>
                             </label>
                           </div>
+                        {% endif %}
+                        {% if product_to_be_edit.is_featured == True %}
                           <label for="not_featured">Make not Live</label><br>
                           <div class="products-cell status-cell">
                             <label class="status-switch">
@@ -71,7 +74,7 @@
                               <span class="status-slider round"></span>
                             </label>
                           </div>
-
+                        {% endif %}
                         </div>
                       </div>
 

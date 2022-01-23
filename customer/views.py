@@ -209,14 +209,16 @@ def sellerlandingpage(request):
     if request.method == "GET":
         print(request.GET["seller_name"])
         seller_detail = Seller.objects.get(username=request.GET["seller_name"])
-        seller_products = Product.objects.filter(seller_cr=seller_detail.credentials_id)
+        seller_products = Product.objects.filter(seller_cr=seller_detail.credentials_id,is_featured=True)
+        loc=seller_detail.location
         seller_id = seller_detail.credentials_id
         customer = Customer.objects.get(username=request.user.username)
         data = {
             'products': seller_products,
             'customer': customer,
             'seller_id': seller_id,
-            'seller_detail': seller_detail
+            'seller_detail': seller_detail,
+            'loc': loc,
         }
     return render(request, 'customer/sellerlandingpage.html', data)
 

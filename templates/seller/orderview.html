@@ -51,10 +51,13 @@
                     <span class="cell-label">Payment:</span>
                     <span class="status active">{{ order.order_type}}</span>
                   </div>
+
                   <div class="orders-cell status-cell">
                     <span class="cell-label">Status:</span>
                     <span class="status active">{{ order.order_status }}</span>
                   </div>
+
+
                   <div class="orders-cell amount"><span class="cell-label">Price:</span>{{ order.ttl_amount }}</div>
                 </div>
                 {% endfor %}

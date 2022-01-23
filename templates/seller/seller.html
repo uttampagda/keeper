@@ -122,7 +122,7 @@
               <img src="{% static 'customer/img/profile.jpg' %}" alt="">
               <div class="applicant-info">
                 <span>{{ order.id }}</span>
-                <p>From Kshitij Nariya</p>
+                <p>From {{ order.customer_name }}</p>
               </div>
               <form method="POST" action="{% url 'rejectOrder' %}">
                   {% csrf_token %}

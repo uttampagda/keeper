@@ -5,8 +5,12 @@
 		<div id="topcon" class="container top-con">
 			<div>
 				<h1 class="shop-name">{{ seller_detail }}</h1>
-				<p class="shop-categories">Burger, Fast Food, Beverages</p>
-				<p class="shop-location">Manjalpur, Vadodara</p>
+				<p class="shop-categories">{{ seller_detail.categories_list }}</p>
+				<p class="shop-location">
+                    {% for ll in loc %}
+                        {{ ll }}
+                    {% endfor %}
+                </p>
 					<p></p>
 			</div>
 		</div>
