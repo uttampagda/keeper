@@ -8,13 +8,14 @@
 				<div id="myCarousel" class="carousel slide h-100" data-ride="carousel">
 
 					<!-- Wrapper for slides -->
-                    {% for ban in bannerr %}
+
 					<div class="carousel-inner h-100">
-					  <div class="item active h-100">
-                          <img src="{{ ban.banner_photo.url }}" alt=" ">
+                        {% for ban in bannerr %}
+					  <div class="item {% if ban.prio == 1 %}active{% endif %} h-100">
+						<img src="{{ ban.banner_photo.url }}" class="banner-img1 w-100 h-100">
 					  </div>
-                    </div>
-                    {% endfor%}
+						{% endfor%}
+					</div>
 
 					<!-- Left and right controls -->
 					<a class="left carousel-control bradius-7 border-0" href="#myCarousel" data-slide="prev">

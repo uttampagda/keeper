@@ -104,6 +104,10 @@ def kmrange(request):
 @login_required(login_url='custLogin')
 def custDashboard(request):
     customer_data = Customer.objects.get(username=request.user.username)
+    bannerr = Banner.objects.all()
+
+ 
+
     global km_range
     km_range = 5
     allcategories = AllCategories.objects.all()
@@ -116,7 +120,7 @@ def custDashboard(request):
     print('NearBySellers', NearBySellers)
     return render(request, 'customer/dashboard.html',
                       {'customer_data': customer_data, 'near_by_sellers': NearBySellers,
-                       'allcategories': allcategories})
+                       'allcategories': allcategories,'bannerr': bannerr})
 
 @login_required(login_url='custLogin')
 def searchProductNearBY(request):
@@ -298,7 +302,7 @@ def banner(request):
     data = {
         'bannerr': bannerr,
     }
-    return render(request, "customer/dashboard.html", data)
+    return redirect('custDashboard', data)
 
 
 def orders(request):

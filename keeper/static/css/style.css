@@ -390,19 +390,6 @@ overflow: hidden;
 }
 
 .banner-img1 {
-  background: url("../customer/img/homepage-main-baner1.jpg");
-  background-size: contain;
-  border-radius: 7px;
-}
-
-.banner-img2 {
-  background: url("../customer/img/index.jpg");
-  background-size: contain;
-  border-radius: 7px;
-}
-
-.banner-img3 {
-  background: url("../customer/img/homepage-main-baner1.jpg");
   background-size: contain;
   border-radius: 7px;
 }
