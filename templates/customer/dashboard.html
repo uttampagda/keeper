@@ -40,7 +40,7 @@
             <h3 class="cate-header">Categories</h3>
 				<div class="d-flex justify-content-center w-100 h-100">
                 {% for category in  allcategories %}
-                        <form method="POST" action="{% url 'custDashboard' %}">
+                        <form method="POST" action="{% url 'searchProductNearBY' %}">
                             {% csrf_token %}
                             <input type="hidden" name="category_name" value={{ category.category_name }}>
 					        <div class="category-box mr-3">

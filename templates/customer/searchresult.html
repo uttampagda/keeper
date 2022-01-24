@@ -5,20 +5,34 @@
     <title>Search</title>
 </head>
 <body>
-{% for seller in near_by_sellers %}
-    <tr>
-        <th>{{ seller.username }}</th>
-        <th>{{ seller.shopname }}</th>
-        <th>
-            <form method="get" action="{% url 'sellerlandingpage' %}" class="col-md-5 offset-md-1">
-            <div class="form-group">
-              <input type="hidden" name="seller_name" value={{ seller.username }}>
-            </div>
-            <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">GET</button>
-            </form>
-        </th>
-    </tr>
+{% extends "customer/base.html" %}
+{% block content %}
 
-{% endfor %}
+
+<section class="section_gap shops-height">
+		<div class="container-fluid h-100">
+			<div class="banner-box m-auto">
+            <h3 class="cate-header">Near by shops</h3>
+                {% for seller in near_by_sellers %}
+                <form method="get" class="row" style="margin: 2rem 0" action="{% url 'sellerlandingpage' %}">
+                    <div class="col-xl-3 justify-content-sm-around d-flex">
+                        <button type="submit" class="shop-box">
+                            <input type="hidden" name="seller_name" value={{ seller.username }}>
+                            <div class="shop-image"></div>
+                            <div class="shopname-box">
+                                <p class="shopname">{{ seller.shopname }}</p>
+                                <p class="shopcategory">{{ seller.categories_list }}</p>
+                            </div>
+                        </button>
+                    </div>
+                </form>
+                {% endfor %}
+			</div>
+		</div>
+	</section>
+    <!-- End Shops -->
+
+
+{% endblock %}
 </body>
 </html>
