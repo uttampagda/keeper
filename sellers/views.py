@@ -223,7 +223,12 @@ def acceptOrder(request):
             orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
         elif order_status == "REJECTED":
             orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
+        elif order_status == "DELIVERED":
+            orders = AllOrders.objects.filter(seller_id=request.user.id,  order_status=str("DELIVERED"))
+        elif order_status == "SHIPPED":
+            orders = AllOrders.objects.filter(seller_id=request.user.id, order_status=str('SHIPPED'))
         return render(request, 'seller/orderview.html', {'seller_data': seller_data, 'orders': orders})
+
     else:
         redirect('sellerLogin')
 

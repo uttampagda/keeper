@@ -24,8 +24,15 @@
                   <input type="hidden" name="order_status" value="REJECTED">
                   <button class="order-toggle-button">Rejected</button>
                 </form>
-                <button class="order-toggle-button">Shipped</button>
-                <button class="order-toggle-button">Delivered</button>
+                <form method="get" action="{% url 'acceptOrder' %}">
+                  <input type="hidden" name="order_status" value="SHIPPED">
+                  <button class="order-toggle-button">Shipped</button>
+                </form>
+                <form method="get" action="{% url 'acceptOrder' %}">
+                  <input type="hidden" name="order_status" value="DELIVERED">
+                  <button class="order-toggle-button">Delivered</button>
+                </form>
+
             </div>
           </div>
           <div class="orders-area-wrapper tableView">
