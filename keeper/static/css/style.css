@@ -992,3 +992,19 @@ overflow: hidden;
 }
 
 
+.razorpay-payment-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(4, 135, 130, 1);
+  width: 90%;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  padding: 13px;
+  transition: 0.2s;
+  cursor: pointer;
+  margin: 2rem auto;
+  position: absolute;
+}
