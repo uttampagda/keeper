@@ -261,13 +261,14 @@ def rejectOrder(request):
 @login_required(login_url='sellerLogin')
 def editstatus(request):
     if request.method == 'POST':
-        status = request.POST['status']
+        status_to_update = request.POST['status']
         or_id = request.POST['or_id']
-        print("here",status,or_id)
-        accepted_order = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False,id=or_id)[0]
-        accepted_order.order_status=status
+        print("here",status_to_update,or_id)
+        accepted_order = AllOrders.objects.get(seller_id=request.user.id, id=or_id)
+        accepted_order.order_status=status_to_update
         accepted_order.save()
-    return redirect('sellerhome')
+        print("order status is updated")
+    return redirect('acceptOrder')
 
 @login_required(login_url='sellerLogin')
 def vieworderdetails(request):
