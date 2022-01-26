@@ -253,6 +253,21 @@ def rejectOrder(request):
     else:
         redirect('sellerLogin')
 
+@login_required(login_url='sellerLogin')
+def editstatus(request):
+    if request.method == 'POST':
+        status = request.POST['status']
+        or_id = request.POST['or_id']
+        print("here",status,or_id)
+        accepted_order = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False,id=or_id)[0]
+        accepted_order.order_status=status
+        accepted_order.save()
+    return redirect('sellerhome')
+
+@login_required(login_url='sellerLogin')
+def vieworderdetails(request):
+    new_orders = AllOrders.objects.filter(seller_id=request.user.id,is_rejected=None).exclude(is_accepted=True)
+    return render(request, 'seller/vieworderdeatils.html',)
 
 @login_required(login_url='sellerLogin')
 def products(request):

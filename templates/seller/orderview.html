@@ -49,13 +49,29 @@
                   <div class="orders-cell cusname"><span class="cell-label">{{ order.customer_name }}</span>{{ order.customer_name }}</div>
                   <div class="orders-cell items"><span class="cell-label">Items:</span>11</div>
                   <div class="orders-cell payment-cell">
-                    <span class="cell-label">Payment:</span>
+                    <span class="cell-label">Order Type:</span>
                     <span class="status active">{{ order.order_type}}</span>
                   </div>
 
                   <div class="orders-cell status-cell">
                     <span class="cell-label">Status:</span>
-                    <span class="status active">{{ order.order_status }}</span>
+                    <span class="status active">{{ order.order_status }}
+                       <form method="POST" action="{% url 'editstatus' %}" class="col-md-5 offset-1">
+                            {% csrf_token %}
+
+                                        <select name="status" id="order_type" onChange="form.submit();" style="border: none">
+                                            <option value="ACCEPTED" selected>ACCEPTED</option>
+                                            {% if order.order_type == 'PICK_UP' %}
+                                                <option value="DELIVERED">DELIVERED</option>
+                                                {% else%}
+                                                <option value="SHIPPED">SHIPPED</option>
+                                                <option value="DELIVERED">DELIVERED</option>
+                                            {% endif %}
+                                        </select>
+
+                           <input type="hidden" name="or_id" value="{{ order.id }}">
+                        </form>
+                        </span>
                   </div>
 
 

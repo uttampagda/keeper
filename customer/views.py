@@ -86,6 +86,7 @@ def custLogin(request):
 
 def kmrange(request):
     customer_data = Customer.objects.get(username=request.user.username)
+    bannerr = Banner.objects.all()
     global km_range
     km_range = 5
     allcategories = AllCategories.objects.all()
@@ -98,7 +99,7 @@ def kmrange(request):
         print('NearBySellers', NearBySellers)
         return render(request, 'customer/dashboard.html',
                       {'customer_data': customer_data, 'near_by_sellers': NearBySellers,
-                       'allcategories': allcategories})
+                       'allcategories': allcategories, })
 
 
 @login_required(login_url='custLogin')
@@ -106,7 +107,7 @@ def custDashboard(request):
     customer_data = Customer.objects.get(username=request.user.username)
     bannerr = Banner.objects.all()
 
- 
+
 
     global km_range
     km_range = 5
@@ -245,8 +246,9 @@ def confirm(request):
         pick_up_time = request.POST.get('pick_up_time')
         total = request.POST.get('total')
         amount = int(total)
+        print(amount)
         return render(request, 'customer/checkout.html',
-                      {'list_of_orders': list_of_orders, 'name': name, 'total': int(total), 'amount': int(amount),
+                      {'list_of_orders': list_of_orders, 'name': name, 'total': int(total), 'amount': int(amount)*100,
                        'order_type': order_type, 'pick_up_time': pick_up_time})
     else:
         return render(request, 'customer/cart.html')
@@ -338,3 +340,5 @@ def profile(request):
         profile_to_be_edit.save()
         user_to_be_edit.save()
         return redirect('custDashboard')
+
+
