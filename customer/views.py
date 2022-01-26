@@ -260,7 +260,7 @@ def checkout(request):
         if pick_up_date == '':
             pick_up_date = None
 
-        amount = request.POST.get('total').replace('/', '')
+        amount = request.POST.get('total').replace('/', '')/100
         list_of_orders = request.POST.get('list_of_orders').replace('/', '')
 
         client = razorpay.Client(auth=("rzp_test_bSTKVqtv6GwTso", "YEAj0ll32SLlXhunbTJSJqVH"))
