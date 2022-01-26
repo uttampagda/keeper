@@ -105,10 +105,8 @@ def kmrange(request):
 @login_required(login_url='custLogin')
 def custDashboard(request):
     customer_data = Customer.objects.get(username=request.user.username)
+    customer_add=CustAddress.objects.get(customer=customer_data)
     bannerr = Banner.objects.all()
-
-
-
     global km_range
     km_range = 5
     allcategories = AllCategories.objects.all()
@@ -120,7 +118,7 @@ def custDashboard(request):
     NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
     print('NearBySellers', NearBySellers)
     return render(request, 'customer/dashboard.html',
-                      {'customer_data': customer_data, 'near_by_sellers': NearBySellers,
+                      {'customer_data': customer_data, 'near_by_sellers': NearBySellers,'customer_add':customer_add,
                        'allcategories': allcategories,'bannerr': bannerr})
 
 @login_required(login_url='custLogin')

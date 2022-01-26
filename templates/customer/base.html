@@ -36,13 +36,15 @@
                             <p class="m-0 ftsz-15 ftfmly-poppins ftweight-400">Select Your Address</p>
                             <i class="fa fa-angle-down ftsz-20 p-2"></i>
                             <div class="location-dropdown-content">
+                                {% if customer_add.pincode != "" %}
                                         <div class="d-flex align-items-center dropdown-profile-padding">
-                                            <button class="button-padding detect-button c-pointer"><a href={% url 'addAddress' %}>Detect location</a></button>
-                                            <p class="pl-3 pr-3">- OR -</p>
-                                            <div class="search-box w-50">
-                                                <input class="ftsz-12 w-10" autocomplete="off" name="km_range" placeholder="Type km range">
-                                            </div>
+                                            <p class="button-padding detect-button c-pointer">{{ customer_add.pincode }}</p>
                                         </div>
+                                    {% else %}
+                                            <div class="d-flex align-items-center dropdown-profile-padding">
+                                            <button class="button-padding detect-button c-pointer"><a href={% url 'addAddress' %}>Detect location</a></button>
+                                        </div>
+                                 {% endif %}
                             </div>
                         </div>
                         <form method="POST" action="{% url 'custDashboard' %}" class="col-md-5 offset-1">

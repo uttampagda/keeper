@@ -3,7 +3,6 @@ from django.contrib.gis.db import models
 
 class Seller(models.Model):
     credentials = models.OneToOneField(User, related_name='seller', on_delete=models.CASCADE)
-
     email = models.CharField(max_length=250,unique=True)
     username = models.CharField(max_length=50, unique=True)
     shopname = models.CharField(max_length=50, unique=True)
@@ -11,6 +10,7 @@ class Seller(models.Model):
     location = models.PointField(srid=4326, geography=True, blank=True, null=True)
     categories_list = models.TextField(max_length=200, default="[]")
     created_at = models.DateTimeField(auto_now_add=True)
+    shop_image = models.ImageField(upload_to='sellers_image/'+str(username)+'/',default='default.jpg')
     def __str__(self):
         return self.shopname
 

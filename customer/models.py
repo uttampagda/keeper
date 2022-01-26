@@ -7,6 +7,7 @@ class Customer(models.Model):
     email = models.CharField(max_length=250,unique=True)
     phone = models.CharField(max_length=20,blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    cus_image = models.ImageField(upload_to='customer_image/'+str(username)+'/',default='default.jpg')
 
     def __str__(self):
         return self.username
