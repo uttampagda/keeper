@@ -47,7 +47,7 @@
                                  {% endif %}
                             </div>
                         </div>
-                        <form method="POST" action="{% url 'custDashboard' %}" class="col-md-5 offset-1">
+                        <form method="POST" action="{% url 'custDashboard' %}">
                             {% csrf_token %}
                             <div class="search-catagory" style="width: 3rem">
                                         <select name="km_range" id="order_type" onChange="form.submit();" style="border: none">
@@ -103,7 +103,7 @@
 						</div>
 					</div>
 
-					<a href="{% url 'cart' %}" class="cart-box d-flex c-pointer"><i class="fa fa-shopping-cart ftsz-20 p-2"></i><p class="align-self-center pr-2">Cart</p></a>
+					<a href="{% url 'cart' %}" class="cart-box d-flex c-pointer"><i class="fa fa-shopping-cart ftsz-20 p-2"></i><p class="align-self-center pr-2">Cart(<span class="total-count"></span>)</p></a>
 
 				</div>
 			</nav>
