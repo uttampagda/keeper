@@ -33,7 +33,7 @@
                                 <p onclick="discri()" class="product-description">{{ product.product_disc }}</p>
                             </div>
                             <div class="addtocartbutton">
-                                <a href="#" class="add-button" data-name="{{ product.product_name }}" data-price="{{ product.price }}" data-proimage="{{ product.product_image.url }}" data-proid="{{ product.id }}" data-shopname="{{ seller_detail }}">ADD <span> +</span></a>
+                                <button class="add-button" data-name="{{ product.product_name }}" data-price="{{ product.price }}" data-proimage="{{ product.product_image.url }}" data-proid="{{ product.id }}" data-shopname="{{ seller_detail }}">ADD <span> +</span></button>
                             </div>
                         </div>
                     {% endfor %}
@@ -44,9 +44,8 @@
 	</div>
 
     <script>
-    function discri(){
-        document.querySelector(".product-description").style.whiteSpace = 'normal';
-    }
+        function discri(){
+            document.querySelector(".product-description").style.whiteSpace = 'normal';
+        }
     </script>
-
 {% endblock %}

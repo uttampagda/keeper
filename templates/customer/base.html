@@ -33,19 +33,13 @@
 
                         <div onclick="locationbutton()" class="location-container d-flex justify-content-between align-items-center c-pointer">
                             <img class="mr-2" src="{% static 'customer/img/icons/location.svg'%}" alt="">
-                            <p class="m-0 ftsz-15 ftfmly-poppins ftweight-400">Select Your Address</p>
-                            <i class="fa fa-angle-down ftsz-20 p-2"></i>
-                            <div class="location-dropdown-content">
-                                {% if customer_add.pincode != "" %}
-                                        <div class="d-flex align-items-center dropdown-profile-padding">
-                                            <p class="button-padding detect-button c-pointer">{{ customer_add.pincode }}</p>
-                                        </div>
-                                    {% else %}
-                                            <div class="d-flex align-items-center dropdown-profile-padding">
-                                            <button class="button-padding detect-button c-pointer"><a href={% url 'addAddress' %}>Detect location</a></button>
-                                        </div>
-                                 {% endif %}
-                            </div>
+                            {% if customer_add.pincode != "" %}
+                                <p class="m-0 ftsz-15 ftfmly-poppins ftweight-400">{{ customer_add.city }}, {{ customer_add.pincode }}</p>
+                            {% else %}
+                                <a href="{% url 'addAddress' %}" class="m-0 ftsz-15 ftfmly-poppins ftweight-400">Select Your Address</a>
+                                <i class="fa fa-angle-down ftsz-20 p-2"></i>
+                            {% endif %}
+
                         </div>
                         <form method="POST" action="{% url 'custDashboard' %}">
                             {% csrf_token %}
@@ -71,7 +65,7 @@
 
 
 					<div onclick="profilebutton()" class="profile-container d-flex c-pointer">
-						<div class="profile-box mr-2"></div>
+						<div class="profile-box mr-2" style="background: #048782 url('{{ customer_data.cus_image.url }}') center; background-size: cover"></div>
 						<div class="">
 							<p class="customer_name ftsz-12">Hello, {{ user.first_name }}</p>
 							<div class="d-flex">
@@ -79,7 +73,7 @@
 								<i class="fa fa-caret-down"></i>
 								<div class="profile-dropdown-content">
 									<div class="d-flex align-items-center dropdown-profile-padding">
-										<div class="profile-box-2 mr-3"></div>
+										<div class="profile-box-2 mr-3" style="background: #048782 url('{{ customer_data.cus_image.url }}') center; background-size: cover"></div>
 										<div class="d-block">
 											<p class="ftsz-15 padding-tb2-5 black-0-8 customer_name">{{ user.first_name }} {{ user.last_name }}</p>
 											<p class="ftsz-12 black-0-8">{{ customer_data.email }}</p>

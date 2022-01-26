@@ -24,8 +24,14 @@
                   <input type="hidden" name="order_status" value="REJECTED">
                   <button class="order-toggle-button">Rejected</button>
                 </form>
-                <button class="order-toggle-button">Shipped</button>
-                <button class="order-toggle-button">Delivered</button>
+                <form method="get" action="{% url 'acceptOrder' %}">
+                    <input type="hidden" name="order_status" value="SHIPPED">
+                    <button class="order-toggle-button">Shipped</button>
+                </form>
+                <form method="get" action="{% url 'acceptOrder' %}">
+                    <input type="hidden" name="order_status" value="DELIVERED">
+                    <button class="order-toggle-button">Delivered</button>
+                </form>
             </div>
           </div>
           <div class="orders-area-wrapper tableView">
@@ -33,8 +39,7 @@
               <div class="orders-cell">Order ID</div>
               <div class="orders-cell">Time</div>
               <div class="orders-cell">Customer Name</div>
-              <div class="orders-cell">Items</div>
-              <div class="orders-cell">Payment</div>
+              <div class="orders-cell">Delivery Type</div>
               <div class="orders-cell">Status</div>
               <div class="orders-cell">Amount</div>
             </div>
@@ -47,31 +52,46 @@
                   <p class="orders-cell order-id">{{ order.id }}</p>
                   <div class="orders-cell time"><span class="cell-label">Time:</span>{{ order.created_date }}</div>
                   <div class="orders-cell cusname"><span class="cell-label">{{ order.customer_name }}</span>{{ order.customer_name }}</div>
-                  <div class="orders-cell items"><span class="cell-label">Items:</span>11</div>
                   <div class="orders-cell payment-cell">
                     <span class="cell-label">Order Type:</span>
-                    <span class="status active">{{ order.order_type}}</span>
+                    <span style="color: {% if order.order_type == 'HOME_DELIVERY' %}rgba(60, 65, 94, 1){% else %}rgba(216, 52, 95, 1){% endif %}">{{ order.order_type }}</span>
                   </div>
 
                   <div class="orders-cell status-cell">
                     <span class="cell-label">Status:</span>
-                    <span class="status active">{{ order.order_status }}
-                       <form method="POST" action="{% url 'editstatus' %}" class="col-md-5 offset-1">
+                    <span class="status {% if order.order_status == 'ACCEPTED' %}active{% elif order.order_status == 'REJECTED' %}rejected{% elif order.order_status == 'PENDING' %}pending{% elif order.order_status == 'SHIPPED' %}shipped{% elif order.order_status == 'DELIVERED' %}delivered{% else %}disabled{% endif %}">
+                        {{ order.order_status }}
+                    </span>
+                     <form method="POST" action="{% url 'editstatus' %}" class="col-md-5 offset-1">
                             {% csrf_token %}
-
-                                        <select name="status" id="order_type" onChange="form.submit();" style="border: none">
-                                            <option value="ACCEPTED" selected>ACCEPTED</option>
-                                            {% if order.order_type == 'PICK_UP' %}
-                                                <option value="DELIVERED">DELIVERED</option>
-                                                {% else%}
-                                                <option value="SHIPPED">SHIPPED</option>
-                                                <option value="DELIVERED">DELIVERED</option>
-                                            {% endif %}
-                                        </select>
-
+                        {% if order.order_status != 'REJECTED' and order.order_status != 'DELIVERED'  %}
+                            <select class="status" name="status" id="order_type" onChange="form.submit();" style="border: none">
+                                {% if order.order_type == "HOME_DELIVERY" %}
+                                    {% if order.order_status == 'PENDING' %}
+                                        <option value="PENDING" selected>PENDING</option>
+                                        <option value="ACCEPT">ACCEPT</option>
+                                        <option value="REJECT">REJECT</option>
+                                    {% elif order.order_status == 'ACCEPTED' %}
+                                        <option value="ACCEPTED" selected>ACCEPTED</option>
+                                        <option value="SHIPPED">SHIPPED</option>
+                                        <option value="DELIVERED">DELIVERED</option>
+                                    {% elif order.order_status == 'SHIPPED' %}
+                                        <option value="SHIPPED" selected>SHIPPED</option>
+                                        <option value="DELIVERED">DELIVERED</option>
+                                    {% else %}
+                                    {% endif %}
+                                {% elif order.order_type == "PICK_UP" %}
+                                    {% if order.order_status == 'PENDING' %}
+                                        <option value="ACCEPT">ACCEPT</option>
+                                        <option value="REJECT">REJECT</option>
+                                    {% elif order.order_status == 'ACCEPTED' %}
+                                        <option value="COMPLETE">COMPLETE</option>
+                                    {% endif %}
+                                {% endif %}
+                            </select>
                            <input type="hidden" name="or_id" value="{{ order.id }}">
-                        </form>
-                        </span>
+                        {% endif %}
+                     </form>
                   </div>
 
 

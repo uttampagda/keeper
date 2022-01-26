@@ -36,8 +36,8 @@
                               </svg>
                             </span>
                             <span id="loadingText" class="prod-imgup__loading-text">Please Wait</span>
-                            <img src="" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
-                            <input type="file" id="fileInput" name="productImage" class="prod-imgup__file-input" accept="image/*" >
+                            <img src="{{ customer_data.cus_image.url }}" style="display: block" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
+                            <input type="file" id="fileInput" name="profileImage" class="prod-imgup__file-input" accept="image/*" >
                           </div>
                           <!-- End prodimgup -->
                         </div>
@@ -106,7 +106,7 @@
                         </div>
                       </div>
 
-                        <button type="submit" class="app-content-headerButton">Save edit</button>
+                        <button onclick="save()" type="submit" class="app-content-headerButton">Save edit</button>
                      </form>
                     </div>
 
@@ -114,6 +114,15 @@
 
         </div>
 
+        <script>
+                        function save() {
+                            const img = document.getElementById('previewImage');
+                            const fileInput = document.getElementById('fileInput');
+                            if (fileInput.files.length === 0 && img.getAttribute('src') === "") {
+                                alert('Upload File');
+                            }
+                        }
+        </script>
 
 
 {% endblock %}

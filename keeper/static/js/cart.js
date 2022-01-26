@@ -142,6 +142,7 @@ function displayCart() {
   var cartArray = shoppingCart.listCart();
   var totalCart = shoppingCart.totalCart();
   var output = "";
+  var confirmout = "";
 
     for (var i in cartArray) {
       output += '<div class="cart-container">' +
@@ -164,22 +165,65 @@ function displayCart() {
           '					</div>' +
           '                </div>' +
           '            </div>';
+      confirmout += '<div class="cart-container">' +
+          '                <div class="inner-cart">' +
+          '					<div class="in-c">' +
+          '						<img class="cart-product-img" src="'+ cartArray[i].proimage +  '" alt="product">' +
+          '						<div class="cart-product-info">' +
+          '							<span>' + cartArray[i].name + '</span>' +
+          '							<p>' + cartArray[i].shopname + '</p>' +
+          '						</div>' +
+          '					</div>' +
+          '<div id="count" data-name="' + cartArray[i].name + '">Item : ' + cartArray[i].count + '</div>'+
+          '					<div class="price-remove">' +
+          '						<p class="cart-price">₹' + cartArray[i].total + '</p>' +
+          '					</div>' +
+          '                </div>' +
+          '            </div>';
     }
     var billoutput = '<div class="bill-container">' +
         '					<h3 class="bill-heading">Bill Details</h3>' +
         '					<div class="bill-brief-con">' +
         '						<div class="bill-brief">' +
         '							<p class="item-font">Item Total</p>' +
-        '							<p class="item-price">' + totalCart + '</p>' +
+        '							<p class="item-price">₹' + totalCart + '</p>' +
         '						</div>' +
         '						<div class="bill-brief">' +
         '							<p class="item-font">Ddelivery Fee</p>' +
-        '							<p class="item-price">50</p>' +
+        '							<p class="item-price">₹50</p>' +
         '						</div>' +
         '						<div class="total-border"></div>' +
         '						<div class="bill-brief">' +
         '							<p class="item-font-bold">Total(inc. GST)</p>' +
-        '							<p class="item-font-bold b">8000</p>' +
+        '							<p class="item-font-bold b">₹' + totalCart + '</p>' +
+        '						</div>' +
+        '					</div>' +
+        '					<div class="search-catagory">' +
+        '						<select name="order_type" id="order_type" onchange="changeOrderType();">' +
+        '							<option value="HOME_DELIVERY" selected>HOME DELIVERY</option>' +
+        '							<option value="PICK_UP">SELF PICKUP</option>' +
+        '						</select>' +
+        '					</div>' +
+        '					<div id="datetime" class="datetime">' +
+        '						<input type="datetime-local" id="pick_up_date" name="pick_up_date">' +
+        '					</div>' +
+        '<!--					<div class="coupencode-con">-->' +
+        '<!--						<input type="text" />-->' +
+        '<!--						<button class="coupencode-button">Apply</button>-->' +
+        '<!--					</div>-->' +
+        '					<button type="submit" class="checkout-button">Checkout' +
+        '						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">' +
+        '						  <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>' +
+        '						</svg>' +
+        '					</button>' +
+        '				</div>' +
+        '<input type="hidden" name="product_list" id="product_list" />' +
+        '            <input type="hidden" name="total" id="total" />';
+
+    var confirmbill = '<div class="bill-container">' +
+        '						<div class="bill-brief">' +
+        '							<p class="item-font-bold">Total(inc. GST)</p>' +
+        '							<p class="item-font-bold b">₹' + totalCart + '</p>' +
         '						</div>' +
         '					</div>' +
         '					<div class="search-catagory">' +
@@ -205,6 +249,7 @@ function displayCart() {
         '            <input type="hidden" name="total" id="total" />';
 
     $('#showcart').html(output);
+    $('#confirmcart').html(confirmout);
     $('#billcart').html(billoutput);
     $('.total-cart').html(shoppingCart.totalCart());
     $('.total-count').html(shoppingCart.totalCount());

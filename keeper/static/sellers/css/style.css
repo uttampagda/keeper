@@ -275,21 +275,17 @@ a {
     margin-right: 22px;
 }
 .tableView .order-arrange > :nth-child(4) {
-  min-width: 7%;
+  min-width: 10%;
   margin-right: 22px;
 }
 .tableView .order-arrange > :nth-child(5) {
-  min-width: 8%;
+  min-width: 17%;
   margin-right: 37px;
 }
 .tableView .order-arrange > :nth-child(6) {
   min-width: 10%;
   margin-right: 20px;
 }
-.tableView .order-arrange > :nth-child(7) {
-  min-width: 10%;
-}
-
 .order-toggle-button {
   font-family: "Poppins", sans-serif;
   word-break: normal;
@@ -743,11 +739,13 @@ input:checked + .status-slider:before {
 }
 
 .status {
-  border-radius: 8px;
+  font-family: "Poppins", sans-serif;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   padding: 4px 8px;
   font-size: 12px;
+  margin-right: 1rem;
 }
 .status:before {
   content: "";
@@ -763,14 +761,41 @@ input:checked + .status-slider:before {
 .status.active:before {
   background-color: #2ba972;
 }
+.status.shipped {
+  color: rgba(60, 65, 94, 1);
+  background-color: rgba(60, 65, 94, 0.2);
+}
+.status.shipped:before {
+  background-color: rgba(60, 65, 94, 1);
+}
 .status.disabled {
-  color: #59719d;
-  background-color: rgba(89, 113, 157, 0.2);
+  color: #040505;
+  background-color: rgba(0,0,0, 0.2);
 }
 .status.disabled:before {
-  background-color: #59719d;
+  background-color: #040505;
 }
-
+.status.rejected {
+  color: rgba(255, 72, 72, 1);
+  background-color: rgba(255, 72, 72, 0.2);
+}
+.status.rejected:before {
+  background-color: rgba(255, 72, 72, 1);
+}
+.status.pending {
+  color: rgba(255, 147, 0, 1);
+  background-color: rgba(2255, 228, 0, 0.2);
+}
+.status.pending:before {
+  background-color: rgba(255, 147, 0, 1);
+}
+.status.delivered {
+  color: rgba(0, 13, 107, 1);
+  background-color: rgba(0, 13, 107, 0.2);
+}
+.status.delivered:before {
+  background-color: rgba(0, 13, 107, 1);
+}
 .gridView {
   display: flex;
   flex-wrap: wrap;
