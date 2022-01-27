@@ -33,11 +33,12 @@
 
                         <div onclick="locationbutton()" class="location-container d-flex justify-content-between align-items-center c-pointer">
                             <img class="mr-2" src="{% static 'customer/img/icons/location.svg'%}" alt="">
-                            {% if customer_add.pincode != "" %}
-                                <p class="m-0 ftsz-15 ftfmly-poppins ftweight-400">{{ customer_add.city }}, {{ customer_add.pincode }}</p>
-                            {% else %}
-                                <a href="{% url 'addAddress' %}" class="m-0 ftsz-15 ftfmly-poppins ftweight-400">Select Your Address</a>
+                            {% if cus_add == None %}
+                                    <a href="{% url 'addAddress' %}" class="m-0 ftsz-15 ftfmly-poppins ftweight-400">Select Your Address</a>
                                 <i class="fa fa-angle-down ftsz-20 p-2"></i>
+                            {% else %}
+
+                                <p class="m-0 ftsz-15 ftfmly-poppins ftweight-400">{{ cus_add.city }}, {{ cus_add.pincode }}</p>
                             {% endif %}
 
                         </div>

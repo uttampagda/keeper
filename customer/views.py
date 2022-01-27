@@ -94,6 +94,7 @@ def kmrange(request):
     if request.method == "POST":
         km_range = request.POST.get('km_range')
         allAddress = CustAddress.objects.filter(customer=customer_data)
+        print(allAddress)
         ref_location = allAddress[0].location
         NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
         print('NearBySellers', NearBySellers)
@@ -109,15 +110,22 @@ def custDashboard(request):
     global km_range
     km_range = 5
     allcategories = AllCategories.objects.all()
-    print("AllCategories", allcategories)
     if request.method == "POST":
         km_range = request.POST.get('km_range')
     allAddress = CustAddress.objects.filter(customer=customer_data)
-    ref_location = allAddress[0].location
-    NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
-    print('NearBySellers', NearBySellers)
+    if len(allAddress)==0:
+        ref_location = None
+        cus_add = None
+        NearBySellers = None
+    else:
+     ref_location = allAddress[0].location
+     cus_add = allAddress[0]
+     NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
+
+
+
     return render(request, 'customer/dashboard.html',
-                      {'customer_data': customer_data, 'near_by_sellers': NearBySellers,'customer_add':ref_location,
+                      {'customer_data': customer_data, 'near_by_sellers': NearBySellers,'customer_add':ref_location,'cus_add':cus_add,
                        'allcategories': allcategories,'bannerr': bannerr})
 
 @login_required(login_url='custLogin')
