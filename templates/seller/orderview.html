@@ -69,8 +69,8 @@
                                 {% if order.order_type == "HOME_DELIVERY" %}
                                     {% if order.order_status == 'PENDING' %}
                                         <option value="PENDING" selected>PENDING</option>
-                                        <option value="ACCEPT">ACCEPT</option>
-                                        <option value="REJECT">REJECT</option>
+                                        <option value="ACCEPTED">ACCEPT</option>
+                                        <option value="REJECTED">REJECT</option>
                                     {% elif order.order_status == 'ACCEPTED' %}
                                         <option value="ACCEPTED" selected>ACCEPTED</option>
                                         <option value="SHIPPED">SHIPPED</option>
@@ -82,16 +82,18 @@
                                     {% endif %}
                                 {% elif order.order_type == "PICK_UP" %}
                                     {% if order.order_status == 'PENDING' %}
-                                        <option value="ACCEPT">ACCEPT</option>
-                                        <option value="REJECT">REJECT</option>
+                                        <option value="ACCEPTED">ACCEPT</option>
+                                        <option value="REJECTED">REJECT</option>
                                     {% elif order.order_status == 'ACCEPTED' %}
-                                        <option value="COMPLETE">COMPLETE</option>
+                                        <option value="">Select</option>
+                                        <option value="DELIVERED">DELIVERED</option>
                                     {% endif %}
                                 {% endif %}
                             </select>
                            <input type="hidden" name="or_id" value="{{ order.id }}">
                         {% endif %}
-                     <button type="submit"> Save </button>
+
+
                      </form>
                   </div>
 

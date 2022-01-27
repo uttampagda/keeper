@@ -107,7 +107,7 @@ def custDashboard(request):
     customer_data = Customer.objects.get(username=request.user.username)
     bannerr = Banner.objects.all()
     global km_range
-    km_range = 500000
+    km_range = 5
     allcategories = AllCategories.objects.all()
     print("AllCategories", allcategories)
     if request.method == "POST":

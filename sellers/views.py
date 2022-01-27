@@ -218,7 +218,7 @@ def acceptOrder(request):
             orders = AllOrders.objects.filter(seller_id=request.user.id)
         elif order_status == "PENDING":
             orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now),
-                                              is_rejected=False).exclude(is_accepted=True)
+                                              is_rejected=False).exclude(order_status=str("DELIVERED") or str('SHIPPED'))
         elif order_status == "ACCEPTED":
             orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
         elif order_status == "REJECTED":

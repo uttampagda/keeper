@@ -31,7 +31,7 @@ class AllOrders(models.Model):
     order_details = models.CharField(blank=False, null=False, max_length=1000)
     is_accepted = models.BooleanField(default=None, blank=True, null=True)
     is_delivered = models.BooleanField(default=None, blank=True, null=True)
-    created_date = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(auto_now_add=True)
     is_rejected = models.BooleanField(default=None, blank=True, null=True)
     order_type = models.CharField(blank=False, null=False, max_length=50, default="HOME_DELIVERY")
     order_status = models.CharField(blank=False, null=False, max_length=50, default="PENDING")
