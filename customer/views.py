@@ -124,9 +124,8 @@ def custDashboard(request):
      NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
      # NearBySellers = list(Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range))))
      nn= list(NearBySellers.values("shopname","location",'shop_image','username'))
-     print(nn)
-     for i in range(len(NearBySellers)):
 
+     for i in range(len(NearBySellers)):
          origin = (ref_location[0], ref_location[1])
          dist = (NearBySellers[i].location[0],NearBySellers[i].location[1])
          dist1=geodesic(origin, dist).kilometers.__round__(2)
@@ -135,13 +134,6 @@ def custDashboard(request):
          nn[i]['dis']=dist1
      print(nn)
 
-
-    # origin = (30.172705, 31.526725)  # (latitude, longitude) don't confuse
-    # dist = (30.288281, 31.732326)
-    #
-    # print(geodesic(origin, dist).meters)  # 23576.805481751613
-    # print(geodesic(origin, dist).kilometers)  # 23.576805481751613
-    # print(geodesic(origin, dist).miles)
 
 
 

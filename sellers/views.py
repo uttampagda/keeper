@@ -372,7 +372,7 @@ def editProfile(request):
 
         profile_to_be_edit.shopname = request.POST.get('shopname')
         profile_to_be_edit.phone = request.POST.get('phone')
-        profile_to_be_edit.product_image = request.FILES['profileImage']
+        profile_to_be_edit.shop_image = request.FILES.get('profileImage')
 
         profile_to_be_edit.save()
         return redirect('sellerDashboard')
