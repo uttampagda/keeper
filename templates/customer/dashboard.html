@@ -65,10 +65,11 @@
                     <div class="col-xl-3 justify-content-sm-around d-flex">
                         <button type="submit" class="shop-box">
                             <input type="hidden" name="seller_name" value={{ seller.username }}>
-                            <div class="shop-image" style="background: rgba(4, 135, 130, 0.3) url('{{ seller.shop_image.url }}') center; background-size: cover"></div>
+                            <div class="shop-image" style="background: rgba(4, 135, 130, 0.3) url('/media/{{ seller.shop_image }}') center; background-size: cover"></div>
                             <div class="shopname-box">
                                 <p class="shopname">{{ seller.shopname }}</p>
-                                <p class="shopcategory">{{ seller.categories_list }}</p>
+{#                                <p class="shopcategory">{{ seller.categories_list }}</p>#}
+                                <p class="shopname">{{ seller.dis }}</p>
                             </div>
                         </button>
                     </div>

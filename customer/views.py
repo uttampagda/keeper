@@ -15,6 +15,7 @@ from django.shortcuts import render
 import razorpay
 import json
 from django.views.decorators.csrf import csrf_exempt
+from geopy.distance import geodesic
 
 
 # Create your views here.
@@ -121,15 +122,40 @@ def custDashboard(request):
      ref_location = allAddress[0].location
      cus_add = allAddress[0]
      NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
+     # NearBySellers = list(Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range))))
+     nn= list(NearBySellers.values("shopname","location",'shop_image','username'))
+     print(nn)
+     for i in range(len(NearBySellers)):
+
+         origin = (ref_location[0], ref_location[1])
+         dist = (NearBySellers[i].location[0],NearBySellers[i].location[1])
+         dist1=geodesic(origin, dist).kilometers.__round__(2)
+
+
+         nn[i]['dis']=dist1
+     print(nn)
+
+
+    # origin = (30.172705, 31.526725)  # (latitude, longitude) don't confuse
+    # dist = (30.288281, 31.732326)
+    #
+    # print(geodesic(origin, dist).meters)  # 23576.805481751613
+    # print(geodesic(origin, dist).kilometers)  # 23.576805481751613
+    # print(geodesic(origin, dist).miles)
+
 
 
 
     return render(request, 'customer/dashboard.html',
-                      {'customer_data': customer_data, 'near_by_sellers': NearBySellers,'customer_add':ref_location,'cus_add':cus_add,
+                      {'customer_data': customer_data, 'near_by_sellers': nn, 'customer_add':ref_location,'cus_add':cus_add,
                        'allcategories': allcategories,'bannerr': bannerr})
+
+
+
 
 @login_required(login_url='custLogin')
 def searchProductNearBY(request):
+    cus_add = base(request)
     customer_data = Customer.objects.get(username=request.user.username)
     global km_range
     allcategories = AllCategories.objects.all()
@@ -169,7 +195,7 @@ def searchProductNearBY(request):
             print('NearBySellers', NearBySellers)
             return render(request, 'customer/searchresult.html',
                           {'customer_data': customer_data, 'near_by_sellers': NearBySellers,
-                           'allcategories': allcategories})
+                           'allcategories': allcategories,'cus_add':cus_add})
 
         NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
         print('NearBySellers', NearBySellers)
@@ -221,26 +247,61 @@ def addAddress(request):
     else:
         return render(request, 'customer/addAddress.html')
 
-
+import ast
 def sellerlandingpage(request):
     if request.method == "GET":
         seller_detail = Seller.objects.get(username=request.GET["seller_name"])
+        seller_cat=seller_detail.categories_list
+        seller_cat=ast.literal_eval(seller_cat)
         seller_products = Product.objects.filter(seller_cr=seller_detail.credentials_id,is_featured=True)
         loc=seller_detail.location
         seller_id = seller_detail.credentials_id
         customer = Customer.objects.get(username=request.user.username)
+        cus_add=base(request)
+        # print(seller_detail.location[0],seller_detail.location[1])
+        # print(cus_add.location[0],cus_add.location[1])
+
+
+        origin = (seller_detail.location[0], seller_detail.location[1])  # (latitude, longitude) don't confuse
+        dist = (cus_add.location[0], cus_add.location[1])
+        distance=geodesic(origin, dist).kilometers.__round__(2)
+        print(distance)
+
+
         data = {
             'products': seller_products,
             'customer': customer,
+             'seller_cat': seller_cat,
             'seller_id': seller_id,
             'seller_detail': seller_detail,
             'loc': loc,
+            'cus_add':cus_add,
+            'distance':distance,
         }
     return render(request, 'customer/sellerlandingpage.html', data)
 
 
+
+
+
+
+
+
+def base(request):
+    customer_data = Customer.objects.get(username=request.user.username)
+    global km_range
+    if request.method == "POST":
+        km_range = request.POST.get('km_range')
+    allAddress = CustAddress.objects.filter(customer=customer_data)
+    if len(allAddress) == 0:
+        cus_add = None
+    else:
+        cus_add = allAddress[0]
+    return cus_add
+
 def cart(request):
-    return render(request, 'customer/cart.html')
+    cus_add=base(request)
+    return render(request, 'customer/cart.html',{'cus_add':cus_add})
 
 
 def confirm(request):
@@ -313,19 +374,22 @@ def banner(request):
 
 
 def orders(request):
+    cus_add = base(request)
     order_data = AllOrders.objects.all().filter(customer_id=request.user.id)
     data = {
         'order_data': order_data,
+        'cus_add':cus_add,
     }
 
     return render(request, "customer/myorderview.html", data)
 
 @login_required(login_url='cusLogin')
 def profile(request):
+    cus_add = base(request)
     if request.method == 'GET':
         customer_data = Customer.objects.get(credentials_id=request.user.id)
         profile_to_be_edit = Customer.objects.get(credentials_id=request.user.id)
-        return render(request, 'customer/profileview.html', {'profile_to_be_edit': profile_to_be_edit, 'customer_data': customer_data})
+        return render(request, 'customer/profileview.html', {'profile_to_be_edit': profile_to_be_edit, 'customer_data': customer_data,'cus_add':cus_add})
 
     if request.method == 'POST':
         profile_to_be_edit = Customer.objects.get(credentials_id=request.user.id)
