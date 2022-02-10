@@ -11,6 +11,10 @@ class Seller(models.Model):
     categories_list = models.TextField(max_length=200, default="[]")
     created_at = models.DateTimeField(auto_now_add=True)
     shop_image = models.ImageField(upload_to='sellers_image/'+str(username)+'/',default='default.jpg')
+
+    total_stars = models.IntegerField(default=0)
+    total_reviews = models.IntegerField(default=0)
+    avarage_review = models.FloatField(default=0.0)
     def __str__(self):
         return self.shopname
 
