@@ -126,7 +126,7 @@ def custDashboard(request):
         cus_add = allAddress[0]
         NearBySellers = Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range)))
         # NearBySellers = list(Seller.objects.filter(location__dwithin=(ref_location, D(km=km_range))))
-        nn = list(NearBySellers.values("shopname", "location", 'shop_image', 'username'))
+        nn = list(NearBySellers.values("shopname", "location", 'shop_image', 'username','avarage_review'))
 
         for i in range(len(NearBySellers)):
             origin = (ref_location[0], ref_location[1])

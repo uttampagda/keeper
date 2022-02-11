@@ -131,6 +131,10 @@
                 Distance: {{ distance }}KM Away
             </p>
 
+            <p>
+Review: {{ seller_detail.avarage_review }}/5.0
+            </p>
+
             {% if allow_user_to_give_review %}
                 <form method="post" action="{% url 'sellerlandingpage' %}">
                 {% csrf_token %}
@@ -172,7 +176,9 @@
                                 <p class="product-price">₹{{ product.price }}</p>
                                 <p onclick="discri()" class="product-description">{{ product.product_disc }}</p>
                             </div>
+                            <button id="gett" onclick="gett('{{ product.product_name }}')">me</button>
                             <div class="addtocartbutton">
+
                                 <button class="add-button" data-name="{{ product.product_name }}" data-price="{{ product.price }}" data-proimage="{{ product.product_image.url }}" data-proid="{{ product.id }}" data-shopname="{{ seller_detail }}">ADD <span> +</span></button>
                             </div>
                         </div>
@@ -186,6 +192,15 @@
     <script>
         function discri(){
             document.querySelector(".product-description").style.whiteSpace = 'normal';
+        }
+        function gett(val){
+            cart = JSON.parse(localStorage.getItem('shoppingCart'));
+            for(p in cart)
+            {
+             if(cart[p].name==val){
+                 console.log(cart[p].count);
+             }
+            }
         }
     </script>
 {% endblock %}
