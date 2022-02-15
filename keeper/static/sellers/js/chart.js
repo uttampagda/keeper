@@ -24,7 +24,7 @@ var optionsBar = {
   labels: ['1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021', '1 Jan 2021'],
   xaxis: {
     labels: {
-      show: false
+      show: true
     },
     axisBorder: {
       show: true

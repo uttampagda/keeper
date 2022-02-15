@@ -8,32 +8,32 @@
           <div class="app-content-actions">
             <input id="productsearch" class="search-bar" onkeyup="filterFunction()" placeholder="Search..." type="text">
             <div class="app-content-actions-wrapper">
-              <div class="filter-button-wrapper">
-                <button class="action-button filter jsFilter"><span>Filter</span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-filter"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
-                <div class="filter-menu">
-                  <label>Category</label>
-                  <select>
-                      <option value="all">All Categories</option>
-                    {% for category in allCategories %}
-                        <option value="{{category.category_name}}">{{ category.category_name }}</option>
-                    {% endfor %}
-                  </select>
-                  <label>Status</label>
-                  <select>
-                    <option>All Status</option>
-                    <option>Active</option>
-                    <option>Disabled</option>
-                  </select>
-                  <div class="filter-menu-buttons">
-                    <button class="filter-button reset">
-                      Reset
-                    </button>
-                    <button class="filter-button apply">
-                      Apply
-                    </button>
-                  </div>
-                </div>
-              </div>
+{#              <div class="filter-button-wrapper">#}
+{#                <button class="action-button filter jsFilter"><span>Filter</span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-filter"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>#}
+{#                <div class="filter-menu">#}
+{#                  <label>Category</label>#}
+{#                  <select>#}
+{#                      <option value="all">All Categories</option>#}
+{#                    {% for category in allCategories %}#}
+{#                        <option value="{{category.category_name}}">{{ category.category_name }}</option>#}
+{#                    {% endfor %}#}
+{#                  </select>#}
+{#                  <label>Status</label>#}
+{#                  <select>#}
+{#                    <option>All Status</option>#}
+{#                    <option>Active</option>#}
+{#                    <option>Disabled</option>#}
+{#                  </select>#}
+{#                  <div class="filter-menu-buttons">#}
+{#                    <button class="filter-button reset">#}
+{#                      Reset#}
+{#                    </button>#}
+{#                    <button class="filter-button apply">#}
+{#                      Apply#}
+{#                    </button>#}
+{#                  </div>#}
+{#                </div>#}
+{#              </div>#}
               <a href="{% url 'addproduct' %}" onclick="addproducts()" class="app-content-headerButton">Add new  product</a>
             </div>
 
@@ -69,7 +69,7 @@
                 <ul class="product-edit-button">
                    <form method="get" action="{% url 'editProducts' %}">
                        <input type="hidden" name="product_id" value={{ pro.id }}>
-                       <li class="product-edit-button-list">
+                       <li class="product-edit-button-list edit">
                            <button type="submit">
                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
                                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>

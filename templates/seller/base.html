@@ -25,7 +25,7 @@
             <span>Dashboard</span>
           </a>
         </li>
-        <li class="sidebar-list-item {% if request.get_full_path == "/seller/acceptOrder" %}active{% endif %}">
+        <li class="sidebar-list-item {% if request.resolver_match.view_name == "acceptOrder" or request.resolver_match.view_name == "orderdetails" %}active{% endif %}">
           <a href="{% url 'acceptOrder' %}">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
             <span>Orders</span>
@@ -152,6 +152,58 @@
         var chartBar = new ApexCharts(document.querySelector('#bar'), optionsBar);
         chartBar.render();
     </script>
+<script>
+         function validateForm() {
+             var product_name = document.forms["addproduct"]["product_name"];
+             var price = document.forms["addproduct"]["price"];
+             var proimg = document.forms["addproduct"]["pro-img"]
+             if (product_name.value == null || product_name.value === "") {
+                 product_name.classList.add("input-validation");
+                 product_name.style.border = "1px solid red";
+                 product_name.placeholder = 'Please enter product name!';
+                 setTimeout(function(){
+                    product_name.classList.remove("input-validation");
+                    product_name.style.border = "1px solid rgba(0,0,0,0.2)";
+                    product_name.placeholder = 'Enter product name';
+                 }, 3000);
+                 return false;
+             }
+             if (price.value == null || price.value === "") {
+                 price.classList.add("input-validation");
+                 price.style.border = "1px solid red";
+                 price.placeholder = 'Please enter int price!';
+                 setTimeout(function(){
+                    price.classList.remove("input-validation");
+                    price.style.border = "1px solid rgba(0,0,0,0.2)";
+                    price.placeholder = 'Enter Price (₹)';
+                 }, 3000);
+                 return false;
+
+             }
+             else if (isNaN(price.value)) {
+                 price.classList.add("input-validation");
+                 price.style.border = "1px solid red";
+                 price.style.color = "red";
+                 price.value = 'Price can only in number!';
+                 setTimeout(function(){
+                    price.classList.remove("input-validation");
+                    price.style.border = "1px solid rgba(0,0,0,0.2)";
+                    price.placeholder = 'Enter Price (₹)';
+                    price.style.color = "";
+                    price.value = '';
+                 }, 2000);
+                 return false;
+             }
+             if ( proimg.getAttribute('src') == null || proimg.getAttribute('src') === '') {
+                 document.getElementById('dropZoon').style.border = '2px dashed red';
+                 document.getElementById('imgsvg').style.color = 'red';
+                 alert('Please attach image!')
+                 return false;
+             }
+
+         }
+    </script>
+
 
 </body>
 </html>

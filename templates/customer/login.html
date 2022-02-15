@@ -12,14 +12,21 @@
 
 </head>
 <body>
+    {% if messages %}
+        {% for message in messages %}
+        <div class="warning-pop-up">
+            <p id="warning" {% if message.tags %} class=" {{ message.tags }} " {% endif %}>{{ message }}</p>
+        </div>
+        {% endfor %}
+    {% endif %}
 
-<div class="container" id="container">
+    <div class="container" id="container">
         <div class="form-container cus-sign-up-container">
-            <form method="POST" action="{% url 'custLogin' %}" class="col-md-5 offset-1">
+            <form name="custlogin" method="POST" action="{% url 'custLogin' %}" onsubmit="return validateForm()">
                 {% csrf_token %}
                 <h1 class="reg-title ">Welcome back!</h1>
-                <input id="username" name="username" value="" placeholder="Username" required>
-                <input id="password" type="password" name="password" placeholder="Password" required data-eye>
+                <input id="username" class="" name="username" value="" placeholder="Username">
+                <input id="password" type="password" name="password"  placeholder="Password" data-eye>
                 <div class="input-devide">
                     <p></p>
                     <a href="">Forgot password</a>
@@ -28,20 +35,58 @@
                 <div>
                     <p>Don't have an account? <a href="{% url 'custRegister' %}">Register</a></p>
                 </div>
+            </form>
         </div>
         <div class="cus-overlay-container">
             <div class="overlay cus-poster"></div>
         </div>
-    {% if messages %}
-             <ul class="messages">
-                 {% for message in messages %}
-                     <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-                 {% endfor %}
-             </ul>
-         {% endif %}
     </div>
 
+    <script>
+         function validateForm(f) {
+             var a = document.forms["custlogin"]["username"];
+             var b = document.forms["custlogin"]["password"];
+             if (a.value == null || a.value === "") {
+                 a.classList.add("input-validation");
+                 a.style.border = "1px solid red";
+                 a.placeholder = 'Please enter valid username!';
+                 setTimeout(function(){
+                    a.classList.remove("input-validation");
+                    a.style.border = "1px solid rgba(0,0,0,0.2)";
+                    a.placeholder = 'Username';
+                 }, 3000);
+                 return false;
 
+             }
+             if (b.value == null || b.value === "") {
+                 b.classList.add("input-validation");
+                 b.style.border = "1px solid red";
+                 b.placeholder = 'Please enter valid password!';
+                 setTimeout(function(){
+                    b.classList.remove("input-validation");
+                    b.style.border = "1px solid rgba(0,0,0,0.2)";
+                    b.placeholder = 'Password';
+                 }, 3000);
+                 return false;
+             }
+
+         }
+    </script>
+    <script>
+        const war = document.querySelector('.warning-pop-up');
+               setInterval(function () {
+                   war.style.visibility = 'visible';
+                   war.style.opacity = '1';
+                   war.style.transform = 'translateY(1rem)';
+                   setTimeout(function () {
+                       war.style.visibility = 'hidden';
+                       war.style.opacity = '0';
+                       war.style.transform = 'translateY(0)';
+                       war.style.display='none';
+                   }, 3000)
+               }, 10);
+
+    </script>
 </body>
 </html>
 

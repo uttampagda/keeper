@@ -13,6 +13,11 @@ class Seller(models.Model):
     shop_image = models.ImageField(upload_to='sellers_image/'+str(username)+'/',default='default.jpg')
     def __str__(self):
         return self.shopname
+    def save(self):
+        for field in self._meta.fields:
+            if field.name == 'shop_image':
+                field.upload_to = 'sellers_image/' + self.shopname + '/'
+        super(Seller, self).save()
 
 class Product(models.Model):
     product_name = models.CharField(max_length=300)

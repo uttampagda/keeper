@@ -9,21 +9,27 @@
 
 </head>
 <body>
-
+{% if messages %}
+        {% for message in messages %}
+        <div class="warning-pop-up">
+            <p id="warning" {% if message.tags %} class=" {{ message.tags }} " {% endif %}>{{ message }}</p>
+        </div>
+        {% endfor %}
+    {% endif %}
 <div class="container" id="container">
         <div class="form-container cus-sign-up-container">
-            <form method="post" action="{% url 'custRegister' %}">
+            <form name="cusregister" method="post" action="{% url 'custRegister' %}" onsubmit="return validateForm()">
                 {% csrf_token %}
                 <h1 class="reg-title">Create Account</h1>
                 <div class="input-devide">
-                    <input name="first_name" placeholder="Name" required>
-                    <input id="username" placeholder="Username" type="text" name="username" required>
+                    <input name="first_name" placeholder="Name">
+                    <input id="username" placeholder="Username" type="text" name="username">
                     <input type="hidden" name="last_name" placeholder="LastName">
                 </div>
-                <input id="email" placeholder="Email address" type="email" name="email" required>
-                <input id="phone" placeholder="Phone no." name="phone" required>
-                <input id="password" placeholder="Password" type="password" name="password" required data-eye>
-              <input id="confirm_password" placeholder="Confirm password" type="password" name="confirm_password" required data-eye>
+                <input id="email" placeholder="Email address" type="email" name="email" >
+                <input id="phone" placeholder="Phone no." name="phone" >
+                <input id="password" placeholder="Password" type="password" name="password" data-eye>
+              <input id="confirm_password" placeholder="Confirm password" type="password" name="confirm_password" data-eye>
                 <button type="submit">Sign Up</button>
                 <div>
                     <p>Already have an account? <a href="{% url 'custLogin' %}">Sign in</a></p>
@@ -33,15 +39,101 @@
         <div class="cus-overlay-container">
             <div class="overlay cus-poster"></div>
         </div>
-    {% if messages %}
-             <ul class="messages">
-                 {% for message in messages %}
-                     <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-                 {% endfor %}
-             </ul>
-         {% endif %}
     </div>
 
+
+    <script>
+         function validateForm(f) {
+             var username = document.forms["cusregister"]["username"];
+             var password = document.forms["cusregister"]["password"];
+             var first_name = document.forms["cusregister"]["first_name"];
+             var email = document.forms["cusregister"]["email"];
+             var phone = document.forms["cusregister"]["phone"];
+             var confirm_password = document.forms["cusregister"]["confirm_password"];
+             if (first_name.value == null || first_name.value === "") {
+                 first_name.classList.add("input-validation");
+                 first_name.style.border = "1px solid red";
+                 first_name.placeholder = 'Please enter valid name!';
+                 setTimeout(function(){
+                    first_name.classList.remove("input-validation");
+                    first_name.style.border = "1px solid rgba(0,0,0,0.2)";
+                    first_name.placeholder = 'first_name';
+                 }, 3000);
+                 return false;
+             }
+             if (username.value == null || username.value === "") {
+                 username.classList.add("input-validation");
+                 username.style.border = "1px solid red";
+                 username.placeholder = 'Please enter valid username!';
+                 setTimeout(function(){
+                    username.classList.remove("input-validation");
+                    username.style.border = "1px solid rgba(0,0,0,0.2)";
+                    username.placeholder = 'Username';
+                 }, 3000);
+                 return false;
+
+             }
+             if (email.value == null || email.value === "") {
+                 email.classList.add("input-validation");
+                 email.style.border = "1px solid red";
+                 email.placeholder = 'Please enter valid email address!';
+                 setTimeout(function(){
+                    email.classList.remove("input-validation");
+                    email.style.border = "1px solid rgba(0,0,0,0.2)";
+                    email.placeholder = 'email';
+                 }, 3000);
+                 return false;
+             }
+             if (phone.value == null || phone.value === "") {
+                 phone.classList.add("input-validation");
+                 phone.style.border = "1px solid red";
+                 phone.placeholder = 'Please enter valid phone number!';
+                 setTimeout(function(){
+                    phone.classList.remove("input-validation");
+                    phone.style.border = "1px solid rgba(0,0,0,0.2)";
+                    phone.placeholder = 'phone';
+                 }, 3000);
+                 return false;
+             }
+             if (password.value == null || password.value === "") {
+                 password.classList.add("input-validation");
+                 password.style.border = "1px solid red";
+                 password.placeholder = 'Please enter valid password!';
+                 setTimeout(function(){
+                    password.classList.remove("input-validation");
+                    password.style.border = "1px solid rgba(0,0,0,0.2)";
+                    password.placeholder = 'Password';
+                 }, 3000);
+                 return false;
+             }
+             if (confirm_password.value == null || confirm_password.value === "") {
+                 confirm_password.classList.add("input-validation");
+                 confirm_password.style.border = "1px solid red";
+                 confirm_password.placeholder = 'Please enter valid confirm password!';
+                 setTimeout(function(){
+                    confirm_password.classList.remove("input-validation");
+                    confirm_password.style.border = "1px solid rgba(0,0,0,0.2)";
+                    confirm_password.placeholder = 'confirm_password';
+                 }, 3000);
+                 return false;
+             }
+         }
+    </script>
+<script>
+        const war = document.querySelector('.warning-pop-up');
+               setInterval(function () {
+                   war.style.visibility = 'visible';
+                   war.style.opacity = '1';
+                   war.style.transform = 'translateY(1rem)';
+                   setTimeout(function () {
+                       war.style.visibility = 'hidden';
+                       war.style.opacity = '0';
+                       war.style.transform = 'translateY(0)';
+                       war.style.display='none';
+                   }, 3000)
+               }, 10);
+
+    </script>
 
 </body>
 </html>

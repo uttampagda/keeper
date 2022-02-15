@@ -70,13 +70,12 @@ def sellerLogin(request):
         if user is not None:
             if Seller.objects.filter(username=username).exists():
                 auth.login(request, user)
-                messages.warning(request, 'you are logged in')
                 return redirect('sellerDashboard')
             else:
                 messages.warning(request, 'You are not seller')
                 return redirect('sellerLogin')
         else:
-            messages.warning(request, 'invalid credentials')
+            messages.warning(request, 'Please enter valid details!')
             return redirect('sellerLogin')
 
     return render(request, 'seller/login.html')
@@ -161,9 +160,10 @@ def addproduct(request):
         product_name = request.POST['product_name']
         price = request.POST['price']
         category = request.POST['category']
-        product_image = request.FILES['productImage']
         product_disc = request.POST['product_disc']
         seller_cr = request.user.id
+        product_image = request.FILES['productImage']
+
         addproduct = Product(
             seller_cr=seller_cr,
             product_name=product_name,
@@ -174,6 +174,8 @@ def addproduct(request):
             product_category=category,
             product_disc=product_disc,
         )
+
+
 
         addproduct.save()
 
@@ -190,7 +192,7 @@ def addproduct(request):
 
     data = {
         'allCategories': allCategories,
-        'seller_data': seller_data
+        'seller_data': seller_data,
     }
     return render(request, 'seller/addproductview.html', data)
 
@@ -273,7 +275,7 @@ def editstatus(request):
 @login_required(login_url='sellerLogin')
 def vieworderdetails(request):
     new_orders = AllOrders.objects.filter(seller_id=request.user.id,is_rejected=None).exclude(is_accepted=True)
-    return render(request, 'seller/vieworderdeatils.html',)
+    return render(request, 'seller/vieworderdeatils.html', new_orders)
 
 @login_required(login_url='sellerLogin')
 def products(request):
@@ -376,3 +378,15 @@ def editProfile(request):
 
         profile_to_be_edit.save()
         return redirect('sellerDashboard')
+
+@login_required(login_url='sellerLogin')
+def orderdetails(request):
+    if request.method == 'GET':
+        seller_data = Seller.objects.get(credentials_id=request.user.id)
+
+
+        orderdetailsd = {
+            'seller_data': seller_data
+        }
+        return render(request, 'seller/vieworderdeatils.html', orderdetailsd)
+

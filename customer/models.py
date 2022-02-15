@@ -11,6 +11,11 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.username
+    def save(self):
+        for field in self._meta.fields:
+            if field.name == 'cus_image':
+                field.upload_to = 'cus_image/' + str(self.username) + '/'
+        super(Customer, self).save()
 
 class CustAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

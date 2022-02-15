@@ -28,7 +28,7 @@
                 </div>
 
                     <div class="addproducts-row-wrapper big">
-                    <form method="POST" action="{% url 'editProducts' %}" enctype="multipart/form-data">
+                    <form method="POST" name="addproduct" action="{% url 'editProducts' %}" onsubmit="return validateForm()" enctype="multipart/form-data">
                         {% csrf_token %}
                       <div id="productdetails" class="addproducts-container">
                         <div class="addproducts-container-header">
@@ -96,7 +96,7 @@
                             </span>
 
                             <span id="loadingText" class="prod-imgup__loading-text">Please Wait</span>
-                            <img src="{{ product_to_be_edit.product_image.url }}" style="display: block" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
+                            <img name="pro-img" src="{{ product_to_be_edit.product_image.url }}" style="display: block" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
                             <input type="file" id="fileInput" name="productImage" class="prod-imgup__file-input" accept="image/*">
                           </div>
                           <!-- End prodimgup -->

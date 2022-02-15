@@ -4,7 +4,7 @@
 <div id="addproducts" class="app-content">
           <div class="app-content-header">
             <div class="app-content-name-box">
-              <a href="{% url 'products' %}" onclick="retailerproducts()">
+              <a href="{% url 'products' %}" onclick="retailerproducts()" class="returnsvg">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
                   <line x1="19" y1="12" x2="5" y2="12"></line>
                   <polyline points="12 19 5 12 12 5"></polyline>
@@ -28,7 +28,7 @@
                 </div>
 
                     <div class="addproducts-row-wrapper big">
-                    <form method="POST" action="{% url 'addproduct' %}" enctype="multipart/form-data">
+                    <form method="POST" name="addproduct" action="{% url 'addproduct' %}" onsubmit="return validateForm()" enctype="multipart/form-data">
                         {% csrf_token %}
                       <div id="productdetails" class="addproducts-container">
                         <div class="addproducts-container-header">
@@ -69,14 +69,14 @@
                           <!-- prodimagup -->
                           <div id="dropZoon" class="upload-area__prod-imgup prod-imgup">
                             <span class="prod-imgup__icon">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image">
+                              <svg id="imgsvg" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image">
                                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
                                 <circle cx="8.5" cy="8.5" r="1.5"/>
                                 <polyline points="21 15 16 10 5 21"/>
                               </svg>
                             </span>
                             <span id="loadingText" class="prod-imgup__loading-text">Please Wait</span>
-                            <img src="" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
+                            <img name="pro-img" src="" alt="Preview Image" id="previewImage" class="prod-imgup__preview-image" draggable="false">
                             <input type="file" id="fileInput" name="productImage" class="prod-imgup__file-input" accept="image/*">
                           </div>
                           <!-- End prodimgup -->
@@ -90,5 +90,7 @@
             </div>
 
         </div>
+
+
 
 {% endblock %}
