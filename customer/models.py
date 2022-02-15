@@ -8,6 +8,7 @@ class Customer(models.Model):
     phone = models.CharField(max_length=20,blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     cus_image = models.ImageField(upload_to='customer_image/'+str(username)+'/',default='default.jpg')
+    access_review_to_seller_list = models.TextField(max_length=200, default="[]")
 
     def __str__(self):
         return self.username
