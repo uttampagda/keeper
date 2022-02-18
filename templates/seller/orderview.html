@@ -3,7 +3,13 @@
 
 <div id="retailerorders" class="app-content">
           <div class="app-content-header">
-            <h1 class="app-content-headerText">Orders</h1>
+            <h1 class="app-content-headerText">
+                <button onclick="sidebaropen()" class="wrapper-menu">
+                  <div class="line-menu half start"></div>
+                  <div class="line-menu"></div>
+                  <div class="line-menu half end"></div>
+                </button>
+                Orders</h1>
           </div>
           <div class="app-content-actions">
             <input id="ordersearch" class="search-bar" onkeyup="filterFunction()" placeholder="Search..." type="text">
@@ -35,7 +41,7 @@
             </div>
           </div>
           <div class="orders-area-wrapper tableView">
-            <div class="products-header order-arrange">
+            <div id="ordershowtitle" class="products-header order-arrange list-container-main">
               <div class="orders-cell">Order ID</div>
               <div class="orders-cell">Time</div>
               <div class="orders-cell">Customer Name</div>
@@ -125,5 +131,26 @@
           }
         }
     </script>
+    <script>
+        var isSyncingLeftScroll = false;
+        var isSyncingRightScroll = false;
+        var leftDiv = document.getElementById('ordershowtitle');
+        var rightDiv = document.getElementById('ordershow');
 
+        leftDiv.onscroll = function() {
+          if (!isSyncingLeftScroll) {
+            isSyncingRightScroll = true;
+            rightDiv.scrollLeft = this.scrollLeft;
+          }
+          isSyncingLeftScroll = false;
+        }
+
+        rightDiv.onscroll = function() {
+          if (!isSyncingRightScroll) {
+            isSyncingLeftScroll = true;
+            leftDiv.scrollLeft = this.scrollLeft;
+          }
+          isSyncingRightScroll = false;
+        }
+    </script>
 {% endblock %}

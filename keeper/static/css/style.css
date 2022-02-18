@@ -449,6 +449,7 @@ overflow: hidden;
   overflow: hidden;
   color: slategrey;
   max-width: 100%;
+  text-align: left;
   white-space: nowrap;
 }
 .app-content {

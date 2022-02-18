@@ -119,7 +119,7 @@
              }
          }
     </script>
-<script>
+    <script>
         const war = document.querySelector('.warning-pop-up');
                setInterval(function () {
                    war.style.visibility = 'visible';
@@ -130,6 +130,18 @@
                        war.style.opacity = '0';
                        war.style.transform = 'translateY(0)';
                        war.style.display='none';
+                   }, 3000)
+               }, 10);
+
+    </script>
+    <script>
+        const war = document.querySelector('.warning-pop-up');
+               setInterval(function () {
+                   war.style.visibility = 'visible';
+                   war.style.opacity = '1';
+                   war.style.transform = 'translateY(1rem)';
+                   setTimeout(function () {
+                       war.remove();
                    }, 3000)
                }, 10);
 

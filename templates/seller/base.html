@@ -91,7 +91,7 @@
   <script  src="{% static 'sellers/js/script.js' %}"></script>
   <script  src="{% static 'sellers/js/addimage.js'%}"></script>
   <script src='https://cdn.jsdelivr.net/npm/apexcharts@2.1.2'></script>
-    <script>
+  <script>
         Apex.dataLabels = {
           enabled: false
         }
@@ -152,7 +152,7 @@
         var chartBar = new ApexCharts(document.querySelector('#bar'), optionsBar);
         chartBar.render();
     </script>
-<script>
+  <script>
          function validateForm() {
              var product_name = document.forms["addproduct"]["product_name"];
              var price = document.forms["addproduct"]["price"];
@@ -203,6 +203,19 @@
 
          }
     </script>
+  <script>
+      function sidebaropen() {
+          const sidebar = document.querySelector('.sidebar');
+          sidebar.classList.toggle('hidden');
+      }
+  </script>
+  <script>
+      var wrapperMenu = document.querySelector('.wrapper-menu');
+
+      wrapperMenu.addEventListener('click', function(){
+          wrapperMenu.classList.toggle('open');
+      })
+  </script>
 
 
 </body>

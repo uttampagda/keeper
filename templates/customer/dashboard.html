@@ -61,20 +61,22 @@
 			<div class="banner-box m-auto">
             <h3 class="cate-header">Near by shops</h3>
                 {% for seller in near_by_sellers %}
-                <form method="get" class="row" style="margin: 2rem 0" action="{% url 'sellerlandingpage' %}">
-                    <div class="col-xl-3 justify-content-sm-around d-flex">
-                        <button type="submit" class="shop-box">
-                            <input type="hidden" name="seller_name" value={{ seller.username }}>
-                            <div class="shop-image" style="background: rgba(4, 135, 130, 0.3) url('/media/{{ seller.shop_image }}') center; background-size: cover"></div>
-                            <div class="shopname-box">
-                                <p class="shopname">{{ seller.shopname }}</p>
-{#                                <p class="shopcategory">{{ seller.categories_list }}</p>#}
-                                <p class="shopname">{{ seller.dis }} KM</p>
-                                <p class="shopname">{{ seller.avarage_review }}/5.0</p>
-                            </div>
-                        </button>
+                    <div class="row" style="margin: 2rem 0">
+                        <div class="col-xl-3 justify-content-sm-around d-flex">
+                            <form method="get" action="{% url 'sellerlandingpage' %}" style="width: 100%">
+                                <button type="submit" class="shop-box">
+                                    <input type="hidden" name="seller_name" value={{ seller.username }}>
+                                    <div class="shop-image" style="background: rgba(4, 135, 130, 0.3) url('/media/{{ seller.shop_image }}') center; background-size: cover"></div>
+                                    <div class="shopname-box">
+                                        <p class="shopname">{{ seller.shopname }}</p>
+        {#                                <p class="shopcategory">{{ seller.categories_list }}</p>#}
+                                        <p class="shopcategory">{{ seller.dis }} KM</p>
+                                        <p class="shopcategory">{{ seller.avarage_review }}/5.0</p>
+                                    </div>
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                </form>
                 {% endfor %}
 			</div>
 		</div>

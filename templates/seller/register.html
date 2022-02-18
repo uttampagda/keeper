@@ -132,10 +132,7 @@
                    war.style.opacity = '1';
                    war.style.transform = 'translateY(1rem)';
                    setTimeout(function () {
-                       war.style.visibility = 'hidden';
-                       war.style.opacity = '0';
-                       war.style.transform = 'translateY(0)';
-                       war.style.display='none';
+                       war.remove();
                    }, 3000)
                }, 10);
 

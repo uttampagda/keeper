@@ -124,6 +124,7 @@ button {
     transition: transform .6s ease-in-out;
     z-index: 100;
 }
+
 .cus-overlay-container {
     position: absolute;
     top: 0;
@@ -208,11 +209,21 @@ button {
     margin: 0;
     color: #FFFFFF;
 }
-.warning-pop-up svg {
-    width: 5%;
-    cursor: pointer;
-    transition: 300ms;
-}
-.warning-pop-up svg:hover {
-    color: white;
+@media (max-width: 768px) {
+    .overlay-container {
+        display: none;
+    }
+    .sign-up-container {
+      width: 100%;
+    }
+    .cus-overlay-container {
+        display: none;
+    }
+    .cus-sign-up-container {
+        left: 0;
+        width: 100%;
+    }
+    .warning-pop-up {
+        width: 80%;
+    }
 }

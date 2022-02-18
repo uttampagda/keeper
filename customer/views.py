@@ -77,13 +77,12 @@ def custLogin(request):
         if user is not None:
             if Customer.objects.filter(username=username).exists():
                 auth.login(request, user)
-                messages.warning(request, 'you are logged in')
                 return redirect('custDashboard')
             else:
                 messages.warning(request, 'you are not customer')
                 return redirect('custLogin')
         else:
-            messages.warning(request, 'invalid credentials')
+            messages.warning(request, 'Please enter valid details!')
             return redirect('custLogin')
     return render(request, 'customer/login.html')
 
