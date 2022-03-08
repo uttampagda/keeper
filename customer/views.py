@@ -263,7 +263,7 @@ def sellerlandingpage(request):
         access_review_to_seller_string_list = customer.access_review_to_seller_list
         access_review_to_seller_list = ast.literal_eval(access_review_to_seller_string_list)
 
-        print('access_review_to_seller_list', access_review_to_seller_list)
+        #print('access_review_to_seller_list', access_review_to_seller_list)
 
         if seller_id in access_review_to_seller_list:
             allow_user_to_give_review = True
@@ -275,7 +275,14 @@ def sellerlandingpage(request):
         origin = (seller_detail.location[0], seller_detail.location[1])  # (latitude, longitude) don't confuse
         dist = (cus_add.location[0], cus_add.location[1])
         distance = geodesic(origin, dist).kilometers.__round__(2)
-        print(distance)
+        #print(distance)
+        print(seller_id)
+        pro_cat=Product.objects.filter(seller_cr=seller_id).values('product_category').distinct()
+        print("hereeeeeeeeeeeeeeeeeeeeeeeeee",pro_cat)
+
+
+
+
 
         data = {
             'products': seller_products,
@@ -286,10 +293,11 @@ def sellerlandingpage(request):
             'loc': loc,
             'cus_add': cus_add,
             'distance': distance,
-            'allow_user_to_give_review': allow_user_to_give_review
+            'allow_user_to_give_review': allow_user_to_give_review,
+            'pro_cat':pro_cat,
         }
 
-        print("sellerlandingpage-Data", data)
+        # print("sellerlandingpage-Data", data)
 
     elif request.method == "POST":
         rating = int(request.POST['rating'])
@@ -323,7 +331,7 @@ def sellerlandingpage(request):
         access_review_to_seller_string_list = customer.access_review_to_seller_list
         access_review_to_seller_list = ast.literal_eval(access_review_to_seller_string_list)
 
-        print('access_review_to_seller_list', access_review_to_seller_list)
+        # print('access_review_to_seller_list', access_review_to_seller_list)
 
         if seller_id in access_review_to_seller_list:
             access_review_to_seller_list.remove(seller_id)
@@ -338,7 +346,7 @@ def sellerlandingpage(request):
         origin = (seller_detail.location[0], seller_detail.location[1])  # (latitude, longitude) don't confuse
         dist = (cus_add.location[0], cus_add.location[1])
         distance = geodesic(origin, dist).kilometers.__round__(2)
-        print(distance)
+        # print(distance)
 
         data = {
             'products': seller_products,
@@ -352,7 +360,7 @@ def sellerlandingpage(request):
             'allow_user_to_give_review': allow_user_to_give_review
         }
 
-        print("sellerlandingpage-review-Data", data)
+        # print("sellerlandingpage-review-Data", data)
 
     return render(request, 'customer/sellerlandingpage.html', data)
 
@@ -487,7 +495,7 @@ def profile(request):
 
         user_to_be_edit.first_name = request.POST.get('first_name')
         profile_to_be_edit.phone = request.POST.get('phone')
-
+        profile_to_be_edit.cus_image=request.FILES.get('profileImage')
         profile_to_be_edit.save()
         user_to_be_edit.save()
         return redirect('custDashboard')
