@@ -17,20 +17,20 @@
 
         <div class="products-area-wrapper tableView mobile-overflow" style="margin-top: 2rem">
             <div class="orderd-box">
-                <h1 class="orderd-header">Order <span>#133</span></h1>
+                <h1 class="orderd-header">Order <span>{{allord.id}}</span></h1>
             </div>
             <div class="products-header products-arrange mobile-header-orderdetails">
                 <div class="orderd-cust-details">
                     <p class="orderd-cust title">Customer name</p>
-                    <p class="orderd-cust name">Kshitij Nariya</p>
+                    <p class="orderd-cust name">{{ allord.customer_name }}</p>
                 </div>
                 <div class="orderd-cust-details">
                     <p class="orderd-cust title">Order status</p>
-                    <p class="orderd-cust name">Delivred</p>
+                    <p class="orderd-cust name">{{ allord.order_status }}</p>
                 </div>
                 <div class="orderd-cust-details">
                     <p class="orderd-cust title">Requested on</p>
-                    <p class="orderd-cust name">Jan. 26, 2022, 12:56 p.m.</p>
+                    <p class="orderd-cust name">{{ allord.created_date }}</p>
                 </div>
 
               </div>
@@ -38,80 +38,33 @@
 
         <div class="orderd-productsview">
             <div class="addproducts-row two">
-                <div class="addproducts-row-wrapper half one">
-                    <div class="addproducts-container">
-                        <div class="orderd-con">
-                            <div class="products-cell image" style="width: auto">
-                                <img class="orderd-img" src="{% static 'abcd.jpg' %}" width="50" height="50" alt="product">
-                                <div class="orderd-name">
-                                    <p class="product-name">Logitech mouse</p>
-                                    <p class="product-category">Logitech mouse</p>
-                                </div>
-                            </div><p class="orderd-price count">2</p>
 
-                            <p class="orderd-price">₹621</p>
-                        </div>
-                    </div>
+                <div class="addproducts-row-wrapper half one">
+                    {%  for pro in detail %}
                     <div class="addproducts-container">
                         <div class="orderd-con">
                             <div class="products-cell image" style="width: auto">
-                                <img class="orderd-img" src="{% static 'abcd.jpg' %}" width="50" height="50" alt="product">
+                                <img class="orderd-img" src="{{ pro.proimage }}" width="50" height="50" alt="product">
                                 <div class="orderd-name">
-                                    <p class="product-name">Logitech mouse</p>
-                                    <p class="product-category">Logitech mouse</p>
+                                    <p class="product-name">{{ pro.name }}</p>
+
                                 </div>
-                            </div>
-                            <p class="orderd-price count">2</p>
-                            <p class="orderd-price">₹621</p>
+                            </div><p class="orderd-price count">{{ pro.count }}</p>
+
+                            <p class="orderd-price">₹{{ pro.price }}</p>
                         </div>
                     </div>
-                    <div class="addproducts-container">
-                        <div class="orderd-con">
-                            <div class="products-cell image" style="width: auto">
-                                <img class="orderd-img" src="{% static 'abcd.jpg' %}" width="50" height="50" alt="product">
-                                <div class="orderd-name">
-                                    <p class="product-name">Logitech mouse</p>
-                                    <p class="product-category">Logitech mouse</p>
-                                </div>
-                            </div>
-                            <p class="orderd-price count">2</p>
-                            <p class="orderd-price">₹621</p>
-                        </div>
-                    </div>
-                    <div class="addproducts-container">
-                        <div class="orderd-con">
-                            <div class="products-cell image" style="width: auto">
-                                <img class="orderd-img" src="{% static 'abcd.jpg' %}" width="50" height="50" alt="product">
-                                <div class="orderd-name">
-                                    <p class="product-name">Logitech mouse</p>
-                                    <p class="product-category">Logitech mouse</p>
-                                </div>
-                            </div>
-                            <p class="orderd-price count">2</p>
-                            <p class="orderd-price">₹621</p>
-                        </div>
-                    </div>
-                    <div class="addproducts-container">
-                        <div class="orderd-con">
-                            <div class="products-cell image" style="width: auto">
-                                <img class="orderd-img" src="{% static 'abcd.jpg' %}" width="50" height="50" alt="product">
-                                <div class="orderd-name">
-                                    <p class="product-name">Logitech mouse</p>
-                                    <p class="product-category">Logitech mouse</p>
-                                </div>
-                            </div>
-                            <p class="orderd-price count">2</p>
-                            <p class="orderd-price">₹621</p>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
+
+
                 <div class="addproducts-row-wrapper half two">
                     <div class="addproducts-container ">
                         <div class="addproducts-container-header">
                             <h4>Order details</h4>
                             <div class="oredrd-side">
                                 <p class="name">Order type</p>
-                                <p class="details" id="delivery-type">HOME_DELIERY</p>
+                                <p class="details" id="delivery-type">{{ allord.order_type }}</p>
                             </div>
                             <div class="oredrd-side" id="pickup-orderd">
                                 <p class="name">Pickup date</p>
@@ -119,15 +72,28 @@
                             </div>
                             <div class="oredrd-side">
                                 <p class="name">Payment id</p>
-                                <p class="details">#124</p>
+                                <p class="details">{{ allord.payment_id }}</p>
                             </div>
                             <div class="oredrd-side">
                                 <p class="name"><b>Total Amount</b></p>
-                                <p class="details"><b>$353</b></p>
+                                <p class="details"><b>₹{{ allord.ttl_amount }}</b></p>
                             </div>
                         </div>
                     </div>
                 </div>
+
+            <div>
+                 {% if allord.order_status == "PENDING" %}
+                <form method="POST" action="{% url 'acceptOrder' %}">
+                  {% csrf_token %}
+                  <input name="order_id" type="hidden" value={{ allord.id }}>
+                  <button type="submit" class="das-accept-order">
+                    Accept
+                  </button>
+              </form>
+            </div>
+            {% endif %}
+
 
             </div>
         </div>

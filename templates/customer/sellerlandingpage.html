@@ -161,11 +161,11 @@ Review: {{ seller_detail.avarage_review }}/5.0
 
 		<div class="container">
 			<div class="prod-container">
-				<div class="categories-container">
-					<h4 class="categories-text">Meals</h4>
-				</div>
+{#				<div class="categories-container">#}
+{#					<h4 class="categories-text">Meals</h4>#}
+{#				</div>#}
 				<div class="product-container">
-					<h2 class="product-title">Meals</h2>
+{#					<h2 class="product-title">Meals</h2>#}
                     {% for product in products %}
                         <div class="prod-cat-con">
                             <div class="product-image-box">
@@ -176,7 +176,7 @@ Review: {{ seller_detail.avarage_review }}/5.0
                                 <p class="product-price">₹{{ product.price }}</p>
                                 <p onclick="discri()" class="product-description">{{ product.product_disc }}</p>
                             </div>
-                            <button id="gett" onclick="gett('{{ product.product_name }}')">me</button>
+{#                            <button id="gett" onclick="gett('{{ product.product_name }}')">me</button>#}
                             <div class="addtocartbutton">
 
                                 <button class="add-button" data-name="{{ product.product_name }}" data-price="{{ product.price }}" data-proimage="{{ product.product_image.url }}" data-proid="{{ product.id }}" data-shopname="{{ seller_detail }}">ADD <span> +</span></button>

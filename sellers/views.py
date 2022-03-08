@@ -380,13 +380,18 @@ def editProfile(request):
         return redirect('sellerDashboard')
 
 @login_required(login_url='sellerLogin')
-def orderdetails(request):
+def orderdetails(request,id):
     if request.method == 'GET':
         seller_data = Seller.objects.get(credentials_id=request.user.id)
+        allord=AllOrders.objects.get(id=id)
+        detail=ast.literal_eval(allord.order_details)
+
 
 
         orderdetailsd = {
-            'seller_data': seller_data
+            'seller_data': seller_data,
+            'detail':detail,
+            'allord':allord
         }
         return render(request, 'seller/vieworderdeatils.html', orderdetailsd)
 

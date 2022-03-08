@@ -109,9 +109,10 @@ def kmrange(request):
 @login_required(login_url='custLogin')
 def custDashboard(request):
     customer_data = Customer.objects.get(username=request.user.username)
+    print(customer_data.cus_image)
     bannerr = Banner.objects.all()
     global km_range
-    km_range = 1000000
+    km_range = 5
     allcategories = AllCategories.objects.all()
     if request.method == "POST":
         km_range = request.POST.get('km_range')
@@ -120,6 +121,8 @@ def custDashboard(request):
         ref_location = None
         cus_add = None
         NearBySellers = None
+        nn=None
+
     else:
         ref_location = allAddress[0].location
         cus_add = allAddress[0]
@@ -133,8 +136,10 @@ def custDashboard(request):
             dist1 = geodesic(origin, dist).kilometers.__round__(2)
             nn[i]['dis'] = dist1
         print(nn)
-
-    sorted_nn = sorted(nn, key=lambda d: d['dis'])
+    if nn is None:
+        sorted_nn=None
+    else:
+        sorted_nn = sorted(nn, key=lambda d: d['dis'])
 
     return render(request, 'customer/dashboard.html',
                   {'customer_data': customer_data, 'near_by_sellers': sorted_nn, 'customer_add': ref_location,
@@ -400,7 +405,7 @@ def checkout(request):
             pick_up_date = None
 
         amount = int(request.POST.get('total').replace('/', '')) / 100
-        list_of_orders = request.POST.get('list_of_orders').replace('/', '')
+        list_of_orders = request.POST.get('list_of_orders')
 
         client = razorpay.Client(auth=("rzp_test_bSTKVqtv6GwTso", "YEAj0ll32SLlXhunbTJSJqVH"))
         payment = client.order.create({'amount': amount, 'currency': 'INR', 'payment_capture': '1'})
@@ -487,7 +492,7 @@ def profile(request):
 
         user_to_be_edit.first_name = request.POST.get('first_name')
         profile_to_be_edit.phone = request.POST.get('phone')
-
+        profile_to_be_edit.cus_image=request.FILES.get('profileImage')
         profile_to_be_edit.save()
         user_to_be_edit.save()
         return redirect('custDashboard')
