@@ -16,15 +16,14 @@
 
 <script>
 	function changeOrderType() {
-        OrderType = document.getElementById('order_type').value;
-        if (OrderType === "PICK_UP"){
+        OrderType = document.getElementById('order_type');
+        if (OrderType.value === "PICK_UP"){
             document.getElementById("datetime").style.display = "flex";
-        }else if (OrderType === "HOME_DELIVERY"){
+        }else if (OrderType.value === "HOME_DELIVERY"){
             document.getElementById("datetime").style.display = "none";
             document.getElementById("pick_up_date").value = null;
         }
     }
-
 </script>
 
 

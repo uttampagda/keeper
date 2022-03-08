@@ -103,7 +103,7 @@ def kmrange(request):
         print('NearBySellers', NearBySellers)
         return render(request, 'customer/dashboard.html',
                       {'customer_data': customer_data, 'near_by_sellers': NearBySellers,
-                       'allcategories': allcategories, })
+                       'allcategories': allcategories, 'km_range': km_range })
 
 
 @login_required(login_url='custLogin')
@@ -139,7 +139,7 @@ def custDashboard(request):
     return render(request, 'customer/dashboard.html',
                   {'customer_data': customer_data, 'near_by_sellers': sorted_nn, 'customer_add': ref_location,
                    'cus_add': cus_add,
-                   'allcategories': allcategories, 'bannerr': bannerr})
+                   'allcategories': allcategories, 'bannerr': bannerr, 'km_range': km_range})
 
 
 @login_required(login_url='custLogin')
