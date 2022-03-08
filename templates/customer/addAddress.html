@@ -1,62 +1,84 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-    <meta charset="UTF-8">
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
-        <style>
-            html,
-            body,
-            #map_canvas {
-                height: 300px;
-                width: 500px;
-                margin: 0px;
-                padding: 0px
-            }
-        </style>
-    <title>Add Address</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{% static 'sellers/css/seller_login.css' %}">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+
 </head>
-{% block content %}
 <body>
-    <h1 class="text-center mt-5 mb-5">
-      Welcome to Customer AddAddress
-    </h1>
-     <h4>hi, {{ user.username }}</h4>
 
-         <div class="row">
-             <div class="col-md-4 offset-md-4">
+<div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form name="addAddress" method="post" action="{% url 'addAddress' %}" onsubmit="return validateForm()">
+                {% csrf_token %}
+                <h1 class="reg-title">Add address</h1>
+                <input name="address" placeholder="Flat no., area name">
+                <input name="city" placeholder="City">
+                <input name="pincode" placeholder="Pincode">
 
-             </div>
-         </div>
-    <div class="row">
-      <form method="post" action="{% url 'addAddress' %}" class="col-md-5 offset-md-1">
-      {% csrf_token %}
-        <div class="form-group">
-          <input name="address" class="form-control" placeholder="address">
+                <button type="submit">Add address</button>
+                <input type="hidden" name="latiLong" id="latiLong" />
+            </form>
         </div>
-        <div class="form-group">
-          <input name="city" class="form-control" placeholder="city" required>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div style="height: 100%" id="map_canvas"></div>
+                 <div id="coordinates"></div>
+            </div>
         </div>
-        <div class="form-group">
-          <input name="pincode" class="form-control" placeholder="pincode" required>
-        </div>
-          <div id="map_canvas" style="width:750px; height:450px; border: 2px solid #3872ac;"></div>
-         <div id="coordinates"></div>
-
-          <input type="hidden" name="latiLong" id="latiLong" />
-
-        <button type="submit" class="btn btn-accent form-btn w-100 mt-3 mb-3">Add Address</button>
-
-      </form>
     </div>
-         {% if messages %}
-             <ul class="messages">
-                 {% for message in messages %}
-                     <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-                 {% endfor %}
-             </ul>
-         {% endif %}
- <SCRIPT>
-             function initialize() {
+
+    <script>
+         function validateForm() {
+             var address = document.forms["addAddress"]["address"];
+             var city = document.forms["addAddress"]["city"];
+             var pincode = document.forms["addAddress"]["pincode"];
+             var latiLong = document.forms["addAddress"]["latiLong"];
+             if (address.value == null || address.value === "") {
+                 address.classList.add("input-validation");
+                 address.style.border = "1px solid red";
+                 address.placeholder = 'Please enter valid address!';
+                 setTimeout(function(){
+                    address.classList.remove("input-validation");
+                    address.style.border = "1px solid rgba(0,0,0,0.2)";
+                    address.placeholder = 'Flat no., area name';
+                 }, 2000);
+                 return false;
+             }
+             if (city.value == null || city.value === "") {
+                 city.classList.add("input-validation");
+                 city.style.border = "1px solid red";
+                 city.placeholder = 'Please enter valid city!';
+                 setTimeout(function(){
+                    city.classList.remove("input-validation");
+                    city.style.border = "1px solid rgba(0,0,0,0.2)";
+                    city.placeholder = 'City';
+                 }, 2000);
+                 return false;
+
+             }
+             if (pincode.value == null || pincode.value === "") {
+                 pincode.classList.add("input-validation");
+                 pincode.style.border = "1px solid red";
+                 pincode.placeholder = 'Please enter valid email pincode!';
+                 setTimeout(function(){
+                    pincode.classList.remove("input-validation");
+                    pincode.style.border = "1px solid rgba(0,0,0,0.2)";
+                    pincode.placeholder = 'Pincode';
+                 }, 2000);
+                 return false;
+             }
+         }
+    </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwvCP9pQ19x79rk3DpreTV6AypI_tKtqw&callback=initMap&v=weekly"
+      async
+    ></script>
+<script>
+    function initialize() {
                  var crosshairShape = {
                      coords: [0, 0, 0, 0],
                      type: 'rect'
@@ -83,7 +105,10 @@
              }
 
              google.maps.event.addDomListener(window, 'load', initialize);
- </script>
+
+</script>
+
+
+
 </body>
 </html>
-{% endblock %}
