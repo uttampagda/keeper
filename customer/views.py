@@ -120,6 +120,7 @@ def custDashboard(request):
         ref_location = None
         cus_add = None
         NearBySellers = None
+        nn=None
     else:
         ref_location = allAddress[0].location
         cus_add = allAddress[0]
@@ -132,9 +133,11 @@ def custDashboard(request):
             dist = (NearBySellers[i].location[0], NearBySellers[i].location[1])
             dist1 = geodesic(origin, dist).kilometers.__round__(2)
             nn[i]['dis'] = dist1
-        print(nn)
 
-    sorted_nn = sorted(nn, key=lambda d: d['dis'])
+    if nn is None:
+        sorted_nn=None
+    else:
+        sorted_nn = sorted(nn, key=lambda d: d['dis'])
 
     return render(request, 'customer/dashboard.html',
                   {'customer_data': customer_data, 'near_by_sellers': sorted_nn, 'customer_add': ref_location,
