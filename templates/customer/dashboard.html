@@ -60,8 +60,9 @@
 		<div class="container-fluid h-100">
 			<div class="banner-box m-auto">
             <h3 class="cate-header">Near by shops</h3>
-                {% for seller in near_by_sellers %}
+
                     <div class="row" style="margin: 2rem 0">
+                        {% for seller in near_by_sellers %}
                         <div class="col-xl-3 justify-content-sm-around d-flex">
                             <form method="get" action="{% url 'sellerlandingpage' %}" style="width: 100%">
                                 <button type="submit" class="shop-box">
@@ -76,8 +77,9 @@
                                 </button>
                             </form>
                         </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
+
 			</div>
 		</div>
 	</section>

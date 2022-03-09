@@ -45,13 +45,13 @@
                         <form method="POST" action="{% url 'custDashboard' %}">
                             {% csrf_token %}
                             <div class="search-catagory" style="width: 3rem">
-                                        <select name="km_range" id="order_type" onChange="form.submit();" style="border: none">
-                                            <option value="5" selected>5</option>
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="50">50</option>
-                                            <option value="75">75</option>
-                                            <option value="100">100</option>
+                                        <select name="km_range" onChange="form.submit();" style="border: none">
+                                            <option value="5" {% if km_range == '5' %}selected{% endif %}>5</option>
+                                            <option value="10" {% if km_range == '10' %}selected{% endif %}>10</option>
+                                            <option value="20" {% if km_range == '20' %}selected{% endif %}>20</option>
+                                            <option value="50" {% if km_range == '50' %}selected{% endif %}>50</option>
+                                            <option value="75" {% if km_range == '75' %}selected{% endif %}>75</option>
+                                            <option value="100" {% if km_range == '100' %}selected{% endif %}>100</option>
                                         </select>
                                     </div>
                         </form>

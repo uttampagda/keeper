@@ -188,10 +188,6 @@ function displayCart() {
         '							<p class="item-font">Item Total</p>' +
         '							<p class="item-price">₹' + totalCart + '</p>' +
         '						</div>' +
-        '						<div class="bill-brief">' +
-        '							<p class="item-font">Ddelivery Fee</p>' +
-        '							<p class="item-price">₹50</p>' +
-        '						</div>' +
         '						<div class="total-border"></div>' +
         '						<div class="bill-brief">' +
         '							<p class="item-font-bold">Total(inc. GST)</p>' +
@@ -227,7 +223,7 @@ function displayCart() {
         '						</div>' +
         '					</div>' +
         '					<div class="search-catagory">' +
-        '						<select name="order_type" id="order_type" onchange="changeOrderType();">' +
+        '						<select name="order_type" id="order_type" onchange="changeOrderType()">' +
         '							<option value="HOME_DELIVERY" selected>HOME DELIVERY</option>' +
         '							<option value="PICK_UP">SELF PICKUP</option>' +
         '						</select>' +
