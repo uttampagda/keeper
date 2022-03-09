@@ -281,9 +281,6 @@ def sellerlandingpage(request):
         print("hereeeeeeeeeeeeeeeeeeeeeeeeee",pro_cat)
 
 
-
-
-
         data = {
             'products': seller_products,
             'customer': customer,
@@ -374,6 +371,21 @@ def sellerlandingpage(request):
             access_review_to_seller_string_list = customer.access_review_to_seller_list
             access_review_to_seller_list = ast.literal_eval(access_review_to_seller_string_list)
 
+            allow_user_to_give_review = False
+            seller_cat = seller_detail.categories_list
+            seller_cat = ast.literal_eval(seller_cat)
+
+            loc = seller_detail.location
+            seller_id = seller_detail.credentials_id
+
+            cus_add = base(request)
+            # print(seller_detail.location[0],seller_detail.location[1])
+            # print(cus_add.location[0],cus_add.location[1])
+
+            origin = (seller_detail.location[0], seller_detail.location[1])  # (latitude, longitude) don't confuse
+            dist = (cus_add.location[0], cus_add.location[1])
+            distance = geodesic(origin, dist).kilometers.__round__(2)
+
             data = {
                 'products': seller_products,
                 'customer': customer,
@@ -385,8 +397,6 @@ def sellerlandingpage(request):
                 'distance': distance,
                 'allow_user_to_give_review': allow_user_to_give_review
             }
-
-
 
         # print("sellerlandingpage-review-Data", data)
 
