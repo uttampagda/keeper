@@ -46,6 +46,6 @@ class Product(models.Model):
 
 class AllCategories(models.Model):
     category_name = models.CharField(max_length=100)
-
+    category_img= models.ImageField(upload_to='cat_image/',default='default.jpg')
     def __str__(self):
         return self.category_name
