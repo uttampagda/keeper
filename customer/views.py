@@ -246,7 +246,7 @@ def sellerlandingpage(request):
         product_category = request.GET.get("product_category", None)
         seller_name = request.GET.get("seller_name", None)
 
-        print(seller_name, seller_id, product_category)
+        print(seller_name, seller_id, product_category, request.method)
 
         allow_user_to_give_review = False
 
