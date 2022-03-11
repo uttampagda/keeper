@@ -139,7 +139,6 @@ Review: {{ seller_detail.avarage_review }}/5.0
                 <form method="post" action="{% url 'sellerlandingpage' %}">
                 {% csrf_token %}
                        <input type="hidden" name="seller_id" value={{ seller_id }}>
-                        <input type="hidden" name="post_type" value= "review">
 
                        <span class="star-rating">
                           <input type="radio" name="rating" value="1"><i></i>
@@ -166,22 +165,17 @@ Review: {{ seller_detail.avarage_review }}/5.0
 				<div class="categories-container">
 
                 {% for pro in pro_cat %}
-                    <form method="post" action="{% url 'sellerlandingpage' %}">
+                    <form method="get" action="{% url 'sellerlandingpage' %}">
                         {% csrf_token %}
                        <input type="hidden" name="seller_id" value={{ seller_id }}>
                        <input type="hidden" name="product_category" value= {{ pro.product_category }}>
-                       <input type="hidden" name="post_type" value= "product_category">
 
                        <li class="product-edit-button-list">
                            <button type="submit" class="categories-text">
                                {{ pro.product_category }}
                            </button>
                        </li>
-                </form>
-
-
-
-					<h4 ></h4>
+                    </form>
                 {% endfor %}
 
 				</div>

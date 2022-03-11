@@ -242,20 +242,29 @@ import ast
 
 def sellerlandingpage(request):
     if request.method == "GET":
+        seller_id = request.GET.get("seller_id", None)
+        product_category = request.GET.get("product_category", None)
+        seller_name = request.GET.get("seller_name", None)
+
+        print(seller_name, seller_id, product_category)
+
         allow_user_to_give_review = False
 
-        seller_detail = Seller.objects.get(username=request.GET["seller_name"])
+        if seller_id != None:
+            seller_detail = Seller.objects.get(credentials_id=seller_id)
+        elif seller_name != None:
+            seller_detail = Seller.objects.get(shopname = seller_name)
+
         seller_cat = seller_detail.categories_list
         seller_cat = ast.literal_eval(seller_cat)
 
         loc = seller_detail.location
         seller_id = seller_detail.credentials_id
 
-        try:
-            product_category = request.GET["category"]
+        if product_category != None:
             seller_products = Product.objects.filter(seller_cr=seller_id, is_featured=True,
                                                      product_category=product_category)
-        except MultiValueDictKeyError:
+        else:
             seller_products = Product.objects.filter(seller_cr=seller_id, is_featured=True)
 
         customer = Customer.objects.get(username=request.user.username)
@@ -297,109 +306,67 @@ def sellerlandingpage(request):
         # print("sellerlandingpage-Data", data)
 
     elif request.method == "POST":
-        post_type = request.POST['rating']
+        rating = int(request.POST['rating'])
 
-        if post_type == "review":
+        seller_detail = Seller.objects.get(credentials_id=request.POST["seller_id"])
+        total_stars = seller_detail.total_stars + rating
+        total_reviews = seller_detail.total_reviews + 1
+        avarage_review = round(total_stars/total_reviews, 1)
 
-            rating = int(request.POST['rating'])
+        seller_detail.total_stars = total_stars
+        seller_detail.total_reviews = total_reviews
+        seller_detail. avarage_review = avarage_review
+        seller_detail.save()
 
-            seller_detail = Seller.objects.get(credentials_id=request.POST["seller_id"])
-            total_stars = seller_detail.total_stars + rating
-            total_reviews = seller_detail.total_reviews + 1
-            avarage_review = round(total_stars/total_reviews, 1)
+        allow_user_to_give_review = False
+        seller_cat = seller_detail.categories_list
+        seller_cat = ast.literal_eval(seller_cat)
 
-            seller_detail.total_stars = total_stars
-            seller_detail.total_reviews = total_reviews
-            seller_detail. avarage_review = avarage_review
-            seller_detail.save()
+        loc = seller_detail.location
+        seller_id = seller_detail.credentials_id
 
-            allow_user_to_give_review = False
-            seller_cat = seller_detail.categories_list
-            seller_cat = ast.literal_eval(seller_cat)
+        try:
+            product_category = request.GET["category"]
+            seller_products = Product.objects.filter(seller_cr=seller_id, is_featured=True,
+                                                     product_category=product_category)
+        except MultiValueDictKeyError:
+            seller_products = Product.objects.filter(seller_cr=seller_id, is_featured=True)
 
-            loc = seller_detail.location
-            seller_id = seller_detail.credentials_id
+        customer = Customer.objects.get(username=request.user.username)
 
-            try:
-                product_category = request.GET["category"]
-                seller_products = Product.objects.filter(seller_cr=seller_id, is_featured=True,
-                                                         product_category=product_category)
-            except MultiValueDictKeyError:
-                seller_products = Product.objects.filter(seller_cr=seller_id, is_featured=True)
+        access_review_to_seller_string_list = customer.access_review_to_seller_list
+        access_review_to_seller_list = ast.literal_eval(access_review_to_seller_string_list)
 
-            customer = Customer.objects.get(username=request.user.username)
+        # print('access_review_to_seller_list', access_review_to_seller_list)
 
-            access_review_to_seller_string_list = customer.access_review_to_seller_list
-            access_review_to_seller_list = ast.literal_eval(access_review_to_seller_string_list)
+        if seller_id in access_review_to_seller_list:
+            access_review_to_seller_list.remove(seller_id)
 
-            # print('access_review_to_seller_list', access_review_to_seller_list)
+        customer.access_review_to_seller_list = str(access_review_to_seller_list)
+        customer.save()
 
-            if seller_id in access_review_to_seller_list:
-                access_review_to_seller_list.remove(seller_id)
+        cus_add = base(request)
+        # print(seller_detail.location[0],seller_detail.location[1])
+        # print(cus_add.location[0],cus_add.location[1])
 
-            customer.access_review_to_seller_list = str(access_review_to_seller_list)
-            customer.save()
+        origin = (seller_detail.location[0], seller_detail.location[1])  # (latitude, longitude) don't confuse
+        dist = (cus_add.location[0], cus_add.location[1])
+        distance = geodesic(origin, dist).kilometers.__round__(2)
+        # print(distance)
 
-            cus_add = base(request)
-            # print(seller_detail.location[0],seller_detail.location[1])
-            # print(cus_add.location[0],cus_add.location[1])
-
-            origin = (seller_detail.location[0], seller_detail.location[1])  # (latitude, longitude) don't confuse
-            dist = (cus_add.location[0], cus_add.location[1])
-            distance = geodesic(origin, dist).kilometers.__round__(2)
-            # print(distance)
-
-            data = {
-                'products': seller_products,
-                'customer': customer,
-                'seller_cat': seller_cat,
-                'seller_id': seller_id,
-                'seller_detail': seller_detail,
-                'loc': loc,
-                'cus_add': cus_add,
-                'distance': distance,
-                'allow_user_to_give_review': allow_user_to_give_review
-            }
-        elif post_type == "product_category":
-            seller_detail = Seller.objects.get(credentials_id=request.POST["seller_id"])
-
-            seller_products = Product.objects.filter(seller_cr=seller_detail.id, product_category=request.POST["product_category"])
-            print(seller_products)
-
-            customer = Customer.objects.get(username=request.user.username)
-
-            access_review_to_seller_string_list = customer.access_review_to_seller_list
-            access_review_to_seller_list = ast.literal_eval(access_review_to_seller_string_list)
-
-            allow_user_to_give_review = False
-            seller_cat = seller_detail.categories_list
-            seller_cat = ast.literal_eval(seller_cat)
-
-            loc = seller_detail.location
-            seller_id = seller_detail.credentials_id
-
-            cus_add = base(request)
-            # print(seller_detail.location[0],seller_detail.location[1])
-            # print(cus_add.location[0],cus_add.location[1])
-
-            origin = (seller_detail.location[0], seller_detail.location[1])  # (latitude, longitude) don't confuse
-            dist = (cus_add.location[0], cus_add.location[1])
-            distance = geodesic(origin, dist).kilometers.__round__(2)
-
-            data = {
-                'products': seller_products,
-                'customer': customer,
-                'seller_cat': seller_cat,
-                'seller_id': seller_id,
-                'seller_detail': seller_detail,
-                'loc': loc,
-                'cus_add': cus_add,
-                'distance': distance,
-                'allow_user_to_give_review': allow_user_to_give_review
-            }
+        data = {
+            'products': seller_products,
+            'customer': customer,
+            'seller_cat': seller_cat,
+            'seller_id': seller_id,
+            'seller_detail': seller_detail,
+            'loc': loc,
+            'cus_add': cus_add,
+            'distance': distance,
+            'allow_user_to_give_review': allow_user_to_give_review
+        }
 
         # print("sellerlandingpage-review-Data", data)
-
     return render(request, 'customer/sellerlandingpage.html', data)
 
 
