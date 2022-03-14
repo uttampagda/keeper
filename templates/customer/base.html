@@ -27,11 +27,10 @@
     <header id="navbar" class="header_area">
 		<div class="main_menu">
 			<nav class="navbar navbar-expand-lg navbar-light">
-				<div class="container-fluid d-flex justify-content-around">
-					<a class="navbar-brand logo_h" href="{% url 'custDashboard' %}"><img src="{% static 'customer/img/logo.svg'%}" alt="Shopkeeper"></a>
+				<div class="container-fluid navbar-response d-flex justify-content-around">
+					    <a class="navbar-brand logo_h" href="{% url 'custDashboard' %}"><img src="{% static 'customer/img/logo.svg'%}" alt="Shopkeeper"></a>
 
-
-                        <div onclick="locationbutton()" class="location-container d-flex justify-content-between align-items-center c-pointer">
+                        <div onclick="locationbutton()" class="location-container d-flex m-display-none justify-content-between align-items-center c-pointer">
                             <img class="mr-2" src="{% static 'customer/img/icons/location.svg'%}" alt="">
                             {% if cus_add == None %}
                                     <a href="{% url 'addAddress' %}" class="m-0 ftsz-15 ftfmly-poppins ftweight-400">Select Your Address</a>
@@ -55,7 +54,7 @@
                                         </select>
                                     </div>
                         </form>
-                        <div class="d-flex w-45">
+                        <div class="d-flex w-45 m-w-60 m-width-auto">
                                 <form class="search-box w-100" method="POST" action="{% url 'searchProductNearBY' %}">
                                     {% csrf_token %}
                                     <input class="ftsz-12 w-100" autocomplete="off" name="product_name" placeholder="Search for products">
@@ -67,12 +66,14 @@
 
 					<div onclick="profilebutton()" class="profile-container d-flex c-pointer">
 						<div class="profile-box mr-2" style="background: #048782 url('{{ customer_data.cus_image.url }}') center; background-size: cover"></div>
-						<div class="">
+						<div class="m-display-none">
 							<p class="customer_name ftsz-12">Hello, {{ user.first_name }}</p>
-							<div class="d-flex">
+							<div class="d-flex ">
 								<p class="ftsz-15 mr-1">Profile</p>
 								<i class="fa fa-caret-down"></i>
-								<div class="profile-dropdown-content">
+							</div>
+						</div>
+                        <div class="profile-dropdown-content">
 									<div class="d-flex align-items-center dropdown-profile-padding">
 										<div class="profile-box-2 mr-3" style="background: #048782 url('{{ customer_data.cus_image.url }}') center; background-size: cover"></div>
 										<div class="d-block">
@@ -94,18 +95,36 @@
 										<p>Log Out</p>
 									</a>
 								</div>
-							</div>
-						</div>
 					</div>
 
-					<a href="{% url 'cart' %}" class="cart-box d-flex c-pointer"><i class="fa fa-shopping-cart ftsz-20 p-2"></i><p class="align-self-center pr-2">Cart(<span class="total-count"></span>)</p></a>
-
+					<a href="{% url 'cart' %}" class="cart-box d-flex m-display-none c-pointer"><i class="fa fa-shopping-cart ftsz-20 p-2"></i><p class="align-self-center pr-2">Cart(<span class="total-count"></span>)</p></a>
+                    <button onclick="sidebarmenu()" class="mobile-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                    </button>
 				</div>
 			</nav>
 		</div>
 	</header>
 	<!-- End Header -->
-
+    <div class="mobiel-navbar">
+        <a class="hide navbar-brand logo_h mb-5" href="{% url 'custDashboard' %}"><img src="{% static 'customer/img/logo.svg'%}" alt="Shopkeeper"></a>
+        <div onclick="locationbutton()" class="hide location-container d-flex mb-3 align-items-center color-white c-pointer">
+            <div class="mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z"/>
+                </svg>
+            </div>
+            {% if cus_add == None %}
+                <a href="{% url 'addAddress' %}" class="m-0 ftsz-15 ftfmly-poppins ftweight-400">Select Your Address</a>
+                <i class="fa fa-angle-down ftsz-20 p-2"></i>
+            {% else %}
+                <p class="m-0 ftsz-15 ftfmly-poppins ftweight-400">{{ cus_add.city }}, {{ cus_add.pincode }}</p>
+            {% endif %}
+        </div>
+        <a href="{% url 'cart' %}" class="hide cart-box d-flex c-pointer"><i class="fa fa-shopping-cart color-white ftsz-20 mr-2"></i><p class="align-self-center color-white pr-2">Cart(<span class="total-count"></span>)</p></a>
+    </div>
 
     {% block content %}
 
@@ -119,6 +138,21 @@
 	<script src="{% static 'js/_bootstrap.js' %}"></script>
     <script src="{% static 'js/cart.js' %}"></script>
     <script src="{% static 'js/addimage.js' %}"></script>
+    <script>
+        function sidebarmenu() {
+            var mobilesidebar = document.querySelector('.mobiel-navbar');
+            if (mobilesidebar.style.visibility === "hidden") {
+                mobilesidebar.style.visibility = "visible";
+                mobilesidebar.style.maxWidth = "15rem";
+            }
+            else {
+                mobilesidebar.style.maxWidth = "0";
+                setTimeout(function() {
+                  mobilesidebar.style.visibility = "hidden";
+                }, 500);
+            }
+        }
+    </script>
 
 </body>
 </html>

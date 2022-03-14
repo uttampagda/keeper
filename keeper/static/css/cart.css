@@ -251,3 +251,22 @@ input[type=number] {
     margin-bottom: 25px;
     color: #FFFFFF;
 }
+@media (max-width: 768px) {
+    .cart-padding {
+        flex-direction: column;
+    }
+    .cart.big {
+        width: 100%;
+        height: auto;
+    }
+    .cart-container.small {
+        width: 100%;
+    }
+    .inner-cart {
+        flex-direction: column;
+        align-items: normal;
+    }
+    .product-count {
+        margin: 1rem 0;
+    }
+}

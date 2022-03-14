@@ -39,7 +39,7 @@
 		<div class="container-fluid h-100">
 			<div class="banner-box m-auto">
             <h3 class="cate-header">Categories</h3>
-				<div class="d-flex justify-content-center w-100 h-100">
+				<div class="d-flex justify-content-center m-justify-contect-left w-100 h-100 overflow-scroll-hide">
                 {% for category in  allcategories %}
                         <form method="POST" action="{% url 'searchProductNearBY' %}">
                             {% csrf_token %}

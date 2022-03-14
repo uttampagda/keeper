@@ -53,9 +53,11 @@
 
             <div id="ordershow" class="list-container-main">
                 {% for order in orders %}
-                    <a href="{% url 'orderdetails' id=order.id %}">
+
               <div class="products-row order-arrange">
+                    <a href="{% url 'orderdetails' id=order.id %}">
                   <p class="orders-cell order-id">#{{ order.id }}</p>
+                    </a>
                   <div class="orders-cell time"><span class="cell-label">Time:</span>{{ order.created_date }}</div>
                   <div class="orders-cell cusname"><span class="cell-label">{{ order.customer_name }}</span>{{ order.customer_name }}</div>
                   <div class="orders-cell payment-cell">
@@ -106,7 +108,7 @@
 
                   <div class="orders-cell amount"><span class="cell-label">Price:</span>{{ order.ttl_amount }}</div>
                 </div>
-                    </a>
+
                 {% endfor %}
             </div>
           </div>

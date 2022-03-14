@@ -448,6 +448,9 @@ a {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+.app-content-actions-wrapper::-webkit-scrollbar {
+  display: none;
+}
 @media screen and (max-width: 520px) {
   .app-content-actions {
     flex-direction: column;
@@ -835,7 +838,14 @@ input:checked + .status-slider:before {
 .tableView .cell-label {
   display: none;
 }
-
+.status-circle {
+  height: 1.2rem;
+  width: 1.2rem;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 7px;
+}
 .status {
   font-family: "Poppins", sans-serif;
   border-radius: 3px;

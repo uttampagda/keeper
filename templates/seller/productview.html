@@ -66,10 +66,8 @@
               <div class="products-cell category"><span class="cell-label">Category:</span>{{ pro.product_category }}</div>
               <div class="products-cell price"><span class="cell-label">Price:</span>₹{{ pro.price }}</div>
               <div class="products-cell status-cell">
-                <label class="status-switch">
-                  <input type=  "checkbox">
-                  <span class="status-slider round"></span>
-                </label>
+                <div class="status-circle" style="background-color: {% if pro.is_featured == True %}rgba(4, 135, 130, 0.8 ){% else %}#ff5c5c{% endif %} "></div>
+                  <p>{% if pro.is_featured == True %}Visible{% else %}Hidden{% endif %}</p>
               </div>
               <div class="edit-button">
                 <ul class="product-edit-button">

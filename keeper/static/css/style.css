@@ -77,6 +77,15 @@ input {
 .button-padding {
   padding: 12px 17px;
 }
+
+.overflow-scroll-hide {
+  overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.overflow-scroll-hide::-webkit-scrollbar {
+  display: none;
+}
 /*---------Font------------- */
 .ftfmly-poppins {
   font-family: "Poppins", sans-serif;
@@ -132,7 +141,7 @@ input {
 
 @media (max-width: 991px) {
   .section_gap {
-      padding: 60px 0;
+      padding: 0 0;
   }
   .section_gap_top {
       padding-top: 60px;
@@ -392,6 +401,17 @@ overflow: hidden;
   background-size: contain;
   border-radius: 7px;
 }
+@media (max-width: 768px) {
+  .banner-height {
+    height: 28vh;
+  }
+  .mt-140pr {
+    margin-top: 205%;
+  }
+  .m-justify-contect-left {
+    justify-content: left !important;
+  }
+}
 /**** Categories ****/
 .category-height {
   height: auto;
@@ -614,6 +634,7 @@ overflow: hidden;
   justify-content: flex-end;
   margin: 3rem 0 2rem 0;
 }
+
 /*** Product Image ***/
 
 /* Drop Zoon */
@@ -800,7 +821,23 @@ overflow: hidden;
   width: 90%;
   background-color: #f7f7f7;
 }
+@media (max-width: 768px) {
+  .addproducts-row-wrapper.small {
+    display: none;
+  }
+  .addproducts-row-wrapper.big {
+    max-width: 100%;
+  }
+  .m-d-flex-d {
+    flex-direction: column;
+  }
+  .m-wid-100 {
+    width: 100%;
+  }
+}
 
+
+/*-------- MY ORDER ---------*/
 .app-content-headerButton {
   font-family: "Poppins", sans-serif;
   background-color: rgba(4, 135, 130, 1);
@@ -972,7 +1009,11 @@ overflow: hidden;
    min-width: 5%;
 }
 
-
+@media (max-width: 768px) {
+  .orders-area-wrapper.tableView {
+    margin: 2rem 1rem;
+  }
+}
 .categories-button {
   height: 100%;
   width: 100%;
@@ -1008,4 +1049,50 @@ overflow: hidden;
   cursor: pointer;
   margin: 2rem auto;
   position: absolute;
+}
+.mobile-menu {
+  display: none;
+}
+.mobiel-navbar {
+  display: none;
+}
+
+@media (max-width:768px) {
+  .header_area .navbar a.navbar-brand {
+    display: none;
+  }
+  .m-display-none {
+    display: none !important;
+  }
+  .mobile-menu {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  .mobiel-navbar {
+    display: block;
+    width: 100%;
+    max-width: 0;
+    visibility: hidden;
+    position: fixed;
+    padding: 2rem;
+    right: 0;
+    background-color: #0c5460;
+    height: 100%;
+    z-index: 100;
+    transition: 500ms;
+  }
+  .color-white {
+    color: #FFFFFF;
+  }
+  .profile-dropdown-content {
+    right: 0;
+  }
+  .m-w-60 {
+    width: 60%;
+  }
 }

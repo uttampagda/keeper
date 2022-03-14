@@ -48,14 +48,14 @@
                           <h4>Account Information</h4>
                         </div>
                         <div class="addproducts-container-list">
-                          <div class="w-100 d-flex justify-content-between">
-                              <div class="wid-50">
+                          <div class="w-100 d-flex m-d-flex-d justify-content-between">
+                              <div class="wid-50 m-wid-100">
                                 <h5 class="addproducts-list-text">Profile Name <span>*</span></h5>
                                   <input type="hidden" name="customer_id" value={{ profile_to_be_edit.id }}>
                                   <input name="first_name" placeholder="Your name" value="{{ user.first_name }}" required>
                               </div>
 
-                            <div class="wid-50">
+                            <div class="wid-50 m-wid-100">
                               <h5 class="addproducts-list-text">Username <span>(Not to be edited)</span></h5>
                               <input name="username" placeholder="Username" value="{{ profile_to_be_edit.username }}" disabled>
                             </div>
@@ -63,14 +63,14 @@
                           </div>
 
                           <div class="w-100 d-flex justify-content-between">
-                            <div class="wid-50">
+                            <div class="wid-50 m-wid-100">
                               <h5 class="addproducts-list-text">Email address <span>(Not to be edited)</span></h5>
                               <input name="email" placeholder="Email address" value="{{ profile_to_be_edit.email }}" disabled>
                             </div>
                           </div>
 
                           <div class="w-100 d-flex justify-content-between">
-                            <div class="wid-50">
+                            <div class="wid-50 m-wid-100">
                               <h5 class="addproducts-list-text">Phone no. <span>*</span></h5>
                               <input name="phone" placeholder="Phone no." value="{{ profile_to_be_edit.phone }}" required>
                             </div>
@@ -84,19 +84,19 @@
                         </div>
                         <div class="addproducts-container-list">
                             <div class="w-100 d-flex justify-content-between">
-                            <div class="wid-50">
+                            <div class="wid-50 m-wid-100">
                               <h5 class="addproducts-list-text">Current Password <span>*</span></h5>
                               <input id="password" name="currentpassword" placeholder="Current password">
                             </div>
                           </div>
-                          <div class="w-100 d-flex justify-content-between">
-                              <div class="wid-50">
+                          <div class="w-100 d-flex m-d-flex-d justify-content-between">
+                              <div class="wid-50 m-wid-100">
                                 <h5 class="addproducts-list-text">New Password <span>*</span></h5>
                                   <input type="hidden" name="customer_id" value={{ profile_to_be_edit.id }}>
                                   <input name="newpassword" placeholder="New password" >
                               </div>
 
-                            <div class="wid-50">
+                            <div class="wid-50 m-wid-100">
                               <h5 class="addproducts-list-text">Confirm Password <span>*</span></h5>
                               <input name="newconfirmpassword" placeholder="Confirm password">
                             </div>
