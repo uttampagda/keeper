@@ -111,7 +111,7 @@ def custDashboard(request):
     customer_data = Customer.objects.get(username=request.user.username)
     bannerr = Banner.objects.all()
     global km_range
-    km_range = 1000000
+    km_range = 5
     allcategories = AllCategories.objects.all()
     if request.method == "POST":
         km_range = request.POST.get('km_range')
@@ -253,7 +253,7 @@ def sellerlandingpage(request):
         if seller_id != None:
             seller_detail = Seller.objects.get(credentials_id=seller_id)
         elif seller_name != None:
-            seller_detail = Seller.objects.get(shopname = seller_name)
+            seller_detail = Seller.objects.get(username=seller_name)
 
         seller_cat = seller_detail.categories_list
         seller_cat = ast.literal_eval(seller_cat)

@@ -214,21 +214,21 @@ def acceptOrder(request):
 
         seller_data = Seller.objects.get(credentials_id=request.user.id)
         now = datetime.datetime.now()
-        earlier = now - datetime.timedelta(hours=5)
+        earlier = now - datetime.timedelta(hours=6000)
 
         if order_status == "ALL":
             orders = AllOrders.objects.filter(seller_id=request.user.id)
         elif order_status == "PENDING":
-            orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now),
-                                              is_rejected=False).exclude(order_status=str("DELIVERED") or str('SHIPPED'))
+            orders = AllOrders.objects.filter(seller_id=request.user.id, created_date__range=(earlier, now), is_rejected=False, order_status="PENDING")
         elif order_status == "ACCEPTED":
-            orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False)
+            orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=True, is_rejected=False, order_status="ACCEPTED")
         elif order_status == "REJECTED":
-            orders = AllOrders.objects.filter(seller_id=request.user.id, is_accepted=False, is_rejected=True)
+            orders = AllOrders.objects.filter(seller_id=request.user.id, order_status="REJECTED")
         elif order_status == "DELIVERED":
             orders = AllOrders.objects.filter(seller_id=request.user.id,  order_status=str("DELIVERED"))
         elif order_status == "SHIPPED":
             orders = AllOrders.objects.filter(seller_id=request.user.id, order_status=str('SHIPPED'))
+
         return render(request, 'seller/orderview.html', {'seller_data': seller_data, 'orders': orders})
 
     else:

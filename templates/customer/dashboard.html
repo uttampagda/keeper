@@ -44,7 +44,7 @@
                         <form method="POST" action="{% url 'searchProductNearBY' %}">
                             {% csrf_token %}
                             <input type="hidden" name="category_name" value={{ category.category_name }}>
-					        <div class="category-box mr-3">
+					        <div class="category-box mr-3" style="background-image: url('media/{{ category.category_img }}')">
                                 <button type="submit" class="categories-button"> {{ category.category_name }}</button>
                             </div>
                         </form>
@@ -69,6 +69,7 @@
                                     <input type="hidden" name="seller_name" value={{ seller.username }}>
                                     <div class="shop-image" style="background: rgba(4, 135, 130, 0.3) url('/media/{{ seller.shop_image }}') center; background-size: cover"></div>
                                     <div class="shopname-box">
+
                                         <p class="shopname">{{ seller.shopname }}</p>
         {#                                <p class="shopcategory">{{ seller.categories_list }}</p>#}
                                         <p class="shopcategory">{{ seller.dis }} KM</p>

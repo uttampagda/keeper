@@ -119,9 +119,7 @@
 		<div id="topcon" class="container top-con">
 			<div>
 				<h1 class="shop-name">{{ seller_detail }}</h1>
-				<p class="shop-categories">{% for ii in seller_cat %}
-                    {{ ii }},
-                {% endfor %}</p>
+
 {#				<p class="shop-location">#}
 {#                    {% for ll in loc %}#}
 {#                        {{ ll }}#}
@@ -164,6 +162,17 @@ Review: {{ seller_detail.avarage_review }}/5.0
 		<div class="container">
 			<div class="prod-container">
 				<div class="categories-container">
+
+                <form method="get" action="{% url 'sellerlandingpage' %}">
+                        {% csrf_token %}
+                       <input type="hidden" name="seller_id" value={{ seller_id }}>
+
+                       <li class="product-edit-button-list">
+                           <button type="submit" class="categories-text">
+                               ALL
+                           </button>
+                       </li>
+                </form>
 
                 {% for pro in pro_cat %}
                     <form method="get" action="{% url 'sellerlandingpage' %}">
