@@ -120,6 +120,7 @@ def custDashboard(request):
         ref_location = None
         cus_add = None
         NearBySellers = None
+        nn= None
     else:
         ref_location = allAddress[0].location
         cus_add = allAddress[0]
